@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
 import Avatar from './Avatar';
+import MessageDate from './MessageDate';
 
 class App extends Component {
   render() {
     return (
-      <Avatar imgurl='' name='Edoardo Accivile' size='small'/>
+      <div>
+        <Avatar imgurl='' name='Edoardo Accivile' size='small'/>
+        <MessageDate date={1553531252}/>
+      </div>
     );
   }
 }
