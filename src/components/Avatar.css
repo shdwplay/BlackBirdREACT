@@ -1,3 +1,8 @@
 .avatar {
   border-radius:1000px;
 }
+
+.avatar.small{
+  width:53px;
+  height:53px;
+}

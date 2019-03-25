@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './Avatar.css'
 import PropTypes from 'prop-types'
 
-class Avatar extends React.Component {
+class Avatar extends Component {
   render() {
     return (
       <img
