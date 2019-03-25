@@ -5,7 +5,7 @@ import TabBar from './components/TabBar';
 class Workspace extends Component {
     render() {
         return (
-            <div>
+            <div className="workspace">
                 <Avatar />
                 <TabVerticale />
             </div>
