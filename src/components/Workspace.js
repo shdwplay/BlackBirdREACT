@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import Avatar from './components/Avatar';
-import TabBar from './components/TabBar';
+import Avatar from './Avatar';
 
 class Workspace extends Component {
     render() {
         return (
-            <div>
+            <div className="workspace">
                 <Avatar />
-                <TabVerticale />
             </div>
         )
     }
