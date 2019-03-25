@@ -13,20 +13,20 @@ class MessageDate extends React.Component {
   render() {
     if(this.detectDate(this.props.date) < 1) {
       return(
-        <div>
+        <div className='MessageDate-timestamp'>
           {moment.unix(this.props.date).format('kk:mm')}
         </div>
       )
     }
     if(this.detectDate(this.props.date) < 2) {
       return(
-        <div>
+        <div className='MessageDate-timestamp'>
           Yesterday
         </div>
       )
     }
     return (
-      <div>
+      <div className='MessageDate-timestamp'>
         {moment.unix(this.props.date).format('DD/MM/YYYY')}
       </div>
     )
