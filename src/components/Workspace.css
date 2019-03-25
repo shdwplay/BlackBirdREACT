@@ -1,5 +1,6 @@
 .workspace {
-    height: 100%;
+    width: 50px;
+    height: auto;
     background-color: var(--dark-grey);
     flex-direction: column;
     justify-content: flex-start;
@@ -7,4 +8,9 @@
     left: 0;
     transition: all 1s;
     margin-right: 12.5px;
+}
+
+.stocazzo {
+    width: 100px;
+    background-color: blue;
 }
