@@ -1,5 +1,5 @@
 import React from 'react'
-import './Avatar.css'
+import './Avatar.css';
 import PropTypes from 'prop-types'
 
 class Avatar extends React.Component {
@@ -15,18 +15,17 @@ class Avatar extends React.Component {
         <img
           alt={this.props.name}
           src={this.props.imgurl}
-          className={'Avatar avatar-'+this.props.size}
+          className={'Avatar Avatar-'+this.props.size}
           onClick={this.props.onClick}
           name={this.props.name}
         />
       )
-    } else {
-      return (
-        <div className='Avatar' id='avatar-capitals'>
-          {this.getCapitals(this.props.name)}
-        </div>
-      )
     }
+    return (
+      <div className={'Avatar Avatar-'+this.props.size}>
+        {this.getCapitals(this.props.name)}
+      </div>
+    )
   }
 }
 
@@ -34,7 +33,7 @@ export default Avatar;
 
 Avatar.propTypes = {
   imgurl: PropTypes.string,
-  size: PropTypes.string,
-  name: PropTypes.string,
+  size: PropTypes.oneOf(['xsmall','small','medium','large']).isRequired,
+  name: PropTypes.string.isRequired,
   onClick: PropTypes.func,
 }
