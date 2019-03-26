@@ -7,10 +7,16 @@ import notifications from '../assets/notifica_orange-20.svg'
 import notifications1 from '../assets/notifica_grey-20.svg'
 import PropTypes from 'prop-types'
 
-const dotsF = evt => {
-    evt.stopPropagation()
-    console.log('highlight card')
-}
+import HighlightedCard from './HighlightedCard'
+
+// const dotsF = evt => {
+//     evt.stopPropagation()
+//     this.setState({highlighted:true})
+//     return(
+//         <HighlightedCard/>
+//     )
+//     console.log('highlight card')
+// }
 
 const showNotifications = (num, silent) => {
     if (num === 0) return
@@ -40,7 +46,27 @@ const getUnread = num => {
     else return 'Card active'
 }
 
+
+
 class Card extends Component {
+    state={
+        highlighted:false,
+        favourite:this.props.data.favourite,
+        silenced:this.props.data.silenced
+    }
+
+    dotsF(evt) {
+        evt.stopPropagation()
+        this.setState({highlighted:true})
+        console.log('highlight card')
+    }
+
+    setFavourite(){
+        this.setState({favourite:!this.state.favourite})
+    }
+    setSilenced(){
+        this.setState({silenced:!this.state.silenced})
+    }
 
     render() {
         if (!this.props.favouritesActive) {
@@ -60,8 +86,11 @@ class Card extends Component {
                     </div>
                     <MessageDate date={this.props.data.lastMsg.date} />
                     <div className="Card-dots-area" >
-                        <img alt='dots' className="Card-dots" onClick={dotsF} src={dots} />
+                        <img alt='dots' className="Card-dots" onClick={evt=>this.dotsF(evt)} src={dots} />
                     </div>
+                    {this.state.highlighted ? 
+                    <HighlightedCard favourite={this.props.data.favourite} silence={this.props.data.silenced} fav={this.setFavourite} sil={this.setSilenced}/> :
+                    null}
                 </div>
             )
         }
@@ -83,8 +112,11 @@ class Card extends Component {
                         </div>
                         <MessageDate date={this.props.data.lastMsg.date} />
                         <div className="Card-dots-area" >
-                            <img alt='dots' className="Card-dots" onClick={dotsF} src={dots} />
+                            <img alt='dots' className="Card-dots" onClick={evt=>this.dotsF(evt)} src={dots} />
                         </div>
+                        {this.state.highlighted ? 
+                    <HighlightedCard favourite={this.props.data.favourite} silence={this.props.data.silenced}/> :
+                    null}                        
                     </div>
                 )                
             }
