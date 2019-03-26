@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './Card.css'
 import Avatar from './Avatar.js'
+import MessageDate from './MessageDate'
 import dots from '../assets/dots.png'
 import notifications from '../assets/notifica_orange-20.svg'
 import notifications1 from '../assets/notifica_grey-20.svg'
@@ -56,7 +57,7 @@ class Card extends Component {
                 <div className="Card-username">{this.props.data.name}</div>
                 <div className="Card-text-preview">{this.props.data.lastMsg.text}</div>
             </div>
-            <div className="Card-timestamp">{this.props.data.lastMsg.date}</div>
+            <MessageDate date={this.props.data.lastMsg.date}/>
             <div className="Card-dots-area" >
                 <img alt='dots' className="Card-dots" onClick={dotsF} src={dots} />
             </div>

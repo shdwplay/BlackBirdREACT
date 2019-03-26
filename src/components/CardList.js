@@ -10,7 +10,7 @@ class CardList extends Component {
             {
                 image:pic1,
                 name:'Antonio Pellegrini',
-                lastMsg:{text:':P',sender:'Edoardo Accivile', date:"11:59"},
+                lastMsg:{text:':P',sender:'Edoardo Accivile', date:1553591343},
                 lastOpened:'11:01',
                 favourite:true,
                 silenced:true,
@@ -19,7 +19,7 @@ class CardList extends Component {
             {
                 image:pic2,
                 name:'Chiara Baroni',
-                lastMsg:{text:'Hello!',sender:'Antonio Pellegrini', date:"1:00"},
+                lastMsg:{text:'Hello!',sender:'Antonio Pellegrini', date:1553573343},
                 lastOpened:'4:04',
                 favourite:false,
                 silenced:true,
@@ -28,7 +28,7 @@ class CardList extends Component {
             {
                 image:pic3,
                 name:'Luke Skywalker',
-                lastMsg:{text:'I\'m Luke Skywalker. I\'m here to rescue you.',sender:'Edoardo Accivile', date:"3:00"},
+                lastMsg:{text:'I\'m Luke Skywalker. I\'m here to rescue you.',sender:'Edoardo Accivile', date:1553418543},
                 lastOpened:'4:20',
                 favourite:true,
                 silenced:false,
@@ -43,7 +43,7 @@ class CardList extends Component {
                     {
                         image:pic2,
                         name:'Chiara Baroni',
-                        lastMsg:{text:'What\'s up?',sender:'Antonio Pellegrini', date:"1:05"},
+                        lastMsg:{text:'What\'s up?',sender:'Antonio Pellegrini', date:1553573343},
                         lastOpened:'4:04',
                         favourite:false,
                         silenced:true,
@@ -52,7 +52,7 @@ class CardList extends Component {
                     {
                         image:pic1,
                         name:'Antonio Pellegrini',
-                        lastMsg:{text:':P',sender:'Edoardo Accivile', date:"11:59"},
+                        lastMsg:{text:':P',sender:'Edoardo Accivile', date:1553591343},
                         lastOpened:'11:01',
                         favourite:true,
                         silenced:true,
@@ -61,7 +61,7 @@ class CardList extends Component {
                     {
                         image:pic3,
                         name:'Luke Skywalker',
-                        lastMsg:{text:'I\'m Luke Skywalker. I\'m here to rescue you.',sender:'Edoardo Accivile', date:"3:00"},
+                        lastMsg:{text:'I\'m Luke Skywalker. I\'m here to rescue you.',sender:'Edoardo Accivile', date:1553418543},
                         lastOpened:'4:20',
                         favourite:true,
                         silenced:false,
