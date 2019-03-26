@@ -6,6 +6,8 @@ import notifications from '../assets/notifica_orange-20.svg'
 import notifications1 from '../assets/notifica_grey-20.svg'
 import PropTypes from 'prop-types'
 
+import MessageDate from './MessageDate'
+
 const dotsF = evt =>{
     evt.stopPropagation()
     console.log('highlight card')
@@ -54,7 +56,9 @@ class Card extends Component {
             </div>
             <div className="Card-message-text">
                 <div className="Card-username">{this.props.data.name}</div>
-                <div className="Card-text-preview">{this.props.data.lastMsg.text}</div>
+                <div className="Card-text-preview">
+                    <MessageDate date={this.props.data.lastMsg.date}/>
+                </div>
             </div>
             <div className="Card-timestamp">{this.props.data.lastMsg.date}</div>
             <div className="Card-dots-area" >

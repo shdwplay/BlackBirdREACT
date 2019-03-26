@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Card from './Card'
-
+import MessageDate from './MessageDate'
 import pic1 from '../assets/profile1.jpg'
 import pic2 from '../assets/profile2.jpg'
 import pic3 from '../assets/profile3.jpg'
@@ -76,6 +76,7 @@ class CardList extends Component {
     render () {
         return(
             <div>
+                <MessageDate />
                 {this.state.elements.map(el =><Card onClick={evt =>console.log('open chat with '+el.name)} data={el}/>)}
             </div>
         )
