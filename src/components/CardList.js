@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Card from './Card'
-import MessageDate from './MessageDate'
 
 import configFirst from './listConfigFirst'
 import configSecond from './listConfigSecond'

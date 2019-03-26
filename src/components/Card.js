@@ -89,8 +89,7 @@ class Card extends Component {
                         <img alt='dots' className="Card-dots" onClick={evt=>this.dotsF(evt)} src={dots} />
                     </div>
                     {this.state.highlighted ? 
-                    <HighlightedCard favourite={this.props.data.favourite} silence={this.props.data.silenced} fav={this.setFavourite} sil={this.setSilenced}/> :
-                    null}
+                    <HighlightedCard favourite={this.props.data.favourite} silence={this.props.data.silenced} fav={()=>this.setFavourite()} sil={()=>this.setSilenced()}/> : null}
                 </div>
             )
         }
@@ -115,8 +114,7 @@ class Card extends Component {
                             <img alt='dots' className="Card-dots" onClick={evt=>this.dotsF(evt)} src={dots} />
                         </div>
                         {this.state.highlighted ? 
-                    <HighlightedCard favourite={this.props.data.favourite} silence={this.props.data.silenced}/> :
-                    null}                        
+                    <HighlightedCard favourite={this.props.data.favourite} silence={this.props.data.silenced} fav={this.setFavourite} sil={this.setSilenced}/> : null}
                     </div>
                 )                
             }
