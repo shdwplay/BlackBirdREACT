@@ -99,7 +99,7 @@ class Card extends Component {
                         <div className="Card-username">{this.props.data.name}</div>
                         <div className="Card-text-preview">{this.props.data.lastMsg.text}</div>
                     </div>
-                    <MessageDate date={this.props.data.lastMsg.date} />
+                    <MessageDate context="MessageDate" date={this.props.data.lastMsg.date} />
                     <div className="Card-dots-area" >
                         <img alt='dots' className="Card-dots" onClick={evt=>this.dotsF(evt)} src={dots} />
                     </div>
@@ -131,7 +131,7 @@ class Card extends Component {
                             <div className="Card-username">{this.props.data.name}</div>
                             <div className="Card-text-preview">{this.props.data.lastMsg.text}</div>
                         </div>
-                        <MessageDate date={this.props.data.lastMsg.date} />
+                        <MessageDate context="MessageDate" date={this.props.data.lastMsg.date} />
                         <div className="Card-dots-area" >
                             <img alt='dots' className="Card-dots" onClick={evt=>this.dotsF(evt)} src={dots} />
                         </div>

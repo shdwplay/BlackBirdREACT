@@ -34,5 +34,5 @@ export default HighlightedCard;
 
 HighlightedCard.propTypes = {
   favourite: PropTypes.bool.isRequired,
-  silenced: PropTypes.bool.isRequired,
+  silence: PropTypes.bool.isRequired,
 }
