@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import CardList from './components/CardList'
+import HeaderChat from './components/HeaderChat'
 import './App.css'
 
 class App extends Component {
