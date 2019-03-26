@@ -76,7 +76,6 @@ class CardList extends Component {
     render () {
         return(
             <div>
-                <MessageDate />
                 {this.state.elements.map(el =><Card onClick={evt =>console.log('open chat with '+el.name)} data={el}/>)}
             </div>
         )

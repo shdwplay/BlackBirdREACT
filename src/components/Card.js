@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import './Card.css'
 import Avatar from './Avatar.js'
+import MessageDate from './MessageDate'
 import dots from '../assets/dots.png'
 import notifications from '../assets/notifica_orange-20.svg'
 import notifications1 from '../assets/notifica_grey-20.svg'
 import PropTypes from 'prop-types'
-
-import MessageDate from './MessageDate'
 
 const dotsF = evt =>{
     evt.stopPropagation()
@@ -14,12 +13,12 @@ const dotsF = evt =>{
 }
 
 const showNotifications = (num,silent) => {
-    if(num==0) return
+    if(num===0) return
     else {
         if(!silent) {
             return(
                 <div className="Card-notification">
-                    <img src={notifications}/>
+                    <img alt='notifications' src={notifications}/>
                     <span className="Card-numUnread">{num}</span>
                 </div>  
 
@@ -28,7 +27,7 @@ const showNotifications = (num,silent) => {
         else {
             return(
                 <div className="Card-notification">
-                    <img src={notifications1}/>
+                    <img alt='notifications' src={notifications1}/>
                     <span className="Card-numUnread">{num}</span>
                 </div>                 
             )
@@ -37,7 +36,7 @@ const showNotifications = (num,silent) => {
 }
 
 const getUnread = num => {
-    if(num==0) return 'Card inactive'
+    if(num===0) return 'Card inactive'
     else return 'Card active'
 }
 
@@ -56,13 +55,11 @@ class Card extends Component {
             </div>
             <div className="Card-message-text">
                 <div className="Card-username">{this.props.data.name}</div>
-                <div className="Card-text-preview">
-                    <MessageDate date={this.props.data.lastMsg.date}/>
-                </div>
+                <div className="Card-text-preview">{this.props.data.lastMsg.text}</div>
             </div>
-            <div className="Card-timestamp">{this.props.data.lastMsg.date}</div>
+            <MessageDate date={this.props.data.lastMsg.date}/>
             <div className="Card-dots-area" >
-                <img className="Card-dots" onClick={dotsF} src={dots} />
+                <img alt='dots' className="Card-dots" onClick={dotsF} src={dots} />
             </div>
         </div>
       )
