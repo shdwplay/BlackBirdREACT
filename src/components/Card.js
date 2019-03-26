@@ -12,12 +12,12 @@ const dotsF = evt =>{
 }
 
 const showNotifications = (num,silent) => {
-    if(num==0) return
+    if(num===0) return
     else {
         if(!silent) {
             return(
                 <div className="Card-notification">
-                    <img src={notifications}/>
+                    <img alt='notifications' src={notifications}/>
                     <span className="Card-numUnread">{num}</span>
                 </div>  
 
@@ -26,7 +26,7 @@ const showNotifications = (num,silent) => {
         else {
             return(
                 <div className="Card-notification">
-                    <img src={notifications1}/>
+                    <img alt='notifications' src={notifications1}/>
                     <span className="Card-numUnread">{num}</span>
                 </div>                 
             )
@@ -35,7 +35,7 @@ const showNotifications = (num,silent) => {
 }
 
 const getUnread = num => {
-    if(num==0) return 'Card inactive'
+    if(num===0) return 'Card inactive'
     else return 'Card active'
 }
 
@@ -58,7 +58,7 @@ class Card extends Component {
             </div>
             <div className="Card-timestamp">{this.props.data.lastMsg.date}</div>
             <div className="Card-dots-area" >
-                <img className="Card-dots" onClick={dotsF} src={dots} />
+                <img alt='dots' className="Card-dots" onClick={dotsF} src={dots} />
             </div>
         </div>
       )
