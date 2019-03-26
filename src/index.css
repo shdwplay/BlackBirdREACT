@@ -1,0 +1,16 @@
+
+
+:root {
+    --dark-grey: #282725;
+    --light-grey: #e6e6e6;
+    --orange: #ffb000;
+    --red: #c1272d;
+    --green: #009245;
+    --link: #0071BC;
+}
+
+
+* {
+    box-sizing: border-box;
+    text-decoration: none;
+}
