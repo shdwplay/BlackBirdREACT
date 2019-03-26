@@ -42,10 +42,14 @@ const showNotifications = (num, silent) => {
 }
 
 const getUnread = num => {
-    if (num === 0) return 'Card inactive'
-    else return 'Card active'
+    if (num === 0) return 'Card Card-inactive'
+    else return 'Card Card-active'
 }
 
+const getActive = bool =>{
+    if (bool) return 'Card-selected'
+    else return null
+}
 
 
 class Card extends Component {
@@ -80,7 +84,9 @@ class Card extends Component {
     render() {
         if (!this.props.favouritesActive) {
             return (
-                <div onClick={this.props.onClick} className={getUnread(this.props.data.numUnread)}>
+                <div
+                    onClick={this.props.onClick}
+                    className={getUnread(this.props.data.numUnread) +' '+ getActive(this.props.isActive)}>
                     {showNotifications(this.props.data.numUnread, this.props.data.silenced)}
                     <div className="Card-Avatar">
                         <Avatar

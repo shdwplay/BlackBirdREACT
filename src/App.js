@@ -4,10 +4,25 @@ import HeaderChat from './components/HeaderChat'
 import './App.css'
 
 class App extends Component {
+  state={
+    page:'CardList',
+    activeChat:0,
+  }
+
   render() {
+    switch(this.state.page) {
+      case 'Favourites':
+        break;
+  
+      case 'New':
+        break;
+  
+      default:
+          return <CardList activeChat={this.state.activeChat}/>
+    }
     return (
       <div className="App">
-        <CardList />
+        {this.state.page}
       </div>
     )
   }
