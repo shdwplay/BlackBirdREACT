@@ -33,3 +33,7 @@ class MessageDate extends React.Component {
 }
 
 export default MessageDate;
+
+MessageDate.propTypes = {
+  date: PropTypes.string.isRequired,
+}
