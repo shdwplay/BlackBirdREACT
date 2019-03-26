@@ -5,7 +5,6 @@ import moment from 'moment'
 
 class MessageDate extends React.Component {
   detectDate(date) {
-    console.log(date)
     date = moment.unix(date)
     let diff = moment().diff(date, 'days')
     return diff;
