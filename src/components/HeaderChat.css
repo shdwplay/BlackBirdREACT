@@ -1,0 +1,44 @@
+.headerchat {
+    /* width: 300px;
+    height: 50;
+    background-color: gray;
+    flex-direction: row;
+    justify-content: center; */
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    padding: 10px 12.5px;
+    align-items: center;
+    position: fixed;
+    width: 50%;
+    z-index: 2;
+    border-bottom: 1px solid var(--light-grey);
+    position: fixed;
+}
+
+.user {
+    text-align: center;
+    flex: 10 !important;
+}
+
+.name {
+    font-weight: 600;
+    font-size: 19px;
+    color: var(--dark-grey);
+    line-height: 19px;
+}
+
+.status {
+    font-size: 11px;
+    color: var(--dark-grey);
+}
+
+.search-button {
+    flex: 1;
+    text-align: right;
+}
+
+.search-button img {
+    width: 20px;
+}
