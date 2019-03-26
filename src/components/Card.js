@@ -61,11 +61,20 @@ class Card extends Component {
         console.log('highlight card')
     }
 
-    setFavourite(){
-        this.setState({favourite:!this.state.favourite})
+    setFavourite(evt){
+        evt.stopPropagation()
+        this.state.favourite ? this.setState({favourite:false}) : this.setState({favourite:true})
     }
-    setSilenced(){
-        this.setState({silenced:!this.state.silenced})
+
+    
+    setSilenced(evt){
+        evt.stopPropagation()
+        this.state.silenced ? this.setState({silenced:false}) : this.setState({silenced:true})
+    }
+
+    setHighlight(evt){
+        evt.stopPropagation()
+        this.state.highlighted ? this.setState({highlighted:false}) : this.setState({highlighted:true})
     }
 
     render() {
@@ -89,8 +98,14 @@ class Card extends Component {
                         <img alt='dots' className="Card-dots" onClick={evt=>this.dotsF(evt)} src={dots} />
                     </div>
                     {this.state.highlighted ? 
-                    <HighlightedCard favourite={this.props.data.favourite} silence={this.props.data.silenced} fav={this.setFavourite} sil={this.setSilenced}/> :
-                    null}
+                        <HighlightedCard 
+                            favourite={this.state.favourite} 
+                            silence={this.state.silenced} 
+                            fav={evt=>this.setFavourite(evt)} 
+                            sil={evt=>this.setSilenced(evt)} 
+                            high={evt => this.setHighlight(evt)}
+                        /> :
+                        null}
                 </div>
             )
         }
@@ -115,7 +130,7 @@ class Card extends Component {
                             <img alt='dots' className="Card-dots" onClick={evt=>this.dotsF(evt)} src={dots} />
                         </div>
                         {this.state.highlighted ? 
-                    <HighlightedCard favourite={this.props.data.favourite} silence={this.props.data.silenced}/> :
+                    <HighlightedCard favourite={this.props.data.favourite} silence={this.props.data.silenced} fav={()=>this.setFavourite} sil={this.setSilenced}/> :
                     null}                        
                     </div>
                 )                

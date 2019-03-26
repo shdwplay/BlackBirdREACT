@@ -9,11 +9,11 @@ import configSecond from './listConfigSecond'
 class CardList extends Component {
     state = configFirst
  
-    componentDidMount(){
-        setTimeout(()=>{
-            this.setState(configSecond)
-        },2000)
-    }
+    // componentDidMount(){
+    //     setTimeout(()=>{
+    //         this.setState(configSecond)
+    //     },2000)
+    // }
     
     render () {
         return(
