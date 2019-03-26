@@ -51,7 +51,8 @@ class Card extends Component {
                     name={this.props.data.name} 
                     imgurl={this.props.data.image} //this.props.data.image
                     size="small" 
-                    onClick={()=>console.log('for use in profile')}/>
+                    onClick={()=>console.log('for use in profile')}
+                />
             </div>
             <div className="Card-message-text">
                 <div className="Card-username">{this.props.data.name}</div>
