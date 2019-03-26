@@ -24,9 +24,7 @@ class HighlightedCard extends Component {
           <img src={deleteIcon} alt="delete"/>
           <div className="HighlightedCard-label">Delete</div>
         </div>
-        <a href="index.html">
-          <img className="HighlightedCard-close-button" src={closeXW} alt="close button"/>
-        </a>
+          <img className="HighlightedCard-close-button" onClick={this.props.high} src={closeXW} alt="close button"/>
       </div>
     )
   }
