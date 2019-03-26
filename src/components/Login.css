@@ -1,0 +1,199 @@
+.Login {
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    height: 100vh;
+}
+
+.Login-container{
+    top: 20px;
+    position: relative;
+    width: auto; 
+}
+.Login-header {
+    text-align: center;
+    padding: 20px;
+}
+
+.Login-mobile-logo{
+    width: 250px;
+    margin: auto;
+}
+
+
+.Login-form {
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px;
+    font-size: 18px;
+    color: var(--dark-grey);
+}
+
+.Login-form-item {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.Login-label{
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
+}
+.Login-input-email{
+width: 100%;
+display: block;
+margin-bottom: 5px;
+}
+.Login-form-control{
+    width: 300px;
+    font-size: 18px;
+    font-family: Sarabun;
+    border: 0.5px solid var(--light-grey);
+    border-radius: 8px;
+    padding: 8px 12px;    
+}
+.Login-form-check{
+    padding: 16px 0 5px 0;
+    text-align: center;
+}
+
+.Login-form-check .Login-label{
+    display: inline;
+    width: auto;
+}
+.Login-form-forgot{
+    text-align: center;
+}
+
+.Login-link{
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--link);
+    padding: 10px;
+}
+
+.Login-button{
+    padding: 8.5px 0px;
+    background-image: url(../assets/bg-orange.svg);
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    color: #fff;
+    text-align: center;
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    background-size: 100%;
+    background-position: 0px 650px;
+}
+/* .page-login {
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    height: 100vh;
+}
+.container-login {
+    top: 20px;
+    position: relative;
+    width: auto;
+}
+.header-login {
+    text-align: center;
+    padding: 20px;
+}
+.header-login img {
+    width: 250px;
+    margin: auto;
+}
+
+.ipad.logo-welcome {
+    display: none;
+}
+
+form.login {
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px;
+    font-size: 18px;
+    color: var(--dark-grey);
+}
+
+form.login .form-item {
+    width: 100%;
+    margin-bottom: 10px;
+}
+form.login .form-item label[for="InputEmail"], form.login .form-item label[for="InputPassword"], form.login .form-item label[for="InputNewPassword"] {
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
+}
+form.login .form-item input[type="email"], form.login .form-item input[type="password"] {
+    width: 300px;
+    font-size: 18px;
+    font-family: Sarabun;
+    border: 0.5px solid var(--light-grey);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.form-forgot {
+    position: relative;
+}
+
+.form-forgot a {
+    font-weight: 500;
+    font-size:18px;
+    color: var(--link);
+    padding: 10px;
+}
+
+.form-check label {
+    font-weight: 400;
+    font-size:18px;
+    padding: 10px 0;
+}
+
+.form-check, .form-forgot {
+    text-align: center;
+}
+
+.btn-primary {
+    padding: 8.5px 0px;
+    background-image: url('images/bg-orange.svg');
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    color:#fff;
+    text-align: center;
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    background-size: 100%;
+    background-position: 0px 650px;
+}
+
+.btn-primary:hover {
+    background-color: var(--orange); 
+    border: var(--orange);
+}
+
+.form-check {
+    padding: 16px 0 5px 0;
+}
+.title-form {
+    text-align: center;
+    margin-bottom: 12px;
+    font-size:21px;
+}
+.text-form {
+    font-size:17px;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 40px;
+} */
