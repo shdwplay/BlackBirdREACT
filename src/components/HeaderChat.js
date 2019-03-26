@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { search } from '../utils';
 import './HeaderChat.css';
-
-const lorenzo = {
-    name: 'Lorenzo',
-    status: 'online',
-};
+import Search from './Search'
 
 class HeaderChat extends Component {
     constructor(props) {
@@ -13,6 +9,7 @@ class HeaderChat extends Component {
         this.state = {
             string: '',
             results: [],
+            toggleOpen: false
         }
     }
 
@@ -25,32 +22,24 @@ class HeaderChat extends Component {
         })
     }
 
+    setSearchOpen() {
+        this.setState({
+            toggleOpen: !this.state.toggleOpen,
+        })
+    }
+
     render() {
         return (
             <div className="headerchat">
-                <div className="user">
+                {!this.state.toggleOpen && <div className="user">
                     <div className="name">
-                        {lorenzo.name}
+                        {this.props.name}
                     </div>
                     <div className="status">
-                        {lorenzo.status}
+                        {this.props.status}
                     </div>
-                </div>
-                <div className="search-button">
-                    <img src="search.svg" alt="search" />
-                    <input
-                        value={this.state.string}
-                        type="search"
-                        onChange={e => this.searchFunction(e)}
-                    />
-                </div>
-                <div>
-                    <ul>
-                        {this.state.results.map((val, idx) =>
-                            <li onClick={() => this.state.onClick(val)} key={idx}>{val}</li>
-                        )}
-                    </ul>
-                </div>
+                </div>}
+                <Search toggleOpen={this.state.toggleOpen} string={this.state.string} onChange={e => this.searchFunction(e)} openSearch={()=>this.setSearchOpen()}/>
             </div>
         )
     }

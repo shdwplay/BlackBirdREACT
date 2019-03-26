@@ -1,0 +1,15 @@
+input.Search-open {
+  text-align: left;
+  width: 100%;
+  border: none;
+  background: transparent;
+  line-height: 30px;
+  font-size: 13px;
+}
+.Search {
+  justify-content: space-between;
+  flex: 1;
+}
+.Search img {
+  width: 20px;
+}

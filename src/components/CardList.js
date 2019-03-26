@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import Card from './Card'
+import './CardList.css';
 import pic1 from '../assets/profile1.jpg'
 import pic2 from '../assets/profile2.jpg'
 import pic3 from '../assets/profile3.jpg'
-import configFirst from './listConfigFirst'
-import configSecond from './listConfigSecond'
 
 
 class CardList extends Component {
@@ -18,7 +17,8 @@ class CardList extends Component {
                 lastOpened:'11:01',
                 favourite:true,
                 silenced:true,
-                numUnread:0
+                numUnread:0,
+                status: 'away'
             },
             {
                 image:pic2,
@@ -27,7 +27,8 @@ class CardList extends Component {
                 lastOpened:'4:04',
                 favourite:false,
                 silenced:true,
-                numUnread:7
+                numUnread:7,
+                status: 'online'
             },
             {
                 image:pic3,
@@ -36,7 +37,8 @@ class CardList extends Component {
                 lastOpened:'4:20',
                 favourite:true,
                 silenced:false,
-                numUnread:6
+                numUnread:6,
+                status: 'offline'
             }            
         ]}
  
@@ -48,14 +50,15 @@ class CardList extends Component {
    
     render () {
         return(
-            <div>
+            <div className="CardList">
                 {this.state.elements.map((el,index) =><Card
                 key={index} 
                 favouritesActive={this.state.favouritesActive} 
                 isActive = {this.state.activeChat === index}
                 onClick={() => {
-                    this.setState({activeChat:index})
-                    console.log('open chat with '+el.name)}
+                        this.setState({activeChat:index})
+                        this.props.changeChat([el.name, el.status])
+                    }
                 }
                 data={el}/>)}
             </div>
