@@ -147,7 +147,7 @@ class App extends Component {
           </div>
         );
 
-      case "CardList":
+      case "Messages":
         return (
           <div className="App">
             <div className="megacontainer">
@@ -169,7 +169,7 @@ class App extends Component {
         );
 
       default:
-        return <Login function={() => this.selectTab("CardList")} />;
+        return <Login function={() => this.selectTab("Messages")} />;
     }
   }
 }
