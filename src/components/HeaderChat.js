@@ -9,7 +9,6 @@ class HeaderChat extends Component {
         this.state = {
             string: '',
             results: [],
-            toggleOpen: false
         }
     }
 
@@ -19,12 +18,6 @@ class HeaderChat extends Component {
         })
         this.setState({
             results: search(e.target.value)
-        })
-    }
-
-    setSearchOpen() {
-        this.setState({
-            toggleOpen: !this.state.toggleOpen,
         })
     }
 
@@ -39,7 +32,7 @@ class HeaderChat extends Component {
                         {this.props.status}
                     </div>
                 </div>}
-                <Search toggleOpen={this.state.toggleOpen} string={this.state.string} onChange={e => this.searchFunction(e)} openSearch={()=>this.setSearchOpen()}/>
+                <Search searchToggle={this.props.searchToggle} string={this.state.string} onChange={e => this.searchFunction(e)} openSearch={()=>this.props.setSearchOpen()}/>
             </div>
         )
     }

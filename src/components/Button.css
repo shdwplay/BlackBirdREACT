@@ -1,0 +1,21 @@
+.Button {
+  padding: 8.5px 0px;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 20px;
+  background-size: 100%;
+  background-position: 0px 650px;
+}
+
+.filled {
+  background-image: url(../assets/bg-orange.svg);
+}
+
+.plain {
+}

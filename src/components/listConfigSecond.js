@@ -3,7 +3,7 @@ import pic2 from '../assets/profile2.jpg'
 import pic3 from '../assets/profile3.jpg'
 
 let configSecond ={
-    favouritesActive: true,
+    favouritesActive: false,
     elements:[
         {
             image:pic2,
