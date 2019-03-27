@@ -1,7 +1,7 @@
 .Chat-container {
     width: auto;
     height: auto;
-    background-image: url('../images/bg-orange.svg');
+    background-image: url('../assets/bg-orange.svg');
     display: none;
     position: relative;
     right: 0;

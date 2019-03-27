@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import TabBar from './TabBar'
-import Chat from './Chat'
-import Card from './Card'
-import favouritesIcon from '../images/favourites.svg';
-import messagesIcon from '../images/messages.svg'
-import sendNewIcon from '../images/new_chat.svg'
-import packageImg from '../images/package.jpg';
+import Chat from './components/Chat'
+import Card from './components/Card'
+import favouritesIcon from './assets/favourites.svg';
+import messagesIcon from './assets/messages.svg'
+import sendNewIcon from './assets/new_chat.svg'
+import packageImg from './assets/package.jpg';
 
 let user = 'antoniopellegrini'
 let collocutor = 'chiarabaroni'
@@ -41,7 +40,6 @@ const messages = [
     text: <img className='Chat-message-img' src={packageImg} />
   },
 ]
-
 const options = [
   {
       text: 'FAVOURITES',

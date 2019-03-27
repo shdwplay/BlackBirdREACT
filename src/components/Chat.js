@@ -1,16 +1,16 @@
 import React from 'react'
 import './Chats.css'
-import send from '../images/send.svg'
-import attach from '../images/attachment.svg'
+import send from '../assets/send.svg'
+import attach from '../assets/attachment.svg'
 
 export default class Chat extends React.Component {
     render() {
         return (
             <div className="Chat-container">
                 <div className="Chat" id="chat">
-                    {this.props.messages.map((el,index) => {
+                    {this.props.messageList.map((el,index) => {
                         return (
-                            <div key={index} className={el.sender === this.props.user ? "Chat-message Chat-message-sent" : "Chat-message Chat-message-received"} > 
+                            <div key={index} className={el.sender === this.props.currentUser ? "Chat-message Chat-message-sent" : "Chat-message Chat-message-received"} > 
                                 <div className="Chat-message-text">
                                     {el.text}
                                 </div>

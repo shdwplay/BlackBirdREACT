@@ -4,6 +4,7 @@ import './CardList.css';
 import pic1 from '../assets/profile1.jpg'
 import pic2 from '../assets/profile2.jpg'
 import pic3 from '../assets/profile3.jpg'
+import configSecond from './listConfigSecond'
 
 
 class CardList extends Component {
@@ -42,18 +43,18 @@ class CardList extends Component {
             }            
         ]}
  
-    // componentDidMount(){
-    //     setTimeout(()=>{
-    //         this.setState(configSecond)
-    //     },2000)
-    // }
+    componentDidMount(){
+        setTimeout(()=>{
+            this.setState(configSecond)
+        },2000)
+    }
    
     render () {
         return(
             <div className="CardList">
                 {this.state.elements.map((el,index) =><Card
                 key={index} 
-                favouritesActive={this.state.favouritesActive} 
+                favouritesActive={this.props.favouritesActive} 
                 isActive = {this.state.activeChat === index}
                 onClick={() => {
                         this.setState({activeChat:index})
