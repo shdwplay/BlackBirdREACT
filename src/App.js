@@ -9,8 +9,9 @@ import "./App.css";
 
 import Login from "./components/Login";
 import TabBar from "./components/TabBar";
+import ContactList from "./components/ContactList";
 
-const messages = [
+let messages = [
   {
     sender: "antoniopellegrini",
     text: "Hello, have you had a chance to check out the prototype I sent you?"
@@ -48,9 +49,10 @@ class App extends Component {
     favouritesActive: false,
     page: "Login",
     activeChat: null,
-    activeTab: 1,
+    activeTab: "Messages",
     messageList: messages,
-    newMessage: ""
+    newMessage: "",
+    searchToggle: false
   };
   selectTab(el) {
     this.setState({
@@ -65,11 +67,12 @@ class App extends Component {
     console.log(messages);
   }
   saveMessage() {
+    messages = messages.concat({
+      sender: this.state.currentUser,
+      text: this.state.newMessage
+    });
     this.setState({
-      messageList: messages.concat({
-        sender: this.state.currentUser,
-        text: this.state.newMessage
-      }),
+      messageList: messages,
       newMessage: ""
     });
     console.log(messages);
@@ -80,6 +83,11 @@ class App extends Component {
       activeChat: pageNumber
     });
   }
+  setSearchOpen() {
+    this.state.searchToggle
+      ? this.setState({ searchToggle: false })
+      : this.setState({ searchToggle: true });
+  }
   render() {
     switch (this.state.page) {
       case "Favourites":
@@ -88,11 +96,16 @@ class App extends Component {
             <div className="megacontainer">
               <div className="supercontainer">
                 <div className="container">
-                  <Header />
-                  <TabBar
-                    activeTab={this.state.activeTab}
-                    selectTab={index => this.selectTab(index)}
+                  <Header
+                    searchToggle={this.state.searchToggle}
+                    openSearch={() => this.setSearchOpen()}
                   />
+                  {this.state.searchToggle || (
+                    <TabBar
+                      activeTab={this.state.activeTab}
+                      selectTab={index => this.selectTab(index)}
+                    />
+                  )}
                   <CardList
                     favouritesActive={!this.state.favouritesActive}
                     activeChat={this.state.activeChat}
@@ -105,7 +118,25 @@ class App extends Component {
         );
 
       case "Send New":
-        break;
+        return (
+          <div className="App">
+            <div className="megacontainer">
+              <div className="supercontainer">
+                <div className="container">
+                  <Header />
+                  <TabBar
+                    activeTab={this.state.activeTab}
+                    selectTab={index => this.selectTab(index)}
+                  />
+                  <ContactList
+                    activeChat={this.state.activeChat}
+                    changeChat={x => this.changeChat(x)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
 
       case "Chat":
         return (
@@ -127,17 +158,22 @@ class App extends Component {
           </div>
         );
 
-      case "CardList":
+      case "Messages":
         return (
           <div className="App">
             <div className="megacontainer">
               <div className="supercontainer">
                 <div className="container">
-                  <Header />
-                  <TabBar
-                    activeTab={this.state.activeTab}
-                    selectTab={index => this.selectTab(index)}
+                  <Header
+                    searchToggle={this.state.searchToggle}
+                    openSearch={() => this.setSearchOpen()}
                   />
+                  {this.state.searchToggle || (
+                    <TabBar
+                      activeTab={this.state.activeTab}
+                      selectTab={index => this.selectTab(index)}
+                    />
+                  )}
                   <CardList
                     activeChat={this.state.activeChat}
                     changeChat={x => this.changeChat(x)}
@@ -149,7 +185,7 @@ class App extends Component {
         );
 
       default:
-        return <Login function={() => this.selectTab("CardList")} />;
+        return <Login function={() => this.selectTab("Messages")} />;
     }
   }
 }
