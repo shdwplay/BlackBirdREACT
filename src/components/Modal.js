@@ -11,7 +11,9 @@ class Modal extends React.Component {
           </span>
           <div id="modal-text">
             <div className="alert-title">Invalid email or password</div>
-            <div className="alert-text">Please reinsert both carefully</div>
+            <div className="alert-text">
+              Please reinsert both fields carefully
+            </div>
           </div>
         </div>
       </div>

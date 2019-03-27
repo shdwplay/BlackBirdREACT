@@ -5,7 +5,7 @@ import "./Button.css";
 class Button extends React.Component {
   render() {
     return (
-      <div>
+      <div className="Button-area">
         <button
           className={"Button " + this.props.type}
           onClick={this.props.function}
