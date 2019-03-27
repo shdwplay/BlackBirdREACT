@@ -5,8 +5,6 @@ import Search from "./Search";
 import Avatar from "./Avatar";
 import pic1 from "../assets/profile1.jpg";
 
-import Back from "./Back";
-
 class Header extends Component {
   state = {
     toggleOpen: false
