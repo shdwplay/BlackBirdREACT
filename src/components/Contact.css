@@ -1,0 +1,32 @@
+.Contact {
+    display: flex;
+    height: 70px;
+    width: 100%;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .Contact {
+        width: 50%;
+    }
+}
+
+@media (min-width: 768px) and (orientation: landscape) {
+    .Contact {
+        width: 100%;
+    }
+}
+
+.contact-pic-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 70px;
+}
+
+.contact-name {
+    font-size: 18px;
+    align-self: center;
+    margin-left: 10px;
+    flex-grow: 3;
+}
