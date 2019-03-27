@@ -47,9 +47,9 @@ class App extends Component {
   state = {
     currentUser: "antoniopellegrini",
     favouritesActive: false,
-    page:'CardList',
+    page:'Login',
     activeChat:null,
-    activeTab: 'Login',
+    activeTab: 'Messages',
     messageList: messages,
     newMessage: '',
     searchToggle: false,
