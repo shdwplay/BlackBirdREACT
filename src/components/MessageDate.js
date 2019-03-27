@@ -26,7 +26,7 @@ class MessageDate extends React.Component {
     }
     return (
       <div className={this.props.context === 'MessageDate' ? 'MessageDate-timestamp' : 'SingleChat-message-time'}>
-        {moment.unix(this.props.date).format('DD/MM/YYYY')}
+        {moment.unix(this.props.date).format('DD/MM/YY')}
       </div>
     )
   }

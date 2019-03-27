@@ -47,9 +47,10 @@ class App extends Component {
     favouritesActive: false,
     page:'CardList',
     activeChat:null,
-    activeTab: 1,
+    activeTab: 'Messages',
     messageList: messages,
     newMessage: '',
+    searchToggle: false,
   }
   selectTab(el) {
     this.setState({
@@ -78,6 +79,9 @@ class App extends Component {
       activeChat: pageNumber,
     })
   }
+  setSearchOpen() {
+    this.state.searchToggle ? this.setState({searchToggle:false}) : this.setState({searchToggle:true})
+  }
   render() {
     switch(this.state.page) {
       case 'Favourites':
@@ -86,11 +90,14 @@ class App extends Component {
             <div className="megacontainer">
               <div className="supercontainer">
                 <div className="container">
-                  <Header />
-                  <TabBar 
+                  <Header
+                    searchToggle={this.state.searchToggle}
+                    openSearch={()=>this.setSearchOpen()}
+                  />
+                  {this.state.searchToggle || <TabBar 
                     activeTab={this.state.activeTab}
                     selectTab={(index) => this.selectTab(index)}
-                  />
+                  />}
                   <CardList favouritesActive={!this.state.favouritesActive} activeChat={this.state.activeChat} changeChat={x=>this.changeChat(x)}/>
                 </div>
               </div>
@@ -123,11 +130,14 @@ class App extends Component {
             <div className="megacontainer">
               <div className="supercontainer">
                 <div className="container">
-                  <Header />
-                  <TabBar 
+                  <Header
+                    searchToggle={this.state.searchToggle}
+                    openSearch={()=>this.setSearchOpen()}
+                  />
+                  {this.state.searchToggle || <TabBar 
                     activeTab={this.state.activeTab}
                     selectTab={(index) => this.selectTab(index)}
-                  />
+                  />}
                   <CardList activeChat={this.state.activeChat} changeChat={x=>this.changeChat(x)}/>
                 </div>
               </div>
@@ -146,9 +156,7 @@ class App extends Component {
           </div>
         </div>
       </div>
-    )
-
-    
+    )    
   }
 }
 

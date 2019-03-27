@@ -1,6 +1,6 @@
 input.Search-open {
   text-align: left;
-  width: 100%;
+  width: 90%;
   border: none;
   background: transparent;
   line-height: 30px;
@@ -12,4 +12,6 @@ input.Search-open {
 }
 .Search img {
   width: 20px;
+  position: relative;
+  top:5px;
 }

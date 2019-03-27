@@ -34,12 +34,12 @@ export default class TabBar extends React.Component {
             <div className='TabBar'>
                 {this.state.options.map((el, index) => {
                     return (
-                            index === this.props.activeTab ?
-                                <img className='TabBar-Icon' key={index} src={el.icon} alt={el.text}></img> :
-                                <span
-                                    onClick={() => this.props.selectTab(el.text)}
-                                    key={index}>{el.text}
-                                </span>
+                        el.text === this.props.activeTab ?
+                            <img className='TabBar-Icon' key={index} src={el.icon} alt={el.text}/> :
+                            <span
+                                onClick={() => this.props.selectTab(el.text)}
+                                key={index}>{el.text}
+                            </span>
                     )
                 })}
             </div>
