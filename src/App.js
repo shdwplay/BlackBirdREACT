@@ -9,8 +9,9 @@ import './App.css'
 
 import Login from './components/Login'
 import TabBar from './components/TabBar';
+import ContactList from './components/ContactList';
 
-const messages = [
+let messages = [
   {
     sender: 'antoniopellegrini',
     text: 'Hello, have you had a chance to check out the prototype I sent you?'
@@ -63,11 +64,12 @@ class App extends Component {
     console.log(messages)
   }
   saveMessage() {
+    messages = messages.concat({
+      sender: this.state.currentUser,
+      text: this.state.newMessage
+    })
     this.setState({
-      messageList: messages.concat({
-        sender: this.state.currentUser,
-        text: this.state.newMessage
-      }),
+      messageList: messages,
       newMessage: '',
     }) 
     console.log(messages)
@@ -99,7 +101,22 @@ class App extends Component {
         )
   
       case 'Send New':
-        break;
+      return (
+        <div className="App">
+          <div className="megacontainer">
+            <div className="supercontainer">
+              <div className="container">
+                <Header />
+                <TabBar 
+                  activeTab={this.state.activeTab}
+                  selectTab={(index) => this.selectTab(index)}
+                />
+                <ContactList activeChat={this.state.activeChat} changeChat={x=>this.changeChat(x)}/>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
       
       case 'Chat':
         return (
