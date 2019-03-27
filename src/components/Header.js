@@ -6,31 +6,23 @@ import Avatar from "./Avatar";
 import pic1 from "../assets/profile1.jpg";
 
 class Header extends Component {
-  state = {
-    toggleOpen: false
-  };
-  setSearchOpen() {
-    this.setState({
-      toggleOpen: !this.state.toggleOpen
-    });
-  }
   render() {
     return (
       <div className="Header">
-        {!this.state.toggleOpen && (
+        {!this.props.searchToggle && (
           <div className="Header-profile-pic">
             <Avatar size="xsmall" imgurl={pic1} name="Edoardo Accivile" />
           </div>
         )}
-        {!this.state.toggleOpen && (
+        {!this.props.searchToggle && (
           <div className="Header-logo">
             <img src={logo} alt="BlackBird Logo" />
           </div>
         )}
         <Search
           className="Header-search"
-          toggleOpen={this.state.toggleOpen}
-          openSearch={() => this.setSearchOpen()}
+          searchToggle={this.props.searchToggle}
+          openSearch={this.props.openSearch}
         />
       </div>
     );
