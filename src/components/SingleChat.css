@@ -1,0 +1,45 @@
+.SingleChat {
+  width: auto;
+  height: auto;
+  background-image: url(../assets/bg-orange.svg);
+  right: 0;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+  margin-top: 0px;
+  padding: 75px 12.5px 60px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.SingleChat-message-text {
+  padding: 10px 45px 12px 15px;
+}
+.SingleChat .SingleChat-message {
+  border-radius: 8px;
+  max-width: 75%;
+  font-size: 17px;
+  margin-bottom: 15px;
+  position: relative;
+}
+.SingleChat .SingleChat-message-received {
+  color: var(--dark-grey);
+  align-self: flex-start;
+  background-color: #fff;
+}
+.SingleChat-message-time {
+  font-size: 12px;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: auto;
+  line-height: 12px;
+  margin-top: 5px;
+}
+.SingleChat .SingleChat-message-sent {
+  color: #fff;
+  align-self: flex-end;
+  background-color: var(--dark-grey);
+  animation: animateMessageRight ease-out .3s;
+  animation-iteration-count: 1;
+}

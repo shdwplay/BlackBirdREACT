@@ -33,17 +33,27 @@
     text-shadow: 0 0 1px rgba(0, 0, 0, 0.55);
 }
 
-.active {
+.Card-active {
     box-shadow: 0 0 12px 0px rgba(0, 0, 0, 0.35);
     border: none;
 }
 
-.inactive{
+.Card-inactive{
     box-shadow: none;
     border: 0.5px solid var(--light-grey);
-
 }
 
+.Card-selected{
+    background-image: url(../assets/bg-orange.svg);
+    background-size: 110%;
+    border: none;
+    color: #fff;
+    background-position: -7px -160px;
+    box-shadow: none;
+    width: 100%;
+    transition: background-position 0.5s;
+    animation: left 0.6s ease-in-out;
+}
 .Card-username {
     font-size: 18px;
     line-height: 18px;
