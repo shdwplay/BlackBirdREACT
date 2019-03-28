@@ -9,10 +9,10 @@ class Avatar extends React.Component {
   }
 
   render() {
-    if (this.props.imgurl) {
-      return (
+    if(this.props.imgurl) {
+      return ( 
         <img
-          alt={this.props.name}
+          alt={this.props.name} 
           src={this.props.imgurl}
           className={"Avatar Avatar-" + this.props.size}
           onClick={this.props.onClick}

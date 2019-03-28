@@ -10,21 +10,28 @@
   margin-left: -10px;
   margin-right: -10px;
 }
+.Header > .Header-pic-and-logo {
+  display: flex;
+  flex:100%;
+}
 .Header > .Header-profile-pic, .Header > .Header-backbutton {
   flex: 1;
   text-align: left;
   visibility: visible;
   text-decoration: none;
 }
-.Header-search {
-  flex:1;
-  text-align:right;
-}
 .Header-logo {
   flex: 8;
   text-align: center;
   flex-grow: 1;
+  position: relative;
+  top: 4px;
 }
 .Header-logo img {
   height:25px;
+  position: relative;
+  left: -8.5px;
+}
+.Header-hidden {
+  display: none !important;
 }

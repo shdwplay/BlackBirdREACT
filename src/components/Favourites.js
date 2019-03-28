@@ -4,6 +4,9 @@ import TabBar from "./TabBar";
 import CardList from "./CardList";
 
 class Favourites extends React.Component {
+  filterByFavourites() {
+    //logic to filter cardList by favourites
+  }
   render() {
     return (
       <div className="container">
