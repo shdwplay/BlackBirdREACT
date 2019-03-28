@@ -7,8 +7,12 @@ import Avatar from "./Avatar";
 class Header extends Component {
   render() {
     return (
-      <div className= 'Header'>
-        <div className= {`Header-pic-and-logo ${(this.props.searchToggle) ? 'Header-hidden' : ''}`}>
+      <div className="Header">
+        <div
+          className={`Header-pic-and-logo ${
+            this.props.searchToggle ? "Header-hidden" : null
+          }`}
+        >
           <div className="Header-profile-pic">
             <Avatar
               size="xsmall"

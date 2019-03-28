@@ -28,7 +28,9 @@ export default class TabBar extends React.Component {
   }
   render() {
     return (
-      <div className="TabBar">
+      <div
+        className={`TabBar ${this.props.searchToggle ? "TabBar-hidden" : ""}`}
+      >
         {this.state.options.map((el, index) => {
           if (el.text === this.props.activeTab)
             return (
