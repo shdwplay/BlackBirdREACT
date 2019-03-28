@@ -10,7 +10,8 @@ import "./App.css";
 import Login from "./components/Login";
 import TabBar from "./components/TabBar";
 import ContactList from "./components/ContactList";
-
+import Profile from "./components/Profile";
+import Back from "./components/Back";
 let messages = [
   {
     sender: "antoniopellegrini",
@@ -60,6 +61,11 @@ class App extends Component {
       page: el
     });
   }
+
+  profilePage() {
+    this.setState({ page: "Profile" });
+  }
+
   newMessage(e) {
     this.setState({
       newMessage: e.target.value
@@ -82,6 +88,10 @@ class App extends Component {
       page: "Chat",
       activeChat: pageNumber
     });
+  }
+
+  backTo(prevPage) {
+    this.setState({ page: prevPage });
   }
   setSearchOpen() {
     this.state.searchToggle
@@ -165,6 +175,9 @@ class App extends Component {
               <div className="supercontainer">
                 <div className="container">
                   <Header
+                    backTo={this.backTo}
+                    fromPage={this.state.page}
+                    profilePage={() => this.profilePage()}
                     searchToggle={this.state.searchToggle}
                     openSearch={() => this.setSearchOpen()}
                   />
@@ -182,6 +195,12 @@ class App extends Component {
               </div>
             </div>
           </div>
+        );
+      case "Profile":
+        return (
+          <Profile //add back button props when needed
+            backTo={() => this.backTo("Messages")}
+          />
         );
 
       default:
