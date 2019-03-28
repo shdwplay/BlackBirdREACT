@@ -9,20 +9,23 @@ class Messages extends React.Component {
     let filtered;
   }
   render() {
-    this.searchFilter();
     return (
       <div className="container">
-        <Header>
+        <Header
+          openSearch={this.props.openSearch}
+          searchToggle={this.props.searchToggle}
+        >
           <TabBar
             activeTab={this.props.activeTab}
             selectTab={this.props.selectTab}
+            searchToggle={this.props.searchToggle}
           />
         </Header>
-        )}
         <CardList
           cardList={this.props.cardList}
           //activeChat={this.props.activeChat}
           selectChat={this.props.selectChat}
+          searchToggle={this.props.searchToggle}
         />
       </div>
     );
