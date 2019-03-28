@@ -8,32 +8,32 @@ export default class ContactList extends React.Component {
     this.state = {
       contacts: [
         {
-          image: {},
+          image: '/images/profile_alessandra.jpg',
           name: "Alessandra De Rossi",
           status: "away"
         },
         {
-          image: {},
+          image: '/images/profile_angela.png',
           name: "Angela Stewart",
           status: "away"
         },
         {
-          image: {},
+          image: '/images/profile_james.png',
           name: "James McAville",
           status: "away"
         },
         {
-          image: {},
+          image: '/images/profile_lucille.png',
           name: "Lucille Davis",
           status: "away"
         },
         {
-          image: {},
+          image: '/images/profile_francis.jpg',
           name: "Francis Scott",
           status: "away"
         },
         {
-          image: {},
+          image: '/images/profile_robert.jpg',
           name: "Robert Evans",
           status: "away"
         }

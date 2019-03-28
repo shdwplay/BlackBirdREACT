@@ -8,7 +8,9 @@ class Favourites extends React.Component {
     return (
       <div className="container">
         <Header>
-          <TabBar />
+          <TabBar
+          activeTab={this.props.activeTab}
+          selectTab={this.props.selectTab} />
         </Header>
         <CardList
           cardList={[]}

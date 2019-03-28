@@ -12,15 +12,12 @@ import TabBar from "./components/TabBar";
 import ContactList from "./components/ContactList";
 import Profile from "./components/Profile";
 import Back from "./components/Back";
-<<<<<<< HEAD
-=======
 import Favourites from "./components/Favourites";
 import Messages from "./components/Messages";
 
 // import pic1 from "./assets/profile_james.png";
 // import pic2 from "./assets/profile_lucille.png";
 // import pic3 from "./assets/profile_francis.jpg";
->>>>>>> 413cf73731cf3368c6361360a10db680381d26de
 
 const fakeState = {
   currentUser: "antoniopellegrini",
@@ -31,21 +28,6 @@ const fakeState = {
   newMessage: "",
   searchToggle: false,
   currentCollocutor: null,
-<<<<<<< HEAD
-  status: 'away',
-  collocutors: [
-    {
-      collocutor: 'Chiara Baroni',
-      status: 'online',
-      favourite: true,
-      silenced: false,
-      lastOpened: 1553573343,
-      lastMessage: {text:':P',sender:'chiarabaroni', date:1553591343},
-      messages: [
-        {
-          sender: "antoniopellegrini",
-          text: "Hello, have you had a chance to check out the prototype I sent you?"
-=======
   status: "away",
   collocutors: [
     {
@@ -62,7 +44,6 @@ const fakeState = {
           sender: "antoniopellegrini",
           text:
             "Hello, have you had a chance to check out the prototype I sent you?"
->>>>>>> 413cf73731cf3368c6361360a10db680381d26de
         },
         {
           sender: "chiarabaroni",
@@ -92,14 +73,6 @@ const fakeState = {
       ]
     },
     {
-<<<<<<< HEAD
-      collocutor: 'edoardoaccivile',
-      status: 'online',
-      favourite: true,
-      silenced: true,
-      lastOpened: 1553573343,
-      lastMessage: {text:':P', sender:'edoardoaccivile', date:1553591343},
-=======
       collocutor: "edoardoaccivile",
       status: "online",
       favourite: true,
@@ -108,7 +81,6 @@ const fakeState = {
       lastMessage: { text: ":P", sender: "edoardoaccivile", date: 1553591343 },
       numUnread: 5,
       image: "/images/profile_james.png",
->>>>>>> 413cf73731cf3368c6361360a10db680381d26de
       messages: [
         {
           sender: "antoniopellegrini",
@@ -117,18 +89,6 @@ const fakeState = {
         {
           sender: "edoardoaccivile",
           text: "Dunno man"
-<<<<<<< HEAD
-        },
-      ]
-    },
-    {
-      collocutor: 'lorenzoiacobucci',
-      status: 'away',
-      favourite: true,
-      silenced: false,
-      lastOpened: 1553573343,
-      lastMessage: {text:':P', sender:'antoniopellegrini', date:1553591343},
-=======
         }
       ]
     },
@@ -145,7 +105,6 @@ const fakeState = {
         sender: "antoniopellegrini",
         date: 1553591343
       },
->>>>>>> 413cf73731cf3368c6361360a10db680381d26de
       messages: [
         {
           sender: "antoniopellegrini",
@@ -162,31 +121,16 @@ const fakeState = {
         {
           sender: "antoniopellegrini",
           text: "Perfect!"
-<<<<<<< HEAD
-        },
-=======
         }
->>>>>>> 413cf73731cf3368c6361360a10db680381d26de
       ]
     }
   ],
   userInfo: {
-<<<<<<< HEAD
-    email: 'antoniopellegrini@born2code.com',
-    nome: 'Antonio Pellegrini',
-    password: '40bd001563085fc35165329ea1ff5c5ecbdbbeef',
-  }
-}
-
-
-
-=======
     email: "antoniopellegrini@born2code.com",
     nome: "Antonio Pellegrini",
     password: "40bd001563085fc35165329ea1ff5c5ecbdbbeef"
   }
 };
->>>>>>> 413cf73731cf3368c6361360a10db680381d26de
 
 class App extends Component {
   state = fakeState;
@@ -201,31 +145,6 @@ class App extends Component {
     this.setState({ page: "Profile" });
   }
 
-<<<<<<< HEAD
-  newMessage(e) {
-    this.setState({
-      newMessage: e.target.value
-    });
-  }
-  /* saveMessage() {
-    this.setState({
-      collocutors[0].messages
-    })
-    this.state.messages = this.state.messages.concat({
-      sender: this.state.currentUser,
-      text: this.state.newMessage
-    });
-    this.setState({
-      messageList: messages,
-      newMessage: '',
-    }) 
-  } */
-  selectChat(clickedCard) {
-    this.setState({
-      page: "Chat",
-      activeChat: clickedCard,
-      currentCollocutor: clickedCard[0]
-=======
   // newMessage(e) {
   //   this.setState({
   //     newMessage: e.target.value
@@ -247,7 +166,6 @@ class App extends Component {
     this.setState({
       page: "Chat",
       activeChat: clickedCard
->>>>>>> 413cf73731cf3368c6361360a10db680381d26de
     });
   }
 
@@ -263,31 +181,6 @@ class App extends Component {
     switch (this.state.page) {
       case "Favourites":
         return (
-<<<<<<< HEAD
-          <div className="App">
-            <div className="megacontainer">
-              <div className="supercontainer">
-                <div className="container">
-                  <Header
-                    searchToggle={this.state.searchToggle}
-                    openSearch={() => this.setSearchOpen()}
-                  />
-                  {this.state.searchToggle || (
-                    <TabBar
-                      activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
-                    />
-                  )}
-                  <CardList
-                    activeChat={this.state.activeChat}
-                    selectChat={x => this.selectChat(x)}
-                    cardList={this.state.collocutors}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-=======
           <Favourites
             activeTab={this.state.activeTab}
             selectTab={index => this.selectTab(index)}
@@ -295,7 +188,6 @@ class App extends Component {
             activeChat={this.state.activeChat}
             selectChat={x => this.selectChat}
           />
->>>>>>> 413cf73731cf3368c6361360a10db680381d26de
         );
 
       case "Send New":
@@ -342,34 +234,6 @@ class App extends Component {
 
       case "Messages":
         return (
-<<<<<<< HEAD
-          <div className="App">
-            <div className="megacontainer">
-              <div className="supercontainer">
-                <div className="container">
-                  <Header
-                    backTo={this.backTo}
-                    fromPage={this.state.page}
-                    profilePage={() => this.profilePage()}
-                    searchToggle={this.state.searchToggle}
-                    openSearch={() => this.setSearchOpen()}
-                  />
-                  {this.state.searchToggle || (
-                    <TabBar
-                      activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
-                    />
-                  )}
-                  <CardList
-                    activeChat={this.state.activeChat}
-                    selectChat={x => this.selectChat(x)}
-                    cardList={this.state.collocutors}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-=======
           <Messages
             activeTab={this.state.activeTab}
             selectTab={index => this.selectTab(index)}
@@ -377,7 +241,6 @@ class App extends Component {
             activeChat={this.state.activeChat}
             selectChat={x => this.selectChat}
           />
->>>>>>> 413cf73731cf3368c6361360a10db680381d26de
         );
 
       case "Profile":
