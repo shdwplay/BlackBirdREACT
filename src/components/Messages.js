@@ -2,9 +2,14 @@ import React from "react";
 import Header from "./Header";
 import TabBar from "./TabBar";
 import CardList from "./CardList";
-
+//props searchString
 class Messages extends React.Component {
+  searchFilter(str) {
+    let names;
+    let filtered;
+  }
   render() {
+    this.searchFilter();
     return (
       <div className="container">
         <Header>
@@ -17,7 +22,7 @@ class Messages extends React.Component {
         <CardList
           cardList={this.props.cardList}
           //activeChat={this.props.activeChat}
-          selectChat={x => this.selectChat(x)}
+          selectChat={this.props.selectChat}
         />
       </div>
     );
