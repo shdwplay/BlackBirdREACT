@@ -12,49 +12,114 @@ import TabBar from "./components/TabBar";
 import ContactList from "./components/ContactList";
 import Profile from "./components/Profile";
 import Back from "./components/Back";
-let messages = [
-  {
-    sender: "antoniopellegrini",
-    text: "Hello, have you had a chance to check out the prototype I sent you?"
-  },
-  {
-    sender: "chiarabaroni",
-    text:
-      "Hey sorry, not yet! I'll do it as soon as I get to the airport! I have a fligth at 5!"
-  },
-  {
-    sender: "antoniopellegrini",
-    text: "Ok great, let me know when you are done!"
-  },
-  {
-    sender: "chiarabaroni",
-    text: "Sure thing! 😊"
-  },
-  {
-    sender: "chiarabaroni",
-    text: "Btw was there a package for me in today's mail?"
-  },
-  {
-    sender: "antoniopellegrini",
-    text: "Yep! 😊"
-  },
-  {
-    sender: "antoniopellegrini",
-    text: <img className="Chat-message-img" src={packageImg} />
+
+const fakeState = {
+  currentUser: "antoniopellegrini",
+  favouritesActive: false,
+  page: "Messages",
+  activeChat: null,
+  activeTab: "Messages",
+  newMessage: "",
+  searchToggle: false,
+  currentCollocutor: null,
+  status: 'away',
+  collocutors: [
+    {
+      collocutor: 'Chiara Baroni',
+      status: 'online',
+      favourite: true,
+      silenced: false,
+      lastOpened: 1553573343,
+      lastMessage: {text:':P',sender:'chiarabaroni', date:1553591343},
+      messages: [
+        {
+          sender: "antoniopellegrini",
+          text: "Hello, have you had a chance to check out the prototype I sent you?"
+        },
+        {
+          sender: "chiarabaroni",
+          text:
+            "Hey sorry, not yet! I'll do it as soon as I get to the airport! I have a fligth at 5!"
+        },
+        {
+          sender: "antoniopellegrini",
+          text: "Ok great, let me know when you are done!"
+        },
+        {
+          sender: "chiarabaroni",
+          text: "Sure thing! 😊"
+        },
+        {
+          sender: "chiarabaroni",
+          text: "Btw was there a package for me in today's mail?"
+        },
+        {
+          sender: "antoniopellegrini",
+          text: "Yep! 😊"
+        },
+        {
+          sender: "antoniopellegrini",
+          text: <img className="Chat-message-img" src={packageImg} />
+        }
+      ]
+    },
+    {
+      collocutor: 'edoardoaccivile',
+      status: 'online',
+      favourite: true,
+      silenced: true,
+      lastOpened: 1553573343,
+      lastMessage: {text:':P', sender:'edoardoaccivile', date:1553591343},
+      messages: [
+        {
+          sender: "antoniopellegrini",
+          text: "Are you coming to the office tomorrow?"
+        },
+        {
+          sender: "edoardoaccivile",
+          text: "Dunno man"
+        },
+      ]
+    },
+    {
+      collocutor: 'lorenzoiacobucci',
+      status: 'away',
+      favourite: true,
+      silenced: false,
+      lastOpened: 1553573343,
+      lastMessage: {text:':P', sender:'antoniopellegrini', date:1553591343},
+      messages: [
+        {
+          sender: "antoniopellegrini",
+          text: "Is the presentation ready?"
+        },
+        {
+          sender: "lorenzoiacobucci",
+          text: "Not yet"
+        },
+        {
+          sender: "lorenzoiacobucci",
+          text: "It will be done by tomorrow, is that ok?"
+        },
+        {
+          sender: "antoniopellegrini",
+          text: "Perfect!"
+        },
+      ]
+    }
+  ],
+  userInfo: {
+    email: 'antoniopellegrini@born2code.com',
+    nome: 'Antonio Pellegrini',
+    password: '40bd001563085fc35165329ea1ff5c5ecbdbbeef',
   }
-];
+}
+
+
+
 
 class App extends Component {
-  state = {
-    currentUser: "antoniopellegrini",
-    favouritesActive: false,
-    page: "Login",
-    activeChat: null,
-    activeTab: "Messages",
-    messageList: messages,
-    newMessage: "",
-    searchToggle: false
-  };
+  state = fakeState;
   selectTab(el) {
     this.setState({
       activeTab: el,
@@ -71,26 +136,24 @@ class App extends Component {
       newMessage: e.target.value
     });
   }
-  saveMessage() {
-    messages = messages.concat({
+  /* saveMessage() {
+    this.setState({
+      collocutors[0].messages
+    })
+    this.state.messages = this.state.messages.concat({
       sender: this.state.currentUser,
       text: this.state.newMessage
     });
     this.setState({
       messageList: messages,
-<<<<<<< HEAD
       newMessage: '',
     }) 
-=======
-      newMessage: ""
-    });
-    console.log(messages);
->>>>>>> cd849d3c59929d67ce7d36117b9b4b3fb401ff32
-  }
-  changeChat(selectedChat) {
+  } */
+  selectChat(clickedCard) {
     this.setState({
       page: "Chat",
-      activeChat: selectedChat
+      activeChat: clickedCard,
+      currentCollocutor: clickedCard[0]
     });
   }
 
@@ -121,9 +184,9 @@ class App extends Component {
                     />
                   )}
                   <CardList
-                    favouritesActive={!this.state.favouritesActive}
                     activeChat={this.state.activeChat}
-                    changeChat={x => this.changeChat(x)}
+                    selectChat={x => this.selectChat(x)}
+                    cardList={this.state.collocutors}
                   />
                 </div>
               </div>
@@ -163,7 +226,7 @@ class App extends Component {
               <Chat
                 currentUser={this.state.currentUser}
                 collocutor={this.state.activeChat[0]}
-                messageList={this.state.messageList}
+                messageList={this.state.collocutors[0].messages}
                 value={this.state.newMessage}
                 newMessage={e => this.newMessage(e)}
                 saveMessage={() => this.saveMessage()}
@@ -193,7 +256,8 @@ class App extends Component {
                   )}
                   <CardList
                     activeChat={this.state.activeChat}
-                    changeChat={x => this.changeChat(x)}
+                    selectChat={x => this.selectChat(x)}
+                    cardList={this.state.collocutors}
                   />
                 </div>
               </div>
@@ -204,6 +268,7 @@ class App extends Component {
         return (
           <Profile //add back button props when needed
             backTo={() => this.backTo("Messages")}
+            currentUser={this.state.currentUser}
           />
         );
 
