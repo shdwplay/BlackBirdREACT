@@ -54,7 +54,6 @@ class Card extends Component {
   }
 
   render() {
-    test();
     return (
       <div
         onClick={this.props.onClick}
@@ -67,21 +66,21 @@ class Card extends Component {
         {showNotifications(this.props.data.numUnread, this.props.data.silenced)}
         <div className="Card-Avatar">
           <Avatar
-            name={this.props.data.name}
-            imgurl={this.props.data.image} //this.props.data.image
+            name={this.props.data.collocutor}
+            imgurl={this.props.data.image}
             size="small"
             onClick={() => console.log("for use in profile")}
           />
         </div>
         <div className="Card-message-text">
-          <div className="Card-username">{this.props.data.name}</div>
+          <div className="Card-username">{this.props.data.collocutor}</div>
           <div className="Card-text-preview">
-            {this.props.data.lastMsg.text}
+            {this.props.data.lastMessage.text}
           </div>
         </div>
         <MessageDate
           context="MessageDate"
-          date={this.props.data.lastMsg.date}
+          date={this.props.data.lastMessage.date}
         />
         <div className="Card-dots-area">
           <img
@@ -109,16 +108,16 @@ export default Card;
 
 Card.propTypes = {
   data: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    collocutor: PropTypes.string.isRequired,
     image: PropTypes.any,
-    lastMsg: PropTypes.shape({
+    lastMessage: PropTypes.shape({
       sender: PropTypes.string,
       text: PropTypes.string,
       date: PropTypes.string
     }),
     lastOpened: PropTypes.string.isRequired,
-    favourite: PropTypes.bool.isRequired,
     silenced: PropTypes.bool.isRequired,
+    numUnread: PropTypes.string,
     onClick: PropTypes.func
   })
 };

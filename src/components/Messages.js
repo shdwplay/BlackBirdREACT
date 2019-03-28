@@ -8,13 +8,16 @@ class Messages extends React.Component {
     return (
       <div className="container">
         <Header>
-          <TabBar />
+          <TabBar
+            activeTab={this.props.activeTab}
+            selectTab={this.props.selectTab}
+          />
         </Header>
         )}
         <CardList
-          cardList={[]}
-          activeChat={this.props.activeChat}
-          selectChat={x => this.changeChat(x)}
+          cardList={this.props.cardList}
+          //activeChat={this.props.activeChat}
+          selectChat={x => this.selectChat(x)}
         />
       </div>
     );

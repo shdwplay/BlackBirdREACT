@@ -9,7 +9,7 @@ class Avatar extends React.Component {
   }
 
   render() {
-    if (this.props.imgurl !== "") {
+    if (this.props.imgurl) {
       return (
         <img
           alt={this.props.name}
