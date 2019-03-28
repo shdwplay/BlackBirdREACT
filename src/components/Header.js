@@ -11,7 +11,13 @@ class Header extends Component {
       <div className="Header">
         {!this.props.searchToggle && (
           <div className="Header-profile-pic">
-            <Avatar size="xsmall" imgurl={pic1} name="Edoardo Accivile" />
+            <Avatar
+              size="xsmall"
+              imgurl={pic1}
+              name="Edoardo Accivile"
+              fromPage={this.props.fromPage}
+              onClick={this.props.profilePage}
+            />
           </div>
         )}
         {!this.props.searchToggle && (

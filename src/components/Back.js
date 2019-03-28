@@ -5,7 +5,7 @@ class Back extends React.Component {
   render() {
     return (
       <div>
-        <img src={backImage} />
+        <img onClick={this.props.onClick} src={backImage} />
       </div>
     );
   }
