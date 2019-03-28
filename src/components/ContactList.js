@@ -1,58 +1,25 @@
 import React from "react";
 import Contact from "./Contact";
+import { Link } from "react-router-dom";
 import "./ContactList.css";
 
 export default class ContactList extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      contacts: [
-        {
-          image: '/images/profile_alessandra.jpg',
-          name: "Alessandra De Rossi",
-          status: "away"
-        },
-        {
-          image: '/images/profile_angela.png',
-          name: "Angela Stewart",
-          status: "away"
-        },
-        {
-          image: '/images/profile_james.png',
-          name: "James McAville",
-          status: "away"
-        },
-        {
-          image: '/images/profile_lucille.png',
-          name: "Lucille Davis",
-          status: "away"
-        },
-        {
-          image: '/images/profile_francis.jpg',
-          name: "Francis Scott",
-          status: "away"
-        },
-        {
-          image: '/images/profile_robert.jpg',
-          name: "Robert Evans",
-          status: "away"
-        }
-      ]
-    };
-  }
   render() {
     return (
       <div className="ContactList">
-        {this.state.contacts.map((el, index) => (
+        {this.props.contactList.map((el, index) => (
+        <Link to={"/chat/" + el.collocutor}>
           <Contact
-            key={index}
-            name={el.name}
-            image={el.image}
+            data={el}
             onClick={() => {
-              this.setState({ activeChat: index });
-              this.props.changeChat([el.name, el.status]);
+              this.props.selectChat({
+                collocutor: el.collocutor,
+                status: el.status,
+                messages: el.messages
+              });
             }}
           />
+        </Link>
         ))}
       </div>
     );

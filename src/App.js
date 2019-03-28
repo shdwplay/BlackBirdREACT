@@ -4,6 +4,7 @@ import HeaderChat from "./components/HeaderChat";
 import Header from "./components/Header";
 import Chat from "./components/Chat";
 import packageImg from "./assets/package.jpg";
+import SendNew from "./components/SendNew"
 
 import "./App.css";
 
@@ -126,6 +127,38 @@ const fakeState = {
       ]
     }
   ],
+  contacts: [
+    {
+      image: '/images/profile_alessandra.jpg',
+      name: "Alessandra De Rossi",
+      status: "away"
+    },
+    {
+      image: '/images/profile_angela.png',
+      name: "Angela Stewart",
+      status: "away"
+    },
+    {
+      image: '/images/profile_james.png',
+      name: "James McAville",
+      status: "away"
+    },
+    {
+      image: '/images/profile_lucille.png',
+      name: "Lucille Davis",
+      status: "away"
+    },
+    {
+      image: '/images/profile_francis.jpg',
+      name: "Francis Scott",
+      status: "away"
+    },
+    {
+      image: '/images/profile_robert.jpg',
+      name: "Robert Evans",
+      status: "away"
+    }
+  ],
   userInfo: {
     email: "antoniopellegrini@born2code.com",
     nome: "Antonio Pellegrini",
@@ -202,6 +235,19 @@ class App extends Component {
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
               cardList={this.state.collocutors}
+              activeChat={this.state.activeChat}
+              selectChat={x => this.selectChat(x)}
+              searchString={this.state.searchSting}
+            />
+          )}
+        />
+        <Route
+          path="/send-new"
+          render={() => (
+            <SendNew
+              activeTab={this.state.activeTab}
+              selectTab={index => this.selectTab(index)}
+              contactList={this.state.contacts}
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
               searchString={this.state.searchSting}
