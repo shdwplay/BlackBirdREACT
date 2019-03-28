@@ -64,7 +64,6 @@ class App extends Component {
     this.setState({
       newMessage: e.target.value
     });
-    console.log(messages);
   }
   saveMessage() {
     messages = messages.concat({
@@ -75,12 +74,11 @@ class App extends Component {
       messageList: messages,
       newMessage: '',
     }) 
-    console.log(messages)
   }
-  changeChat(pageNumber) {
+  changeChat(selectedChat) {
     this.setState({
       page: "Chat",
-      activeChat: pageNumber
+      activeChat: selectedChat
     });
   }
   setSearchOpen() {

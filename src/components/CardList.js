@@ -19,7 +19,7 @@ class CardList extends Component {
                 favourite:true,
                 silenced:true,
                 numUnread:0,
-                status: 'away'
+                status: 'away',
             },
             {
                 image:pic2,
@@ -29,17 +29,17 @@ class CardList extends Component {
                 favourite:false,
                 silenced:true,
                 numUnread:7,
-                status: 'online'
+                status: 'online',
             },
             {
                 image:pic3,
                 name:'Luke Skywalker',
                 lastMsg:{text:'I\'m Luke Skywalker. I\'m here to rescue you.',sender:'Edoardo Accivile', date:1553418543},
-                lastOpened:'4:20',
+                lastOpened: '4:20',
                 favourite:true,
                 silenced:false,
+                status:'offline',
                 numUnread:6,
-                status: 'offline'
             }            
         ]}
  
@@ -52,7 +52,9 @@ class CardList extends Component {
     render () {
         return(
             <div className="CardList">
-                {this.state.elements.map((el,index) =><Card
+                {this.state.elements.map((el,index) =>{
+                console.log(this.state.elements)
+                return <Card
                 key={index} 
                 favouritesActive={this.props.favouritesActive} 
                 isActive = {this.state.activeChat === index}
@@ -61,7 +63,7 @@ class CardList extends Component {
                         this.props.changeChat([el.name, el.status])
                     }
                 }
-                data={el}/>)}
+                data={el}/>})}
             </div>
         )
     }
