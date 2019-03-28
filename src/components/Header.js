@@ -16,7 +16,7 @@ class Header extends Component {
           <div className="Header-profile-pic">
             <Avatar
               size="xsmall"
-              name="Edoardo Accivile"
+              name={this.props.name}
               onClick={this.props.profilePage}
             />
           </div>

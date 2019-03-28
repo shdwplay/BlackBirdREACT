@@ -10,13 +10,13 @@ class CardList extends Component {
     return (
       <div className= {`CardList ${(this.props.searchToggle) ? 'CardList-on-top' : ''}`}>
         {this.props.cardList.map((el, index) => (
-          <Link to={"/chat/" + el.collocutor}>
+          <Link to={"/chat/" + el.id}>
             <Card
               key={index}
               //isActive={this.props.activeChat === index}
               onClick={() => {
                 this.props.selectChat({
-                  collocutor: el.collocutor,
+                  collocutor: el.name,
                   status: el.status,
                   messages: el.messages
                 });

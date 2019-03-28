@@ -12,6 +12,7 @@ class Messages extends React.Component {
     return (
       <div className="container">
         <Header
+          name={this.props.name}
           openSearch={this.props.openSearch}
           searchToggle={this.props.searchToggle}
         >

@@ -12,7 +12,7 @@ class Messages extends React.Component {
     this.searchFilter();
     return (
       <div className="container">
-        <Header>
+        <Header name={this.props.name}>
           <TabBar
             activeTab={this.props.activeTab}
             selectTab={this.props.selectTab}

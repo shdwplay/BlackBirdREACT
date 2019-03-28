@@ -23,6 +23,7 @@ import { Route, Switch } from "react-router-dom";
 
 const fakeState = {
   currentUser: "antoniopellegrini",
+  name: 'Antonio Pellegrini',
   favouritesActive: false,
   page: "Messages",
   activeChat: { collocutor: "null", status: "null", messages: [] },
@@ -33,7 +34,8 @@ const fakeState = {
   userStatus: "away",
   collocutors: [
     {
-      collocutor: "chiarabaroni",
+      id: "chiarabaroni",
+      name: 'Chiara Baroni',
       status: "online",
       favourite: true,
       silenced: false,
@@ -75,7 +77,8 @@ const fakeState = {
       ]
     },
     {
-      collocutor: "edoardoaccivile",
+      id: "edoardoaccivile",
+      name: 'Edoardo Accivile',
       status: "online",
       favourite: true,
       silenced: true,
@@ -95,7 +98,8 @@ const fakeState = {
       ]
     },
     {
-      collocutor: "lorenzoiacobucci",
+      id: "lorenzoiacobucci",
+      name: 'Lorenzo Iacobucci',
       status: "away",
       favourite: true,
       silenced: false,
@@ -129,34 +133,46 @@ const fakeState = {
   ],
   contacts: [
     {
+      id: 'alessandraderossi',
       image: '/images/profile_alessandra.jpg',
       name: "Alessandra De Rossi",
-      status: "away"
+      status: "away",
+      messages: [],
     },
     {
+      id: 'angelastewart',
       image: '/images/profile_angela.png',
       name: "Angela Stewart",
-      status: "away"
+      status: "away",
+      messages: [],
     },
     {
+      id: 'jamesmcaville',
       image: '/images/profile_james.png',
       name: "James McAville",
-      status: "away"
+      status: "away",
+      messages: [],
     },
     {
+      id: 'lucilledavis',
       image: '/images/profile_lucille.png',
       name: "Lucille Davis",
-      status: "away"
+      status: "away",
+      messages: [],
     },
     {
+      id: 'francisscott',
       image: '/images/profile_francis.jpg',
       name: "Francis Scott",
-      status: "away"
+      status: "away",
+      messages: [],
     },
     {
+      id: 'robertevans',
       image: '/images/profile_robert.jpg',
       name: "Robert Evans",
-      status: "away"
+      status: "away",
+      messages: [],
     }
   ],
   userInfo: {
@@ -219,6 +235,7 @@ class App extends Component {
           path="/messages"
           render={() => (
             <Messages
+              name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
               cardList={this.state.collocutors}
@@ -234,6 +251,7 @@ class App extends Component {
           path="/favourites"
           render={() => (
             <Favourites
+              name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
               cardList={this.state.collocutors}
@@ -247,6 +265,7 @@ class App extends Component {
           path="/send-new"
           render={() => (
             <SendNew
+              name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
               contactList={this.state.contacts}
@@ -265,9 +284,10 @@ class App extends Component {
           path="/chat"
           render={() => (
             <Chat
+              activeChat={this.state.activeChat}
               currentUser={this.state.currentUser}
-              collocutor={this.state.activeChat.collocutor}
-              messageList={this.state.activeChat.messages}
+              /* collocutor={this.state.activeChat.collocutor}
+              messageList={this.state.activeChat.messages} */
               value={this.state.newMessage}
               newMessage={e => this.newMessage(e)}
               saveMessage={() => this.saveMessage()}

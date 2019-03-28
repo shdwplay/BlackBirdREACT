@@ -10,7 +10,7 @@ class Favourites extends React.Component {
   render() {
     return (
       <div className="container">
-        <Header>
+        <Header name={this.props.name}>
           <TabBar
           activeTab={this.props.activeTab}
           selectTab={this.props.selectTab} />
