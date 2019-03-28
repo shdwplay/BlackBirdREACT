@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "./Header";
 import Avatar from "./Avatar";
 import "./Profile.css";
 import novisible from "../assets/novisible.svg";
@@ -10,96 +9,71 @@ import Back from "./Back";
 class Profile extends React.Component {
   render() {
     return (
-      <div className="Profile-container">
+      <div>
         <div className="ProfileHeader">
           <div className="ProfileBack">
             <Back onClick={this.props.backTo} />
           </div>
-          <div>
-            <img className="ProfileLogo" src={logo} />
+          <div className="ProfileLogo">
+            <img alt="BlackBird Logo" src={logo} />
           </div>
         </div>
-        <div className="Profile-settings">
-          <div className="Profile-pic">
-            <Avatar size="large" />
-          </div>
-
-          <div className="Profile-logout-area">
-            <div>
-              <div>Antonio</div>
-              <div>Pellegrini</div>
+        <div className="Profile-container">
+          <div className="Profile-pic-and-logout-area">
+            <div className="Profile-pic">
+              <Avatar size="large" name={this.props.currentUser}/>
             </div>
-
-            <a href="">Logout</a>
+            <div className="Profile-logout-area">
+              <div className="Profile-data">
+                <div className="profile-user-name">Antonio</div>
+                <div className="profile-user-lastname">Pellegrini</div>
+              </div>
+              <a className="Profile-logout-link" href="/">Logout</a>
+            </div>
           </div>
+          <div className="Profile-settings">
+            <div className="Profile-password-settings">
+              <div className="Profile-settings-header">CHANGE PASSWORD</div>
+              <div className="Profile-form-item Profile-form-item-first">
+                <label className="ProfileLabel" htmlFor="current-password">Current Password</label>
+                <input id="current-password" type="password" name="current-password" placeholder="Password" />
+                <div className="visibility">
+                  <img alt="show/hide password" className="no-visibility" src={novisible} />
+                </div>
+              </div>
+              <div className="Profile-form-item">
+                <label className="ProfileLabel" htmlFor="new-password">New Password</label>
+                <input id="new-password" type="password" name="new-password" placeholder="Password" />
+                <div className="visibility">
+                  <img  alt="show/hide password" className="no-visibility" src={novisible} />
+                </div>
+              </div>
+              <div className="Profile-form-item">
+                <label className="ProfileLabel" htmlFor="confirm-password">Confirm Password</label>
+                <input id="confirm-password" type="password" name="confirm-password" placeholder="Password" />
+                <div className="visibility">
+                  <img  alt="show/hide password" className="no-visibility" src={novisible} />
+                </div>
+              </div>
+            </div>
+            <div className="Profile-settings-area">
+              <div className="Profile-settings-header">SETTINGS</div>
+              <div className="Profile-form-item Profile-form-item-first">
+                <label>Away</label>
+                <label className="switch">
+                  <input type="checkbox" name="afk"/>
+                  <span className="slider round"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <Button
+            type="plain"
+            text="save"
+            onClick={() => console.log("save settings")}
+          />
         </div>
-        <div>
-          <h4 className="ProfileSettingsHeader">CHANGE PASSWORD</h4>
-
-          <div className="form-item">
-            <div className="ProfileLabel">
-              <label htmlFor="new-password">Current Password</label>
-            </div>
-
-            <input
-              id="new-password"
-              type="password"
-              name="new-password"
-              placeholder="Password"
-            />
-            <div className="visibility">
-              <img className="no-visibility" src={novisible} />
-            </div>
-          </div>
-          <div className="form-item">
-            <div className=" ProfileLabel">
-              <label htmlFor="new-password">New Password </label>
-            </div>{" "}
-            <input
-              id="new-password"
-              type="password"
-              name="new-password"
-              placeholder="Password"
-            />
-            <div className="visibility">
-              <img className="no-visibility" src={novisible} />
-            </div>
-          </div>
-          <div className="form-item">
-            <div className=" ProfileLabel">
-              <label htmlFor="new-password">Confirm Password </label>
-            </div>{" "}
-            <input
-              id="new-password"
-              type="password"
-              name="new-password"
-              placeholder="Password"
-            />
-            <div className="visibility">
-              <img className="no-visibility" src={novisible} />
-            </div>
-          </div>
-        </div>
-        <div>
-          {" "}
-          <h4 className="ProfileSettingsHeader">SETTINGS</h4>
-          <div className="settings-area">
-            <div className="ProfileLabel">Do not Disturb</div>
-
-            <label className="switch">
-              <input type="checkbox" />
-              <span className="slider round" />
-            </label>
-          </div>
-          <div className="button-area">
-            <Button
-              type="plain"
-              text="save"
-              onClick={() => console.log("save settings")}
-            />
-          </div>
-        </div>
-      </div> //wrapper
+      </div>
     );
   }
 }

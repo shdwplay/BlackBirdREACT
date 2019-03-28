@@ -1,156 +1,112 @@
-.Profile-container {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
 .ProfileHeader {
-  width: 100%;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-around;
+  padding: 7.5px 20px;
+  background-color: #fff;
   position: fixed;
-  top: 10px;
-}
-
-.ProfileBack {
-  position: fixed;
-  left: 10px;
-  height: 25px;
-  width: 25px;
-}
-
-.ProfileLogo {
-  height: 25px;
-}
-.Profile-settings {
-  margin-top: 52px;
-  display: flex;
+  z-index: 5;
   width: 100%;
+  top:0;
+  position: relative;
+  height: 52px;
 }
 .Profile-pic {
-  padding: 30px;
+  position: relative;
+  width:95px;
 }
-
+.Profile-pic::after {
+  content: 'Edit';
+  position: absolute;
+  z-index: 14;
+  bottom: -15px;
+  width: 100%;
+  color: var(--link);
+  font-size: 12px;
+  text-align: center;
+}
+.Profile-pic-and-logout-area {
+  display: flex;
+}
+.ProfileLogo {
+  width: 100%;
+  text-align: center;
+}
+.ProfileLogo img {
+  width: auto;
+  height: 25px;
+  position: relative;
+}
 .Profile-logout-area {
+  margin-left: 15px;
+  padding-top:10px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -.5px;
+}
+.Profile-settings {
+  padding-top: 52px;
+  display: flex;
+  width: 100%;
+}
+.Profile-container {
+  position: relative;
+  padding: 20px 16px;
+}
+.Profile-logout-link {
+  position: relative;
+  top: 5px;
+  color: var(--link);
+}
+.Profile-settings {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  width: 50%;
-  padding: 20px 10px 20px 0px;
+  margin-top: -30px;
 }
-
-.ProfileSettingsHeader {
-  margin-left: 20px;
-}
-.ProfileLabel {
-  margin-left: 20px;
-  width: 160px;
-}
-
-h4 {
+.Profile-settings-header {
   margin-top: 20px;
   padding-bottom: 10px;
-  margin-bottom: -5px;
+  margin-bottom: -5px; 
+  font-weight: 600;
 }
-
-.form-item {
+.Profile-settings .Profile-form-item {
   width: 100%;
   border-bottom: 1px solid grey;
   padding-top: 10px;
   padding-bottom: 10px;
   display: flex;
-  justify-content: space-between;
-  font-size: 18px;
+  justify-content: flex-start;
+  font-size: 16px;
   position: relative;
+  align-items: center;
+}
+.Profile-settings .Profile-password-settings .Profile-form-item > * {
+  flex: 3;
+}
+.Profile-settings .Profile-form-item-first {
+  border-top: 0.5px solid grey;
+}
+.Profile-settings input[type="password"] {
+  margin-left: 10px;
+  border: none;
+  width: 80px;
+  font-size: 16px;
+  font-family: Sarabun;
 }
 
-.form-item:nth-of-type(1) {
-  border-top: 1px solid grey;
-}
-
-/* PASSWORD INCORRECT */
-/*.form-item:nth-of-type(1) {
-	border-top:1px solid red;
-	border-bottom:1px solid red;
-}
-
-
-.form-item p {
-	color:#c1272d;
-	position: absolute;
-	font-size: 11px;
-	font-weight: 500;
-	right:0px;
-	top:-30px;
-	width: 100%;
-	text-align: right;
-}*/
-
-/*PASSWORDS MATCH*/
-/*.form-item p {
-	color:#009245;
-	position: absolute;
-	font-size: 11px;
-	font-weight: 500;
-	right:0px;
-	bottom:-120px;
-	width: 100%;
-	text-align: right;
-}
-
-
-.form-item:nth-of-type(2),.form-item:nth-of-type(3) {
-	border-bottom:1px solid #009245;
-}*/
-
-/*PASSWORDS DO NOT MATCH*/
-/*.form-item p {
-	color:#c1272d;
-	position: absolute;
-	font-size: 11px;
-	font-weight: 500;
-	right:0px;
-	bottom:-120px;
-	width: 100%;
-	text-align: right;
-}
-
-
-.form-item:nth-of-type(2),.form-item:nth-of-type(3) {
-	border-bottom:1px solid #c1272d;
-}
-*/
 
 /*PASSWORD VISIBILITY TOGGLE*/
 .visibility {
   height: 20px;
+  margin-left: auto;
+  text-align: right;
+  padding-right: 5px;
+  flex: 1 !important;
 }
 
 .no-visibility {
   height: 20px;
-}
-
-#new-password {
-  margin-left: 40px;
-}
-
-#confirm-password {
-  margin-left: 1px;
-}
-
-.settings-area {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 15px;
-  margin-bottom: 20px;
-  border-top: 1px solid grey;
-}
-
-input {
-  margin-left: 10px;
-  border: none;
-  font-size: 16px;
-  width: 80px;
 }
 
 .switch {
@@ -158,6 +114,7 @@ input {
   display: inline-block;
   width: 40px;
   height: 20px;
+  margin-left: auto;
 }
 
 .switch input {
@@ -211,118 +168,3 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/*save button*/
-
-.button-area {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 50px;
-}
-
-button {
-  font-family: "Sarabun", sans-serif;
-  margin-top: 17px;
-  font-size: 20px;
-  color: white;
-  background: #ffb000;
-  border-radius: 8px;
-  padding: 5px 55px;
-  border: none;
-  box-shadow: none;
-}
-
-p {
-  font-size: 25px;
-}
-
-.form-item:nth-of-type(3) {
-  margin-bottom: 70px;
-}
-
-.edit {
-  font-size: 16px;
-  position: relative;
-  left: 50px;
-  top: -20px;
-}
-
-.favourites,
-.messages,
-.new-chat,
-.sidebar-profile {
-  margin: 20px 0px;
-  display: block;
-  height: 50px;
-  width: 50px;
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 111px;
-  height: 1024px;
-  background: black;
-  align-items: center;
-}
-
-.sidebar p {
-  font-size: 12px;
-  position: relative;
-  left: -2px;
-  color: white;
-}
-
-@media (min-width: 1024px) {
-  .megacontainer {
-    display: flex;
-    width: 100%;
-    height: 100%;
-  }
-
-  .container {
-    width: 401px;
-  }
-
-  .supercontainer {
-    width: 512px;
-    height: 100%;
-    background: green;
-  }
-
-  .chat-container {
-    display: block;
-    background: blue;
-    width: 100%;
-    height: 768px; /* HELP */
-  }
-
-  .profile-logout-area {
-    height: 95px;
-    display: flex;
-    margin-bottom: 40px;
-  }
-
-  .profile-pic {
-    height: 95px;
-    width: 95px;
-  }
-
-  .edit {
-    font-size: 11px;
-    position: relative;
-    left: 37px;
-    top: -15px;
-  }
-
-  .form-item,
-  .logout,
-  .container,
-  p {
-    font-size: 18px;
-  }
-
-  .form-item:nth-of-type(3) {
-    margin-bottom: 0px;
-  }
-}
