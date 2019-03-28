@@ -1,0 +1,14 @@
+.BackButton {
+  flex: 1;
+  text-align: left;
+  visibility: visible;
+  text-decoration: none;
+  position: absolute;
+  top:12px;
+}
+.BackButton img {
+  height: 32px;
+  width: 32px;
+  border-radius: 0;
+  padding: 6px;
+}
