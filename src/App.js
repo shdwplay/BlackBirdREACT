@@ -225,6 +225,8 @@ class App extends Component {
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
               searchString={this.state.searchSting}
+              searchToggle={this.state.searchToggle}
+              openSearch={() => this.setSearchOpen()}
             />
           )}
         />
