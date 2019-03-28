@@ -12,49 +12,128 @@ import TabBar from "./components/TabBar";
 import ContactList from "./components/ContactList";
 import Profile from "./components/Profile";
 import Back from "./components/Back";
-let messages = [
-  {
-    sender: "antoniopellegrini",
-    text: "Hello, have you had a chance to check out the prototype I sent you?"
-  },
-  {
-    sender: "chiarabaroni",
-    text:
-      "Hey sorry, not yet! I'll do it as soon as I get to the airport! I have a fligth at 5!"
-  },
-  {
-    sender: "antoniopellegrini",
-    text: "Ok great, let me know when you are done!"
-  },
-  {
-    sender: "chiarabaroni",
-    text: "Sure thing! 😊"
-  },
-  {
-    sender: "chiarabaroni",
-    text: "Btw was there a package for me in today's mail?"
-  },
-  {
-    sender: "antoniopellegrini",
-    text: "Yep! 😊"
-  },
-  {
-    sender: "antoniopellegrini",
-    text: <img className="Chat-message-img" src={packageImg} />
+import Favourites from "./components/Favourites";
+import Messages from "./components/Messages";
+
+// import pic1 from "./assets/profile_james.png";
+// import pic2 from "./assets/profile_lucille.png";
+// import pic3 from "./assets/profile_francis.jpg";
+
+const fakeState = {
+  currentUser: "antoniopellegrini",
+  favouritesActive: false,
+  page: "Messages",
+  activeChat: null,
+  activeTab: "Messages",
+  newMessage: "",
+  searchToggle: false,
+  currentCollocutor: null,
+  status: "away",
+  collocutors: [
+    {
+      collocutor: "Chiara Baroni",
+      status: "online",
+      favourite: true,
+      silenced: false,
+      lastOpened: 1553573343,
+      lastMessage: { text: ":P", sender: "chiarabaroni", date: 1553591343 },
+      numUnread: 7,
+      image: "/images/profile_james.png",
+      messages: [
+        {
+          sender: "antoniopellegrini",
+          text:
+            "Hello, have you had a chance to check out the prototype I sent you?"
+        },
+        {
+          sender: "chiarabaroni",
+          text:
+            "Hey sorry, not yet! I'll do it as soon as I get to the airport! I have a fligth at 5!"
+        },
+        {
+          sender: "antoniopellegrini",
+          text: "Ok great, let me know when you are done!"
+        },
+        {
+          sender: "chiarabaroni",
+          text: "Sure thing! 😊"
+        },
+        {
+          sender: "chiarabaroni",
+          text: "Btw was there a package for me in today's mail?"
+        },
+        {
+          sender: "antoniopellegrini",
+          text: "Yep! 😊"
+        },
+        {
+          sender: "antoniopellegrini",
+          text: <img className="Chat-message-img" src={packageImg} />
+        }
+      ]
+    },
+    {
+      collocutor: "edoardoaccivile",
+      status: "online",
+      favourite: true,
+      silenced: true,
+      lastOpened: 1553573343,
+      lastMessage: { text: ":P", sender: "edoardoaccivile", date: 1553591343 },
+      numUnread: 5,
+      image: "/images/profile_james.png",
+      messages: [
+        {
+          sender: "antoniopellegrini",
+          text: "Are you coming to the office tomorrow?"
+        },
+        {
+          sender: "edoardoaccivile",
+          text: "Dunno man"
+        }
+      ]
+    },
+    {
+      collocutor: "lorenzoiacobucci",
+      status: "away",
+      favourite: true,
+      silenced: false,
+      lastOpened: 1553573343,
+      numUnread: 0,
+      image: "/images/profile_james.png",
+      lastMessage: {
+        text: ":P",
+        sender: "antoniopellegrini",
+        date: 1553591343
+      },
+      messages: [
+        {
+          sender: "antoniopellegrini",
+          text: "Is the presentation ready?"
+        },
+        {
+          sender: "lorenzoiacobucci",
+          text: "Not yet"
+        },
+        {
+          sender: "lorenzoiacobucci",
+          text: "It will be done by tomorrow, is that ok?"
+        },
+        {
+          sender: "antoniopellegrini",
+          text: "Perfect!"
+        }
+      ]
+    }
+  ],
+  userInfo: {
+    email: "antoniopellegrini@born2code.com",
+    nome: "Antonio Pellegrini",
+    password: "40bd001563085fc35165329ea1ff5c5ecbdbbeef"
   }
-];
+};
 
 class App extends Component {
-  state = {
-    currentUser: "antoniopellegrini",
-    favouritesActive: false,
-    page: "Login",
-    activeChat: null,
-    activeTab: "Messages",
-    messageList: messages,
-    newMessage: "",
-    searchToggle: false
-  };
+  state = fakeState;
   selectTab(el) {
     this.setState({
       activeTab: el,
@@ -66,27 +145,27 @@ class App extends Component {
     this.setState({ page: "Profile" });
   }
 
-  newMessage(e) {
-    this.setState({
-      newMessage: e.target.value
-    });
-    console.log(messages);
-  }
-  saveMessage() {
-    messages = messages.concat({
-      sender: this.state.currentUser,
-      text: this.state.newMessage
-    });
-    this.setState({
-      messageList: messages,
-      newMessage: ""
-    });
-    console.log(messages);
-  }
-  changeChat(pageNumber) {
+  // newMessage(e) {
+  //   this.setState({
+  //     newMessage: e.target.value
+  //   });
+  //   console.log(messages);
+  // }
+  // saveMessage() {
+  //   messages = messages.concat({
+  //     sender: this.state.currentUser,
+  //     text: this.state.newMessage
+  //   });
+  //   this.setState({
+  //     messageList: messages,
+  //     newMessage: ""
+  //   });
+  //   console.log(messages);
+  // }
+  selectChat(clickedCard) {
     this.setState({
       page: "Chat",
-      activeChat: pageNumber
+      activeChat: clickedCard
     });
   }
 
@@ -102,29 +181,13 @@ class App extends Component {
     switch (this.state.page) {
       case "Favourites":
         return (
-          <div className="App">
-            <div className="megacontainer">
-              <div className="supercontainer">
-                <div className="container">
-                  <Header
-                    searchToggle={this.state.searchToggle}
-                    openSearch={() => this.setSearchOpen()}
-                  />
-                  {this.state.searchToggle || (
-                    <TabBar
-                      activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
-                    />
-                  )}
-                  <CardList
-                    favouritesActive={!this.state.favouritesActive}
-                    activeChat={this.state.activeChat}
-                    changeChat={x => this.changeChat(x)}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          <Favourites
+            activeTab={this.state.activeTab}
+            selectTab={index => this.selectTab(index)}
+            cardList={this.state.collocutors}
+            activeChat={this.state.activeChat}
+            selectChat={x => this.selectChat}
+          />
         );
 
       case "Send New":
@@ -133,11 +196,12 @@ class App extends Component {
             <div className="megacontainer">
               <div className="supercontainer">
                 <div className="container">
-                  <Header />
-                  <TabBar
-                    activeTab={this.state.activeTab}
-                    selectTab={index => this.selectTab(index)}
-                  />
+                  <Header>
+                    <TabBar
+                      activeTab={this.state.activeTab}
+                      selectTab={index => this.selectTab(index)}
+                    />
+                  </Header>
                   <ContactList
                     activeChat={this.state.activeChat}
                     changeChat={x => this.changeChat(x)}
@@ -170,32 +234,15 @@ class App extends Component {
 
       case "Messages":
         return (
-          <div className="App">
-            <div className="megacontainer">
-              <div className="supercontainer">
-                <div className="container">
-                  <Header
-                    backTo={this.backTo}
-                    fromPage={this.state.page}
-                    profilePage={() => this.profilePage()}
-                    searchToggle={this.state.searchToggle}
-                    openSearch={() => this.setSearchOpen()}
-                  />
-                  {this.state.searchToggle || (
-                    <TabBar
-                      activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
-                    />
-                  )}
-                  <CardList
-                    activeChat={this.state.activeChat}
-                    changeChat={x => this.changeChat(x)}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          <Messages
+            activeTab={this.state.activeTab}
+            selectTab={index => this.selectTab(index)}
+            cardList={this.state.collocutors}
+            activeChat={this.state.activeChat}
+            selectChat={x => this.selectChat}
+          />
         );
+
       case "Profile":
         return (
           <Profile //add back button props when needed
