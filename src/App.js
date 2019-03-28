@@ -204,7 +204,34 @@ class App extends Component {
         );
 
       default:
-        return <Login function={() => this.selectTab("Messages")} />;
+        return (
+          <div className="App">
+            <div className="megacontainer">
+              <div className="supercontainer">
+                <div className="container">
+                  <Header
+                    backTo={this.backTo}
+                    fromPage={this.state.page}
+                    profilePage={() => this.profilePage()}
+                    searchToggle={this.state.searchToggle}
+                    openSearch={() => this.setSearchOpen()}
+                  />
+                  {this.state.searchToggle || (
+                    <TabBar
+                      activeTab={this.state.activeTab}
+                      selectTab={index => this.selectTab(index)}
+                    />
+                  )}
+                  <CardList
+                    activeChat={this.state.activeChat}
+                    changeChat={x => this.changeChat(x)}
+                    searchToggle={this.state.searchToggle}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
     }
   }
 }

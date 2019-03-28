@@ -51,7 +51,7 @@ class CardList extends Component {
    
     render () {
         return(
-            <div className="CardList">
+            <div className= {`CardList ${(this.props.searchToggle) ? 'CardList-on-top' : ''}`}>
                 {this.state.elements.map((el,index) =><Card
                 key={index} 
                 favouritesActive={this.props.favouritesActive} 

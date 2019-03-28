@@ -1,17 +1,43 @@
-input.Search-open {
+.Search input {
   text-align: left;
-  width: 90%;
+  width: 100%;
   border: none;
-  background: transparent;
+  background: #fff;
   line-height: 30px;
   font-size: 13px;
 }
 .Search {
-  justify-content: space-between;
-  flex: 1;
-}
-.Search img {
-  width: 20px;
   position: relative;
-  top:5px;
+  width: 20px;
+}
+.Search-input-open {
+  width:100%;
+}
+.Search-img {
+  width: 20px;
+  position: absolute;
+  top: 5px;
+  right: 0px;
+}
+.Search-input-shown {
+  top: 100%;
+  opacity: 1;
+  visibility: visible;
+  position: absolute;
+  right: 0;
+  background-color: rgba(255,255,255,1);
+  transition: all 0.3s ease-in-out;
+}
+.Search-input-hidden {
+  position: absolute;
+  top: calc(100% + 30px);
+  right: 0;
+  background-color: rgba(255,255,255,0.9);
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+.topsomething {
+  top: -10px;
 }

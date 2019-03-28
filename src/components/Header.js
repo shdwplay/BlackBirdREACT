@@ -8,23 +8,20 @@ import pic1 from "../assets/profile1.jpg";
 class Header extends Component {
   render() {
     return (
-      <div className="Header">
-        {!this.props.searchToggle && (
+      <div className= 'Header'>
+        <div className= {`Header-pic-and-logo ${(this.props.searchToggle) ? 'Header-hidden' : ''}`}>
           <div className="Header-profile-pic">
             <Avatar
               size="xsmall"
               imgurl={pic1}
               name="Edoardo Accivile"
-              fromPage={this.props.fromPage}
               onClick={this.props.profilePage}
             />
           </div>
-        )}
-        {!this.props.searchToggle && (
           <div className="Header-logo">
             <img src={logo} alt="BlackBird Logo" />
           </div>
-        )}
+        </div>
         <Search
           className="Header-search"
           searchToggle={this.props.searchToggle}

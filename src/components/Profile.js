@@ -21,7 +21,7 @@ class Profile extends React.Component {
         <div className="Profile-container">
           <div className="Profile-pic-and-logout-area">
             <div className="Profile-pic">
-              <Avatar size="large" name={this.props.currentUser}/>
+              <Avatar size="large" name="Edoardo Accivile"/>
             </div>
             <div className="Profile-logout-area">
               <div className="Profile-data">
