@@ -27,6 +27,7 @@ class Card extends Component {
   };
 
   dotsF(evt) {
+    evt.preventDefault();
     evt.stopPropagation();
     this.setState({ highlighted: true });
     console.log("highlight card");
@@ -47,6 +48,7 @@ class Card extends Component {
   }
 
   setHighlight(evt) {
+    evt.preventDefault();
     evt.stopPropagation();
     this.setState({
       highlighted: !this.state.highlighted

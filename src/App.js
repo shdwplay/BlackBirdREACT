@@ -14,6 +14,7 @@ import Profile from "./components/Profile";
 import Back from "./components/Back";
 import Favourites from "./components/Favourites";
 import Messages from "./components/Messages";
+import { Route, Switch } from "react-router-dom";
 
 // import pic1 from "./assets/profile_james.png";
 // import pic2 from "./assets/profile_lucille.png";
@@ -23,15 +24,15 @@ const fakeState = {
   currentUser: "antoniopellegrini",
   favouritesActive: false,
   page: "Messages",
-  activeChat: null,
+  activeChat: { collocutor: "null", status: "null", messages: [] },
   activeTab: "Messages",
   newMessage: "",
   searchToggle: false,
   currentCollocutor: null,
-  status: "away",
+  userStatus: "away",
   collocutors: [
     {
-      collocutor: "Chiara Baroni",
+      collocutor: "chiarabaroni",
       status: "online",
       favourite: true,
       silenced: false,
@@ -178,109 +179,134 @@ class App extends Component {
       : this.setState({ searchToggle: true });
   }
   render() {
-    switch (this.state.page) {
-      case "Favourites":
-        return (
-          <Favourites
-            activeTab={this.state.activeTab}
-            selectTab={index => this.selectTab(index)}
-            cardList={this.state.collocutors}
-            activeChat={this.state.activeChat}
-            selectChat={x => this.selectChat}
-          />
-        );
-
-      case "Send New":
-        return (
-          <div className="App">
-            <div className="megacontainer">
-              <div className="supercontainer">
-                <div className="container">
-                  <Header>
-                    <TabBar
-                      activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
-                    />
-                  </Header>
-                  <ContactList
-                    activeChat={this.state.activeChat}
-                    changeChat={x => this.changeChat(x)}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case "Chat":
-        return (
-          <div className="App">
-            <div className="megacontainer">
-              <HeaderChat
-                name={this.state.activeChat[0]}
-                status={this.state.activeChat[1]}
-              />
-              <Chat
-                currentUser={this.state.currentUser}
-                collocutor={this.state.activeChat[0]}
-                messageList={this.state.messageList}
-                value={this.state.newMessage}
-                newMessage={e => this.newMessage(e)}
-                saveMessage={() => this.saveMessage()}
-              />
-            </div>
-          </div>
-        );
-
-      case "Messages":
-        return (
-          <Messages
-            activeTab={this.state.activeTab}
-            selectTab={index => this.selectTab(index)}
-            cardList={this.state.collocutors}
-            activeChat={this.state.activeChat}
-            selectChat={x => this.selectChat}
-          />
-        );
-
-      case "Profile":
-        return (
-          <Profile //add back button props when needed
-            backTo={() => this.backTo("Messages")}
-          />
-        );
-
-      default:
-        return (
-          <div className="App">
-            <div className="megacontainer">
-              <div className="supercontainer">
-                <div className="container">
-                  <Header
-                    backTo={this.backTo}
-                    fromPage={this.state.page}
-                    profilePage={() => this.profilePage()}
-                    searchToggle={this.state.searchToggle}
-                    openSearch={() => this.setSearchOpen()}
-                  />
-                  {this.state.searchToggle || (
-                    <TabBar
-                      activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
-                    />
-                  )}
-                  <CardList
-                    activeChat={this.state.activeChat}
-                    changeChat={x => this.changeChat(x)}
-                    searchToggle={this.state.searchToggle}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-    }
+    return (
+      <Switch>
+        <Route exact path="/" render={() => <Login />} />
+        <Route
+          path="/messages"
+          render={() => (
+            <Messages
+              activeTab={this.state.activeTab}
+              selectTab={index => this.selectTab(index)}
+              cardList={this.state.collocutors}
+              activeChat={this.state.activeChat}
+              selectChat={x => this.selectChat(x)}
+              searchString={this.state.searchSting}
+            />
+          )}
+        />
+        <Route
+          path="/favourites"
+          render={() => (
+            <Favourites
+              activeTab={this.state.activeTab}
+              selectTab={index => this.selectTab(index)}
+              cardList={this.state.collocutors}
+              activeChat={this.state.activeChat}
+              selectChat={x => this.selectChat(x)}
+              searchString={this.state.searchSting}
+            />
+          )}
+        />
+        {/* <Route path="/send-new" render={()=><SendNew} /> */}
+        <Route
+          path="/profile"
+          render={() => <Profile currentUser={this.state.currentUser} />}
+        />
+        <Route
+          path="/chat"
+          render={() => (
+            <Chat
+              currentUser={this.state.currentUser}
+              collocutor={this.state.activeChat.collocutor}
+              messageList={this.state.activeChat.messages}
+              value={this.state.newMessage}
+              newMessage={e => this.newMessage(e)}
+              saveMessage={() => this.saveMessage()}
+            />
+          )}
+        />
+      </Switch>
+    );
   }
+  // {
+  //   switch (this.state.page) {
+  //     case "Favourites":
+  //       return (
+  //         <Favourites
+  //           activeTab={this.state.activeTab}
+  //           selectTab={index => this.selectTab(index)}
+  //           cardList={this.state.collocutors}
+  //           activeChat={this.state.activeChat}
+  //           selectChat={x => this.selectChat}
+  //         />
+  //       );
+
+  //     case "Send New":
+  //       return (
+  //         <div className="App">
+  //           <div className="megacontainer">
+  //             <div className="supercontainer">
+  //               <div className="container">
+  //                 <Header>
+  //                   <TabBar
+  //                     activeTab={this.state.activeTab}
+  //                     selectTab={index => this.selectTab(index)}
+  //                   />
+  //                 </Header>
+  //                 <ContactList
+  //                   activeChat={this.state.activeChat}
+  //                   changeChat={x => this.changeChat(x)}
+  //                 />
+  //               </div>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       );
+
+  //     case "Chat":
+  //       return (
+  //         <div className="App">
+  //           <div className="megacontainer">
+  //             <HeaderChat
+  //               name={this.state.activeChat[0]}
+  //               status={this.state.activeChat[1]}
+  //             />
+  //             <Chat
+  // currentUser={this.state.currentUser}
+  // collocutor={this.state.activeChat[0]}
+  // messageList={this.state.messageList}
+  // value={this.state.newMessage}
+  // newMessage={e => this.newMessage(e)}
+  // saveMessage={() => this.saveMessage()}
+  //             />
+  //           </div>
+  //         </div>
+  //       );
+
+  //     case "Messages":
+  //       return (
+  //         <Messages
+  // activeTab={this.state.activeTab}
+  // selectTab={index => this.selectTab(index)}
+  // cardList={this.state.collocutors}
+  // activeChat={this.state.activeChat}
+  // selectChat={x => this.selectChat}
+  // searchString={this.state.searchSting}
+  //         />
+  //       );
+
+  //     case "Profile":
+  //       return (
+  //         <Profile //add back button props when needed
+  //           backTo={() => this.backTo("Messages")}
+  //         />
+  //       );
+
+  //     default:
+  //       return <Login function={() => this.selectTab("Messages")} />;
+  //   }
+  //}
 }
 
 export default App;
