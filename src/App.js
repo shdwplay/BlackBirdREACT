@@ -12,6 +12,8 @@ import TabBar from "./components/TabBar";
 import ContactList from "./components/ContactList";
 import Profile from "./components/Profile";
 import Back from "./components/Back";
+import Favourites from "./components/Favourites";
+import Messages from "./components/Messages";
 let messages = [
   {
     sender: "antoniopellegrini",
@@ -83,10 +85,10 @@ class App extends Component {
     });
     console.log(messages);
   }
-  changeChat(pageNumber) {
+  selectChat(clickedCard) {
     this.setState({
       page: "Chat",
-      activeChat: pageNumber
+      activeChat: clickedCard
     });
   }
 
@@ -101,31 +103,7 @@ class App extends Component {
   render() {
     switch (this.state.page) {
       case "Favourites":
-        return (
-          <div className="App">
-            <div className="megacontainer">
-              <div className="supercontainer">
-                <div className="container">
-                  <Header
-                    searchToggle={this.state.searchToggle}
-                    openSearch={() => this.setSearchOpen()}
-                  />
-                  {this.state.searchToggle || (
-                    <TabBar
-                      activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
-                    />
-                  )}
-                  <CardList
-                    favouritesActive={!this.state.favouritesActive}
-                    activeChat={this.state.activeChat}
-                    changeChat={x => this.changeChat(x)}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        return <Favourites />;
 
       case "Send New":
         return (
@@ -133,11 +111,12 @@ class App extends Component {
             <div className="megacontainer">
               <div className="supercontainer">
                 <div className="container">
-                  <Header />
-                  <TabBar
-                    activeTab={this.state.activeTab}
-                    selectTab={index => this.selectTab(index)}
-                  />
+                  <Header>
+                    <TabBar
+                      activeTab={this.state.activeTab}
+                      selectTab={index => this.selectTab(index)}
+                    />
+                  </Header>
                   <ContactList
                     activeChat={this.state.activeChat}
                     changeChat={x => this.changeChat(x)}
@@ -169,33 +148,8 @@ class App extends Component {
         );
 
       case "Messages":
-        return (
-          <div className="App">
-            <div className="megacontainer">
-              <div className="supercontainer">
-                <div className="container">
-                  <Header
-                    backTo={this.backTo}
-                    fromPage={this.state.page}
-                    profilePage={() => this.profilePage()}
-                    searchToggle={this.state.searchToggle}
-                    openSearch={() => this.setSearchOpen()}
-                  />
-                  {this.state.searchToggle || (
-                    <TabBar
-                      activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
-                    />
-                  )}
-                  <CardList
-                    activeChat={this.state.activeChat}
-                    changeChat={x => this.changeChat(x)}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        return <Messages />;
+
       case "Profile":
         return (
           <Profile //add back button props when needed

@@ -15,7 +15,6 @@ class Header extends Component {
               size="xsmall"
               imgurl={pic1}
               name="Edoardo Accivile"
-              fromPage={this.props.fromPage}
               onClick={this.props.profilePage}
             />
           </div>
@@ -30,6 +29,7 @@ class Header extends Component {
           searchToggle={this.props.searchToggle}
           openSearch={this.props.openSearch}
         />
+        {this.props.children}
       </div>
     );
   }
