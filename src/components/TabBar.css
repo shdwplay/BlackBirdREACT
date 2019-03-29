@@ -16,6 +16,11 @@
   color: var(--dark-grey);
 }
 
+.selectedTabBar {
+  color: red;
+  
+}
+
 .TabBar > a,
 .TabBar > div {
   opacity: 1;

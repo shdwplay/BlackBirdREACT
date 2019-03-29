@@ -1,5 +1,7 @@
 import React from "react";
 import "./TabBar.css";
+import { NavLink } from "react-router-dom";
+
 import favouritesIcon from "../assets/favourites.svg";
 import messagesIcon from "../assets/messages.svg";
 import sendNewIcon from "../assets/new_chat.svg";
@@ -31,22 +33,46 @@ export default class TabBar extends React.Component {
       <div
         className={`TabBar ${this.props.searchToggle ? "TabBar-hidden" : ""}`}
       >
-        {this.state.options.map((el, index) => {
-          if (el.text === this.props.activeTab)
-            return (
-              <img
-                className="TabBar-Icon"
-                key={index}
-                src={el.icon}
-                alt={el.text}
-              />
-            );
-          return (
-            <span onClick={() => this.props.selectTab(el.text)} key={index}>
-              {el.text}
-            </span>
-          );
-        })}
+        <NavLink
+          to="/favourites"
+          activeStyle={{
+            fontWeight: "bold",
+            color: "red"
+          }}
+        >
+          <img
+            className="TabBar-Icon"
+            alt="go to favourites"
+            src={favouritesIcon}
+          />
+          <span onClick={() => this.props.selectTab("Favourites")}>
+            Favourites
+          </span>
+        </NavLink>
+        <NavLink
+          to="/messages"
+          activeStyle={{
+            fontWeight: "bold",
+            color: "red"
+          }}
+        >
+          <img
+            className="TabBar-Icon"
+            alt="go to messages"
+            src={messagesIcon}
+          />
+          <span onClick={() => this.props.selectTab("Messages")}>Messages</span>
+        </NavLink>
+        <NavLink
+          to="/sendnew"
+          activeStyle={{
+            fontWeight: "bold",
+            color: "red"
+          }}
+        >
+          <img className="TabBar-Icon" alt="go to send new" src={sendNewIcon} />
+          <span onClick={() => this.props.selectTab("Send New")}>Send New</span>
+        </NavLink>
       </div>
     );
   }

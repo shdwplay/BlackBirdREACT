@@ -310,7 +310,7 @@ class App extends Component {
           )}
         />
         <Route
-          path="/send-new"
+          path="/sendnew"
           render={() => (
             <SendNew
               name={this.state.name}
