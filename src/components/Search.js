@@ -19,9 +19,6 @@ class Search extends Component {
           }
           value={this.props.string}
           type="text"
-          onChange={e =>
-            this.props.setQueryString(e.target.value.toLowerCase())
-          }
           placeholder="Start typing.."
         />
         {this.props.searchToggle ? (
