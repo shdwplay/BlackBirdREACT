@@ -11,14 +11,14 @@
   text-transform: uppercase;
   color: #fff;
   text-align: center;
-  width: 50%;
+  width: 70%;
   margin-right: auto;
   margin-left: auto;
   margin-top: 20px;
   background-size: 100%;
   background-position: 0px 650px;
+  font-size: 21px;
 }
-
 
 .filled {
   background-image: url(../assets/bg-orange.svg);
