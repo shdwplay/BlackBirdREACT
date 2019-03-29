@@ -9,107 +9,85 @@ import HighlightedCard from "./HighlightedCard";
 
 import { showNotifications } from "../utils";
 
-const getUnread = num => {
-  if (num === 0) return "Card Card-inactive";
-  else return "Card Card-active";
-};
+import { getUnread } from "../utils";
+import { getActive } from "../utils";
+import { dotsOnClick } from "../utils";
 
-const getActive = bool => {
-  if (bool) return "Card-selected";
-  else return null;
-};
+const Card = props => {
+  // setFavourite(evt) {
+  //   evt.stopPropagation();
+  //   setState({
+  //     favourite: !state.favourite
+  //   });
+  // }
 
-class Card extends Component {
-  state = {
-    highlighted: false,
-    favourite: this.props.data.favourite,
-    silenced: this.props.data.silenced
-  };
+  // setSilenced(evt) {
+  //   evt.stopPropagation();
+  //   setState({
+  //     silenced: !state.silenced
+  //   });
+  // }
 
-  dotsF(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.setState({ highlighted: true });
-    console.log("highlight card");
-  }
+  // setHighlight(evt) {
+  //   evt.preventDefault();
+  //   evt.stopPropagation();
+  //   setState({
+  //     highlighted: !state.highlighted
+  //   });
+  // }
 
-  setFavourite(evt) {
-    evt.stopPropagation();
-    this.setState({
-      favourite: !this.state.favourite
-    });
-  }
-
-  setSilenced(evt) {
-    evt.stopPropagation();
-    this.setState({
-      silenced: !this.state.silenced
-    });
-  }
-
-  setHighlight(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.setState({
-      highlighted: !this.state.highlighted
-    });
-  }
-
-  render() {
-    return (
-      <div
-        onClick={this.props.onClick}
-        className={
-          getUnread(this.props.data.numUnread) +
-          " " +
-          getActive(this.props.isActive)
-        }
-      >
-        {showNotifications(this.props.data.numUnread, this.props.data.silenced)}
-        <div className="Card-Avatar">
-          <Avatar
-            name={this.props.data.name}
-            imgurl={this.props.data.image}
-            size="small"
-            onClick={() => console.log("for use in profile")}
-          />
-        </div>
-        <div className="Card-message-text">
-          <div
-            className="Card-username"
-            dangerouslySetInnerHTML={{
-              __html: this.props.displayName
-            }}
-          />
-          <div className="Card-text-preview">
-            {this.props.data.lastMessage.text}
-          </div>
-        </div>
-        <MessageDate
-          context="MessageDate"
-          date={this.props.data.lastMessage.date}
+  return (
+    <div
+      onClick={props.onClick}
+      className={
+        getUnread(props.data.numUnread) + " " + getActive(props.isActive)
+      }
+    >
+      {showNotifications(props.data.numUnread, props.data.silenced)}
+      <div className="Card-Avatar">
+        <Avatar
+          name={props.data.name}
+          imgurl={props.data.image}
+          size="small"
+          onClick={() => console.log("for use in profile")}
         />
-        <div className="Card-dots-area">
-          <img
-            alt="dots"
-            className="Card-dots"
-            onClick={evt => this.dotsF(evt)}
-            src={dots}
-          />
-        </div>
-        {this.state.highlighted ? (
-          <HighlightedCard
-            favourite={this.state.favourite}
-            silence={this.state.silenced}
-            fav={evt => this.setFavourite(evt)}
-            sil={evt => this.setSilenced(evt)}
-            high={evt => this.setHighlight(evt)}
-          />
-        ) : null}
       </div>
-    );
-  }
-}
+      <div className="Card-message-text">
+        <div
+          className="Card-username"
+          dangerouslySetInnerHTML={{
+            __html: props.displayName
+          }}
+        />
+        <div className="Card-text-preview">{props.data.lastMessage.text}</div>
+      </div>
+      <MessageDate context="MessageDate" date={props.data.lastMessage.date} />
+      <div className="Card-dots-area">
+        <img
+          alt="dots"
+          className="Card-dots"
+          onClick={evt =>
+            dotsOnClick(evt, () => props.setHighlightedCard(props.cardNumber))
+          }
+          src={dots}
+        />
+      </div>
+      {props.highlightedCard === props.cardNumber ? (
+        <HighlightedCard
+          // favourite={state.favourite}
+          // silence={state.silenced}
+          // fav={evt => setFavourite(evt)}
+          // sil={evt => setSilenced(evt)}
+          closeHighlightedCard={evt => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            props.setHighlightedCard(null);
+          }}
+        />
+      ) : null}
+    </div>
+  );
+};
 
 export default Card;
 

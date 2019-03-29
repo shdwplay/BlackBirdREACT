@@ -3,47 +3,37 @@ import searchIcon from "../assets/search.svg";
 import icsIcon from "../assets/ics.svg";
 import "./Search.css";
 
-class Search extends Component {
-  render() {
-    return (
-      <div
+const Search = props => {
+  return (
+    <div className={props.searchToggle ? "Search Search-input-open" : "Search"}>
+      <input
         className={
-          this.props.searchToggle ? "Search Search-input-open" : "Search"
+          props.searchToggle ? "Search-input-shown" : "Search-input-hidden"
         }
-      >
-        <input
-          className={
-            this.props.searchToggle
-              ? "Search-input-shown"
-              : "Search-input-hidden"
-          }
-          value={this.props.string}
-          type="text"
-          onChange={e =>
-            this.props.setQueryString(e.target.value.toLowerCase())
-          }
-          placeholder="Start typing.."
+        value={props.querystr}
+        type="text"
+        onChange={e => props.setQueryString(e.target.value.toLowerCase())}
+        placeholder="Start typing.."
+      />
+      {props.searchToggle ? (
+        <img
+          className="Search-img"
+          src={icsIcon}
+          alt="close"
+          onClick={props.openSearch}
         />
-        {this.props.searchToggle ? (
-          <img
-            className="Search-img"
-            src={icsIcon}
-            alt="close"
-            onClick={this.props.openSearch}
-          />
-        ) : (
-          <img
-            className="Search-img topsomething"
-            src={searchIcon}
-            alt="search"
-            onClick={this.props.openSearch}
-          />
-        )}
-      </div>
-    );
-  }
-}
+      ) : (
+        <img
+          className="Search-img topsomething"
+          src={searchIcon}
+          alt="search"
+          onClick={props.openSearch}
+        />
+      )}
+    </div>
+  );
+};
 
 export default Search;
 
-//className= {(this.props.searchToggle) ? 'Search Search-shown' : 'Search Search-hidden'}
+//className= {(props.searchToggle) ? 'Search Search-shown' : 'Search Search-hidden'}

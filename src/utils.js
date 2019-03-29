@@ -3,6 +3,7 @@ import React from "react";
 //for show notifications
 import notificationsOn from "./assets/notifica_orange-20.svg";
 import notificationsOff from "./assets/notifica_grey-20.svg";
+import moment from "moment";
 
 export function search(str, arr) {
   if (!str) {
@@ -34,3 +35,36 @@ const showNotifications = (num, silent) => {
   }
 };
 export { showNotifications };
+
+const getCapitals = string => {
+  let name = string.split(" "); //.map s => s.charAt(0).toUpperCase()
+  return name[0][0] + name[name.length - 1][0];
+};
+export { getCapitals };
+
+const detectDate = date => {
+  date = moment.unix(date);
+  let diff = moment().diff(date, "days");
+  return diff;
+};
+export { detectDate };
+
+const getUnread = num => {
+  if (num === 0) return "Card Card-inactive";
+  else return "Card Card-active";
+};
+export { getUnread };
+
+const getActive = bool => {
+  if (bool) return "Card-selected";
+  else return null;
+};
+export { getActive };
+
+const dotsOnClick = (evt, callback) => {
+  evt.preventDefault();
+  evt.stopPropagation();
+  console.log("clicked");
+  callback();
+};
+export { dotsOnClick };

@@ -28,15 +28,6 @@ class App extends Component {
     }, 2000);
   }
 
-  // componentDidUpdate() {
-  //   if (this.state.searchToggle) {
-  //     this.searchFilter();
-  //   }
-  // }
-
-  // el.replace(reg, t => {
-  //   return "<b>" + t + "</b>";
-
   searchFilter() {
     var reg = new RegExp(this.state.querystr, "gi");
     let filtered = this.state.collocutors.filter(el =>
@@ -95,7 +86,7 @@ class App extends Component {
   setSearchOpen() {
     this.state.searchToggle
       ? this.setState({ searchToggle: false, querystr: "" })
-      : this.setState({ searchToggle: true });
+      : this.setState({ searchToggle: true, querystr: "" });
   }
   render() {
     return (
@@ -105,6 +96,8 @@ class App extends Component {
           path="/messages"
           render={() => (
             <Messages
+              setHighlightedCard={x => this.setState({ highlightedCard: x })}
+              highlightedCard={this.state.highlightedCard}
               name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
@@ -118,6 +111,7 @@ class App extends Component {
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
               setQueryString={x => this.setQueryString(x)}
+              querystr={this.state.querystr}
               searchToggle={this.state.searchToggle}
               openSearch={() => this.setSearchOpen()}
             />
