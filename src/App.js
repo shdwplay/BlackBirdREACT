@@ -79,7 +79,7 @@ class App extends Component {
       <Switch>
         {/* <Route exact path="/" render={() => <Login />} /> */}
         <Route
-          path="/messages"
+          exact path="/messages"
           render={() => (
             <Messages
               name={this.state.name}
@@ -128,7 +128,7 @@ class App extends Component {
           render={() => <Profile currentUser={this.state.currentUser} />}
         />
         <Route
-          path="/chat"
+          path="/messages/"
           render={() => (
             <Chat
               activeChat={this.state.activeChat}

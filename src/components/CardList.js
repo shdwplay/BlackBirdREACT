@@ -14,7 +14,7 @@ class CardList extends Component {
         }`}
       >
         {this.props.cardList.map((el, index) => (
-          <Link to={"/chat/" + el.id}>
+          <Link to={"/messages/" + el.id}>
             <Card
               key={index}
               onClick={() => {
