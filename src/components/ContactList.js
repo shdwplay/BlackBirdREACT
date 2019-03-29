@@ -8,19 +8,19 @@ export default class ContactList extends React.Component {
     return (
       <div className="ContactList">
         {this.props.contactList.map((el, index) => (
-        <Link to={"/chat/" + el.id}>
-          <Contact
-            key={index}
-            data={el}
-            onClick={() => {
-              this.props.selectChat({
-                collocutor: el.name,
-                status: el.status,
-                messages: el.messages
-              });
-            }}
-          />
-        </Link>
+          <Link key={index} to={"/chat/" + el.id}>
+            <Contact
+              key={index}
+              data={el}
+              onClick={() => {
+                this.props.selectChat({
+                  collocutor: el.name,
+                  status: el.status,
+                  messages: el.messages
+                });
+              }}
+            />
+          </Link>
         ))}
       </div>
     );

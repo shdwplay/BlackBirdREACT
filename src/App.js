@@ -4,7 +4,7 @@ import HeaderChat from "./components/HeaderChat";
 import Header from "./components/Header";
 import Chat from "./components/Chat";
 import packageImg from "./assets/package.jpg";
-import SendNew from "./components/SendNew"
+import SendNew from "./components/SendNew";
 
 import "./App.css";
 
@@ -23,7 +23,7 @@ import { Route, Switch } from "react-router-dom";
 
 const fakeState = {
   currentUser: "antoniopellegrini",
-  name: 'Antonio Pellegrini',
+  name: "Antonio Pellegrini",
   favouritesActive: false,
   page: "Messages",
   activeChat: { collocutor: "null", status: "null", messages: [] },
@@ -137,46 +137,46 @@ const fakeState = {
   ],
   contacts: [
     {
-      id: 'alessandraderossi',
-      image: '/images/profile_alessandra.jpg',
+      id: "alessandraderossi",
+      image: "/images/profile_alessandra.jpg",
       name: "Alessandra De Rossi",
       status: "away",
-      messages: [],
+      messages: []
     },
     {
-      id: 'angelastewart',
-      image: '/images/profile_angela.png',
+      id: "angelastewart",
+      image: "/images/profile_angela.png",
       name: "Angela Stewart",
       status: "away",
-      messages: [],
+      messages: []
     },
     {
-      id: 'jamesmcaville',
-      image: '/images/profile_james.png',
+      id: "jamesmcaville",
+      image: "/images/profile_james.png",
       name: "James McAville",
       status: "away",
-      messages: [],
+      messages: []
     },
     {
-      id: 'lucilledavis',
-      image: '/images/profile_lucille.png',
+      id: "lucilledavis",
+      image: "/images/profile_lucille.png",
       name: "Lucille Davis",
       status: "away",
-      messages: [],
+      messages: []
     },
     {
-      id: 'francisscott',
-      image: '/images/profile_francis.jpg',
+      id: "francisscott",
+      image: "/images/profile_francis.jpg",
       name: "Francis Scott",
       status: "away",
-      messages: [],
+      messages: []
     },
     {
-      id: 'robertevans',
-      image: '/images/profile_robert.jpg',
+      id: "robertevans",
+      image: "/images/profile_robert.jpg",
       name: "Robert Evans",
       status: "away",
-      messages: [],
+      messages: []
     }
   ],
   userInfo: {
