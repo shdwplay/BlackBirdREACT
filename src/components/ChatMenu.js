@@ -1,27 +1,26 @@
 import React, { Component } from "react";
-import "./ChatMenu.css";
 import threeDotsIcon from "../assets/threedots.svg";
 import closeIcon from "../assets/ics.svg";
-
+import "./ChatMenu.css";
 
 class MenuChat extends Component {
     constructor(props) {
         super(props);
         this.state = {
             show: false,
-        };
-    }
+        }
+    };
 
     toggleShow() {
         this.setState({
             show: !this.state.show,
         })
-    }
+    };
 
     render() {
-        if (this.state.show === false) {
+        if (!this.state.show) {
             return (
-                <div className="">
+                <div className="more">
                     <img
                         className="open-icon" 
                         src={threeDotsIcon}
@@ -32,26 +31,45 @@ class MenuChat extends Component {
             )
         }
         return (
-            <div>
-                <div className="">
-                    <img
-                        className="close-icon" 
-                        src={closeIcon}
-                        alt="close"
-                        onClick={() => this.toggleShow()}
-                    />
-                </div>
-                <div className="">
-                    <ul className="menu">
-                        <li>Add Favorite</li>
-                        <li>Mute</li>
-                        <li>Search</li>
-                        <li>Delete conversation</li>
-                    </ul>
+            <div className="more">
+                <img
+                    className="close-icon" 
+                    src={closeIcon}
+                    alt="close"
+                    onClick={() => this.toggleShow()}
+                />
+                <div className="menu">
+                    <div
+                        className="option"
+                        onClick={() => console.log('Add Favorites')}>
+                        Add Favorite
+                    </div>
+                    <div
+                        className="option"
+                        onClick={() => console.log('Mute')}>
+                        Mute
+                    </div>
+                    <div
+                        className="option"
+                        onClick={() => console.log('Search')}>
+                        Search
+                    </div>
+                    <div
+                        className="option"
+                        onClick={() => console.log('Delete Conversation')}>
+                        Delete Conversation
+                    </div>
                 </div>
             </div>
         )
-    }
-}
+    };
+};
 
 export default MenuChat;
+
+{/* <ul className="menu">
+    <li onClick={() => console.log('Add Favorites')}>Add Favorite</li>
+    <li onClick={() => console.log('Mute')}>Mute</li>
+    <li onClick={() => console.log('Search')}>Search</li>
+    <li onClick={() => console.log('Delete Conversation')}>Delete conversation</li>
+</ul> */}
