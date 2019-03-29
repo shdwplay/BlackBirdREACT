@@ -16,9 +16,7 @@ class CardList extends Component {
         {this.props.cardList.map((el, index) => (
           <Link to={"/chat/" + el.id}>
             <Card
-              displayName={this.props.displayNames[index]}
               key={index}
-              //isActive={this.props.activeChat === index}
               onClick={() => {
                 this.props.selectChat({
                   collocutor: el.name,

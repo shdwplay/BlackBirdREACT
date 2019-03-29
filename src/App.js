@@ -28,32 +28,6 @@ class App extends Component {
     }, 2000);
   }
 
-  // componentDidUpdate() {
-  //   if (this.state.searchToggle) {
-  //     this.searchFilter();
-  //   }
-  // }
-
-  // el.replace(reg, t => {
-  //   return "<b>" + t + "</b>";
-
-  searchFilter() {
-    var reg = new RegExp(this.state.querystr, "gi");
-    let filtered = this.state.collocutors.filter(el =>
-      el.name.toLowerCase().includes(this.state.querystr)
-    );
-    let display = filtered.map(el =>
-      el.name.replace(
-        reg,
-        str => "<b style='background:#fc0fc0'>" + str + "</b>"
-      )
-    );
-    return [filtered, display];
-  }
-  setQueryString(str) {
-    this.setState({ querystr: str });
-  }
-
   selectTab(el) {
     this.setState({
       activeTab: el,
@@ -109,15 +83,9 @@ class App extends Component {
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
               favouritesActive={this.state.favouritesActive}
-              cardList={
-                this.state.searchToggle
-                  ? this.searchFilter()[0]
-                  : this.state.collocutors
-              }
-              displayNames={this.searchFilter()[1]}
+              cardList={this.state.collocutors}
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
-              setQueryString={x => this.setQueryString(x)}
               searchToggle={this.state.searchToggle}
               openSearch={() => this.setSearchOpen()}
             />
