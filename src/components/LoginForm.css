@@ -1,0 +1,58 @@
+.Login-form-item {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.Login-label {
+  width: 100%;
+  display: block;
+  margin-bottom: 5px;
+}
+.Login-input-email {
+  width: 100%;
+  display: block;
+  margin-bottom: 5px;
+}
+.Login-form-control {
+  width: 300px;
+  font-size: 18px;
+  font-family: Sarabun;
+  border: 0.5px solid var(--light-grey);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.Login-form-check {
+  padding: 16px 0 5px 0;
+  text-align: center;
+}
+
+.Login-form-check .Login-label {
+  display: inline;
+  width: auto;
+}
+.Login-form-forgot {
+  text-align: center;
+}
+
+.Login-link {
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--link);
+  padding: 10px;
+}
+
+.Login-button {
+  padding: 8.5px 0px;
+  background-image: url(../assets/bg-orange.svg);
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 20px;
+  background-size: 100%;
+  background-position: 0px 650px;
+}
