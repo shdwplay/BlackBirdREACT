@@ -10,6 +10,11 @@
 body {
     margin:0;
 }
+
+a {
+    color: var(--dark-grey);
+}
+
 *:focus {
     outline: none;
 }

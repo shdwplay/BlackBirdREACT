@@ -1,7 +1,6 @@
 import React from "react";
 import "./TabBar.css";
 import { NavLink } from "react-router-dom";
-
 import favouritesIcon from "../assets/favourites.svg";
 import messagesIcon from "../assets/messages.svg";
 import sendNewIcon from "../assets/new_chat.svg";
@@ -9,37 +8,10 @@ import sendNewIcon from "../assets/new_chat.svg";
 import PropTypes from "prop-types";
 
 export default class TabBar extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      options: [
-        {
-          text: "Favourites",
-          icon: favouritesIcon
-        },
-        {
-          text: "Messages",
-          icon: messagesIcon
-        },
-        {
-          text: "Send New",
-          icon: sendNewIcon
-        }
-      ]
-    };
-  }
   render() {
     return (
-      <div
-        className={`TabBar ${this.props.searchToggle ? "TabBar-hidden" : ""}`}
-      >
-        <NavLink
-          to="/favourites"
-          activeStyle={{
-            fontWeight: "bold",
-            color: "red"
-          }}
-        >
+      <div className={`TabBar ${this.props.searchToggle ? "TabBar-hidden" : ""}`}>
+        <NavLink to="/favourites">
           <img
             className="TabBar-Icon"
             alt="go to favourites"
@@ -49,13 +21,7 @@ export default class TabBar extends React.Component {
             Favourites
           </span>
         </NavLink>
-        <NavLink
-          to="/messages"
-          activeStyle={{
-            fontWeight: "bold",
-            color: "red"
-          }}
-        >
+        <NavLink to="/messages">
           <img
             className="TabBar-Icon"
             alt="go to messages"
@@ -63,13 +29,7 @@ export default class TabBar extends React.Component {
           />
           <span onClick={() => this.props.selectTab("Messages")}>Messages</span>
         </NavLink>
-        <NavLink
-          to="/sendnew"
-          activeStyle={{
-            fontWeight: "bold",
-            color: "red"
-          }}
-        >
+        <NavLink to="/sendnew">
           <img className="TabBar-Icon" alt="go to send new" src={sendNewIcon} />
           <span onClick={() => this.props.selectTab("Send New")}>Send New</span>
         </NavLink>
@@ -78,4 +38,7 @@ export default class TabBar extends React.Component {
   }
 }
 
-TabBar.propTypes = {};
+TabBar.propTypes = {
+  selectTab: PropTypes.func,
+  searchToggle: PropTypes.bool
+};
