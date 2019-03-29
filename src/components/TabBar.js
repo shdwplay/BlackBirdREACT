@@ -17,7 +17,7 @@ export default class TabBar extends React.Component {
             alt="go to favourites"
             src={favouritesIcon}
           />
-          <span onClick={() => this.props.selectTab("Favourites")}>
+          <span>
             Favourites
           </span>
         </NavLink>
@@ -27,11 +27,11 @@ export default class TabBar extends React.Component {
             alt="go to messages"
             src={messagesIcon}
           />
-          <span onClick={() => this.props.selectTab("Messages")}>Messages</span>
+          <span>Messages</span>
         </NavLink>
         <NavLink to="/sendnew">
           <img className="TabBar-Icon" alt="go to send new" src={sendNewIcon} />
-          <span onClick={() => this.props.selectTab("Send New")}>Send New</span>
+          <span>Send New</span>
         </NavLink>
       </div>
     );
@@ -39,6 +39,5 @@ export default class TabBar extends React.Component {
 }
 
 TabBar.propTypes = {
-  selectTab: PropTypes.func,
-  searchToggle: PropTypes.bool
+  searchToggle: PropTypes.bool.isRequired
 };
