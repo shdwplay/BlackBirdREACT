@@ -1,76 +1,57 @@
 import React, { Component } from "react";
-import { search } from "../utils";
-import "./MenuChat.css";
-import Search from "./Search";
+import "./ChatMenu.css";
 import threeDotsIcon from "../assets/threedots.svg";
+import closeIcon from "../assets/ics.svg";
 
 
 class MenuChat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: true,
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            show: false,
+        };
+    }
 
-  toggleShow() {
-      this.setState({
-          show: !show,
-      })
-  }
+    toggleShow() {
+        this.setState({
+            show: !this.state.show,
+        })
+    }
 
-  render() {
-      if (this.state.show === false) {
+    render() {
+        if (this.state.show === false) {
+            return (
+                <div className="">
+                    <img
+                        className="open-icon" 
+                        src={threeDotsIcon}
+                        alt="more"
+                        onClick={() => this.toggleShow()}
+                    />
+                </div>
+            )
+        }
         return (
-            <div className="">
-                <img
-                    className="" 
-                    src={threeDotsIcon}
-                    alt="menu"
-                    onClick={() => toggleShow()}
-                />
+            <div>
+                <div className="">
+                    <img
+                        className="close-icon" 
+                        src={closeIcon}
+                        alt="close"
+                        onClick={() => this.toggleShow()}
+                    />
+                </div>
+                <div className="">
+                    <ul className="menu">
+                        <li>Add Favorite</li>
+                        <li>Mute</li>
+                        <li>Search</li>
+                        <li>Delete conversation</li>
+                    </ul>
+                </div>
             </div>
         )
-      }
-      return (
-          <div className="">
-              <ul>
-                  <li></li>
-                  <li></li>
-                  <li></li>
-                  <li></li>
-              </ul>
-          </div>
-      )
-  }
-
-//   searchFunction(e) {
-//     this.setState({
-//       string: e.target.value
-//     });
-//     this.setState({
-//       results: search(e.target.value)
-//     });
-//   }
-
-//   render() {
-//     return (
-//       <div className="headerchat">
-//         {!this.state.toggleOpen && (
-//           <div className="user">
-//             <div className="name">{this.props.name}</div>
-//             <div className="status">{this.props.status}</div>
-//           </div>
-//         )}
-//         <Search
-//           searchToggle={this.props.searchToggle}
-//           string={this.state.string}
-//           onChange={e => this.searchFunction(e)}
-//           openSearch={() => this.props.setSearchOpen()}
-//         />
-//       </div>
-//     );
-//   }
-// }
+    }
+}
 
 export default MenuChat;

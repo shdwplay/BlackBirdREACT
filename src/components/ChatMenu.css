@@ -1,0 +1,31 @@
+.open-icon {
+    width: 20px;
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    z-index: 0;
+}
+
+.menu {
+    position: absolute;
+    top: 60px;
+    right: 0px;
+    text-align: left;
+    border: none;
+    background: white;
+    line-height: 30px;
+    font-size: 15px;
+    z-index: 1;
+}
+.close-icon {
+    width: 20px;
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    z-index: 2;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
