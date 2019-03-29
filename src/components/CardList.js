@@ -8,10 +8,15 @@ import { Link } from "react-router-dom";
 class CardList extends Component {
   render() {
     return (
-      <div className= {`CardList ${(this.props.searchToggle) ? 'CardList-on-top' : ''}`}>
+      <div
+        className={`CardList ${
+          this.props.searchToggle ? "CardList-on-top" : ""
+        }`}
+      >
         {this.props.cardList.map((el, index) => (
           <Link to={"/chat/" + el.id}>
             <Card
+              displayName={this.props.displayNames[index]}
               key={index}
               //isActive={this.props.activeChat === index}
               onClick={() => {

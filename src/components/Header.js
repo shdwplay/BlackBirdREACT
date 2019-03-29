@@ -28,6 +28,7 @@ class Header extends Component {
           className="Header-search"
           searchToggle={this.props.searchToggle}
           openSearch={this.props.openSearch}
+          setQueryString={this.props.setQueryString}
         />
         {this.props.children}
       </div>

@@ -30,12 +30,14 @@ const fakeState = {
   activeTab: "Messages",
   newMessage: "",
   searchToggle: false,
+  querystr: "",
   currentCollocutor: null,
   userStatus: "away",
   collocutors: [
     {
       id: "chiarabaroni",
-      name: 'Chiara Baroni',
+      name: "Chiara Baroni",
+      displayName: "*TEST*",
       status: "online",
       favourite: true,
       silenced: false,
@@ -78,7 +80,8 @@ const fakeState = {
     },
     {
       id: "edoardoaccivile",
-      name: 'Edoardo Accivile',
+      name: "Edoardo Accivile",
+      displayName: "*TEST*",
       status: "online",
       favourite: true,
       silenced: true,
@@ -99,7 +102,8 @@ const fakeState = {
     },
     {
       id: "lorenzoiacobucci",
-      name: 'Lorenzo Iacobucci',
+      name: "Lorenzo Iacobucci",
+      displayName: "*TEST*",
       status: "away",
       favourite: true,
       silenced: false,
@@ -182,8 +186,46 @@ const fakeState = {
   }
 };
 
+// const searchFilter = (arr, str) => {
+//   var reg = new RegExp(str, "gi");
+//   let filtered = arr.map(el => {
+//     let textHighlight = el.replace(reg, t => {
+//       return "<b>" + t + "</b>";
+//     });
+//     return textHighlight;
+//   });
+//   return filtered;
+// };
+
 class App extends Component {
   state = fakeState;
+
+  // componentDidUpdate() {
+  //   if (this.state.searchToggle) {
+  //     this.searchFilter();
+  //   }
+  // }
+
+  // el.replace(reg, t => {
+  //   return "<b>" + t + "</b>";
+
+  searchFilter() {
+    var reg = new RegExp(this.state.querystr, "gi");
+    let filtered = this.state.collocutors.filter(el =>
+      el.name.toLowerCase().includes(this.state.querystr)
+    );
+    let display = filtered.map(el =>
+      el.name.replace(
+        reg,
+        str => "<b style='background:#fc0fc0'>" + str + "</b>"
+      )
+    );
+    return [filtered, display];
+  }
+  setQueryString(str) {
+    this.setState({ querystr: str });
+  }
+
   selectTab(el) {
     this.setState({
       activeTab: el,
@@ -224,7 +266,7 @@ class App extends Component {
   }
   setSearchOpen() {
     this.state.searchToggle
-      ? this.setState({ searchToggle: false })
+      ? this.setState({ searchToggle: false, querystr: "" })
       : this.setState({ searchToggle: true });
   }
   render() {
@@ -238,10 +280,16 @@ class App extends Component {
               name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
-              cardList={this.state.collocutors}
+              favouritesActive={this.state.favouritesActive}
+              cardList={
+                this.state.searchToggle
+                  ? this.searchFilter()[0]
+                  : this.state.collocutors
+              }
+              displayNames={this.searchFilter()[1]}
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
-              searchString={this.state.searchSting}
+              setQueryString={x => this.setQueryString(x)}
               searchToggle={this.state.searchToggle}
               openSearch={() => this.setSearchOpen()}
             />
