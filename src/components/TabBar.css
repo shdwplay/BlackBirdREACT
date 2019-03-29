@@ -16,26 +16,27 @@
   color: var(--dark-grey);
 }
 
-.TabBar > a,
-.TabBar > div {
-  opacity: 1;
-  text-align: center;
-  display: block;
-  color: var(--dark-grey);
+.TabBar > .active span {
+  display: none;
+}
+.TabBar > .active img {
+  display: flex;
+  align-self: center;
 }
 
-.TabBar > div.active {
+.TabBar > a {
+  flex: 3;
   opacity: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  color: var(--dark-grey);
 }
 
 .TabBar-Icon {
   width: 25px;
   height: 25px;
-}
-
-.TabBar > * {
-  flex: 3;
-  text-align: center;
+  display: none;
 }
 
 .TabBar-hidden {
