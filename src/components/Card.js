@@ -75,7 +75,12 @@ class Card extends Component {
           />
         </div>
         <div className="Card-message-text">
-          <div className="Card-username">{this.props.data.collocutor}</div>
+          <div
+            className="Card-username"
+            dangerouslySetInnerHTML={{
+              __html: this.props.displayName
+            }}
+          />
           <div className="Card-text-preview">
             {this.props.data.lastMessage.text}
           </div>
