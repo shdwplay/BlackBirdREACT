@@ -4,6 +4,7 @@ import HeaderChat from "./components/HeaderChat";
 import Header from "./components/Header";
 import Chat from "./components/Chat";
 import packageImg from "./assets/package.jpg";
+import SendNew from "./components/SendNew";
 
 import "./App.css";
 
@@ -104,6 +105,7 @@ class App extends Component {
           path="/messages"
           render={() => (
             <Messages
+              name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
               favouritesActive={this.state.favouritesActive}
@@ -125,9 +127,24 @@ class App extends Component {
           path="/favourites"
           render={() => (
             <Favourites
+              name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
               cardList={this.state.collocutors}
+              activeChat={this.state.activeChat}
+              selectChat={x => this.selectChat(x)}
+              searchString={this.state.searchSting}
+            />
+          )}
+        />
+        <Route
+          path="/send-new"
+          render={() => (
+            <SendNew
+              name={this.state.name}
+              activeTab={this.state.activeTab}
+              selectTab={index => this.selectTab(index)}
+              contactList={this.state.contacts}
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
               searchString={this.state.searchSting}
@@ -143,9 +160,10 @@ class App extends Component {
           path="/chat"
           render={() => (
             <Chat
+              activeChat={this.state.activeChat}
               currentUser={this.state.currentUser}
-              collocutor={this.state.activeChat.collocutor}
-              messageList={this.state.activeChat.messages}
+              /* collocutor={this.state.activeChat.collocutor}
+              messageList={this.state.activeChat.messages} */
               value={this.state.newMessage}
               newMessage={e => this.newMessage(e)}
               saveMessage={() => this.saveMessage()}

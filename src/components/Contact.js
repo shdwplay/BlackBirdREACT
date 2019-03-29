@@ -8,12 +8,12 @@ export default class Contact extends React.Component {
             <div onClick={this.props.onClick} className='Contact'>
                 <div className='contact-pic-area'>
                     <Avatar
-                        name={this.props.name}
-                        imgurl={this.props.image} //this.props.data.image
+                        name={this.props.data.name}
+                        imgurl={this.props.data.image} //this.props.data.image
                         size="small"
                     />
                 </div>
-                <div className='contact-name'>{this.props.name}</div>
+                <div className='contact-name'>{this.props.data.name}</div>
             </div>
         )
     }

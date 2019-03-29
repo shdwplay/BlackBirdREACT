@@ -68,7 +68,7 @@ class Card extends Component {
         {showNotifications(this.props.data.numUnread, this.props.data.silenced)}
         <div className="Card-Avatar">
           <Avatar
-            name={this.props.data.collocutor}
+            name={this.props.data.name}
             imgurl={this.props.data.image}
             size="small"
             onClick={() => console.log("for use in profile")}

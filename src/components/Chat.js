@@ -1,5 +1,5 @@
 import React from "react";
-import "./Chats.css";
+import "./Chat.css";
 import send from "../assets/send.svg";
 import attach from "../assets/attachment.svg";
 import HeaderChat from "./HeaderChat";
@@ -8,12 +8,12 @@ export default class Chat extends React.Component {
   render() {
     return (
       <div className="Chat-container">
-        {/* <HeaderChat
-          name={this.state.activeChat[0]}
-          status={this.state.activeChat[1]}
-        /> */}
+        <HeaderChat
+          name={this.props.activeChat.collocutor}
+          status={this.props.activeChat.status}
+        />
         <div className="Chat" id="chat">
-          {this.props.messageList.map((el, index) => {
+          {this.props.activeChat.messages.map((el, index) => {
             return (
               <div
                 key={index}
