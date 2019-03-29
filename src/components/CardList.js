@@ -16,6 +16,9 @@ const CardList = props => {
             cardNumber={index}
             setHighlightedCard={props.setHighlightedCard}
             highlightedCard={props.highlightedCard}
+            highlightedCardOptions={props.highlightedCardOptions}
+            silenced={el.silenced}
+            favourite={el.favourite}
             //isActive={props.activeChat === index}
             onClick={() => {
               props.selectChat({

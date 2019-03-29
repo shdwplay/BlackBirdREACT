@@ -11,11 +11,21 @@ import PropTypes from "prop-types";
 const HighlightedCard = props => {
   return (
     <div className="HighlightedCard">
-      <div className="HighlightedCard-silence" onClick={props.sil}>
-        <img src={props.silence ? unsilenceIcon : silenceIcon} alt="silence" />
-        <div className="label">{props.silence ? "Unsilence" : "Silence"}</div>
+      <div
+        className="HighlightedCard-silence"
+        onClick={evt =>
+          props.setOption(evt, "silenced", props.highlightedCardOptions)
+        }
+      >
+        <img src={props.silenced ? unsilenceIcon : silenceIcon} alt="silence" />
+        <div className="label">{props.silenced ? "Unsilence" : "Silence"}</div>
       </div>
-      <div className="HighlightedCard-remove" onClick={props.fav}>
+      <div
+        className="HighlightedCard-remove"
+        onClick={evt =>
+          props.setOption(evt, "favourite", props.highlightedCardOptions)
+        }
+      >
         <img
           src={props.favourite ? removeFromFavIcon : addToFavIcon}
           alt="remove from favourites"

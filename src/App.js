@@ -19,14 +19,14 @@ import { Route, Switch } from "react-router-dom";
 
 import { fakeState1 } from "./fakeStates";
 import { fakeState2 } from "./fakeStates";
-
 class App extends Component {
   state = fakeState1;
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState(fakeState2);
-    }, 2000);
-  }
+
+  // componentDidMount() {
+  //   setTimeout(() => {
+  //     this.setState(fakeState2);
+  //   }, 2000);
+  // }
 
   searchFilter() {
     var reg = new RegExp(this.state.querystr, "gi");
@@ -45,6 +45,40 @@ class App extends Component {
     this.setState({ querystr: str });
   }
 
+  highlightedCardOptions(option) {
+    console.log(option);
+
+    let aux = [...this.state.collocutors];
+    aux[this.state.highlightedCard][option] = !aux[this.state.highlightedCard][
+      option
+    ];
+    this.setState({ collocutors: aux });
+    // let aux2 = aux[this.state.highlightedCard];
+    // aux2[option] = true;
+    // console.log(aux);
+
+    // console.log(aux);
+    // setState({[option]})
+    // state.collocutors[0]
+    // [option]
+    // switch (option) {
+    //   case "silenced":
+    //     aux[this.state.highlightedCard].silenced = !aux[
+    //       this.state.highlightedCard
+    //     ].silenced;
+    //     break;
+    //   case "favourite":
+    //     aux[this.state.highlightedCard].favourite = !aux[
+    //       this.state.highlightedCard
+    //     ].silenced;
+    //     break;
+    //   default:
+    //     console.log("error");
+    // }
+    // aux[this.state.highlightedCard].option = !aux[this.state.highlightedCard]
+    //   .silenced;
+    // this.setState({ collocutors: aux });
+  }
   selectTab(el) {
     this.setState({
       activeTab: el,
@@ -98,6 +132,7 @@ class App extends Component {
             <Messages
               setHighlightedCard={x => this.setState({ highlightedCard: x })}
               highlightedCard={this.state.highlightedCard}
+              highlightedCardOptions={x => this.highlightedCardOptions(x)}
               name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}

@@ -12,9 +12,10 @@ import { showNotifications } from "../utils";
 import { getUnread } from "../utils";
 import { getActive } from "../utils";
 import { dotsOnClick } from "../utils";
+import { setOption } from "../utils";
 
 const Card = props => {
-  // setFavourite(evt) {
+  // setFavourite(evt,option) {
   //   evt.stopPropagation();
   //   setState({
   //     favourite: !state.favourite
@@ -74,10 +75,10 @@ const Card = props => {
       </div>
       {props.highlightedCard === props.cardNumber ? (
         <HighlightedCard
-          // favourite={state.favourite}
-          // silence={state.silenced}
-          // fav={evt => setFavourite(evt)}
-          // sil={evt => setSilenced(evt)}
+          setOption={(a, b, c) => setOption(a, b, c)}
+          highlightedCardOptions={props.highlightedCardOptions}
+          silenced={props.silenced}
+          favourite={props.favourite}
           closeHighlightedCard={evt => {
             evt.preventDefault();
             evt.stopPropagation();

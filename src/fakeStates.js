@@ -23,7 +23,7 @@ export const fakeState1 = {
       name: "Chiara Baroni",
       displayName: "*TEST*",
       status: "online",
-      favourite: true,
+      favourite: false,
       silenced: false,
       lastOpened: 1553573343,
       lastMessage: {

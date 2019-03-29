@@ -61,10 +61,19 @@ const getActive = bool => {
 };
 export { getActive };
 
-const dotsOnClick = (evt, callback) => {
+const dotsOnClick = (evt, funct) => {
   evt.preventDefault();
   evt.stopPropagation();
-  console.log("clicked");
-  callback();
+  //this.setState{favouritesActive:true}
+  funct();
 };
 export { dotsOnClick };
+
+const setOption = (evt, option, funct) => {
+  evt.preventDefault();
+  evt.stopPropagation();
+  funct(option);
+};
+export { setOption };
+// setState({
+//   option: !state.highlighted

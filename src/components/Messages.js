@@ -22,6 +22,7 @@ const Messages = props => {
       <CardList
         setHighlightedCard={props.setHighlightedCard}
         highlightedCard={props.highlightedCard}
+        highlightedCardOptions={props.highlightedCardOptions}
         cardList={props.cardList}
         displayNames={props.displayNames}
         //activeChat={props.activeChat}
