@@ -14,19 +14,19 @@ export function search(str, arr) {
   );
 }
 
-const showNotifications = (num, silent) => {
+export const showNotifications = (num, silent) => {
   if (num === 0) return;
   else {
     if (!silent) {
       return (
-        <div className="Card-notification">
+        <div className="Card-notifications">
           <img alt="notifications" src={notificationsOn} />
           <span className="Card-numUnread">{num}</span>
         </div>
       );
     } else {
       return (
-        <div className="Card-notification">
+        <div className="Card-notifications">
           <img alt="notifications" src={notificationsOff} />
           <span className="Card-numUnread">{num}</span>
         </div>
@@ -34,46 +34,27 @@ const showNotifications = (num, silent) => {
     }
   }
 };
-export { showNotifications };
 
-const getCapitals = string => {
+export const getCapitals = string => {
   let name = string.split(" "); //.map s => s.charAt(0).toUpperCase()
   return name[0][0] + name[name.length - 1][0];
 };
-export { getCapitals };
 
-const detectDate = date => {
+export const detectDate = date => {
   date = moment.unix(date);
   let diff = moment().diff(date, "days");
   return diff;
 };
-export { detectDate };
 
-const getUnread = num => {
-  if (num === 0) return "Card Card-inactive";
-  else return "Card Card-active";
-};
-export { getUnread };
-
-const getActive = bool => {
-  if (bool) return "Card-selected";
-  else return null;
-};
-export { getActive };
-
-const dotsOnClick = (evt, funct) => {
+export const dotsOnClick = (evt, funct) => {
   evt.preventDefault();
   evt.stopPropagation();
   //this.setState{favouritesActive:true}
   funct();
 };
-export { dotsOnClick };
 
-const setOption = (evt, option, funct) => {
+export const setOption = (evt, option, funct) => {
   evt.preventDefault();
   evt.stopPropagation();
   funct(option);
 };
-export { setOption };
-// setState({
-//   option: !state.highlighted

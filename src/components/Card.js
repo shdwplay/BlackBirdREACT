@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Card.css";
 import Avatar from "./Avatar.js";
 import MessageDate from "./MessageDate";
@@ -9,41 +9,17 @@ import HighlightedCard from "./HighlightedCard";
 
 import { showNotifications } from "../utils";
 
-import { getUnread } from "../utils";
-import { getActive } from "../utils";
 import { dotsOnClick } from "../utils";
 import { setOption } from "../utils";
 
 const Card = props => {
-  // setFavourite(evt,option) {
-  //   evt.stopPropagation();
-  //   setState({
-  //     favourite: !state.favourite
-  //   });
-  // }
-
-  // setSilenced(evt) {
-  //   evt.stopPropagation();
-  //   setState({
-  //     silenced: !state.silenced
-  //   });
-  // }
-
-  // setHighlight(evt) {
-  //   evt.preventDefault();
-  //   evt.stopPropagation();
-  //   setState({
-  //     highlighted: !state.highlighted
-  //   });
-  // }
+  var cardClass = "Card";
+  props.data.numUnread > 0
+    ? (cardClass += " Card-unread")
+    : (cardClass += " Card-read");
 
   return (
-    <div
-      onClick={props.onClick}
-      className={
-        getUnread(props.data.numUnread) + " " + getActive(props.isActive)
-      }
-    >
+    <div onClick={props.onClick} className={cardClass}>
       {showNotifications(props.data.numUnread, props.data.silenced)}
       <div className="Card-Avatar">
         <Avatar

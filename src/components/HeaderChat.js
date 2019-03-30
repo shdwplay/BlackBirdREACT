@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { search } from "../utils";
 import "./HeaderChat.css";
 import Search from "./Search";

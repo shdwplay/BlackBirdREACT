@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./HighlightedCard.css";
 import silenceIcon from "../assets/silenceIcon.svg";
 import unsilenceIcon from "../assets/unsilenceIcon.svg";

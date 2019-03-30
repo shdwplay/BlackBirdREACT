@@ -3,7 +3,6 @@ import logo from "../assets/logo_welcome.png";
 import "./Login.css";
 import Button from "./Button";
 import Modal from "./Modal";
-import Header from "./Header";
 
 class Login extends Component {
   state = {

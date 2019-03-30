@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import searchIcon from "../assets/search.svg";
 import icsIcon from "../assets/ics.svg";
 import "./Search.css";

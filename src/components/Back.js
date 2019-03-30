@@ -1,6 +1,7 @@
 import React from "react";
 import backImage from "../assets/backbutton.svg";
 import "./Back.css";
+import PropTypes from "prop-types";
 
 const Back = props => {
   return (
@@ -11,3 +12,7 @@ const Back = props => {
 };
 
 export default Back;
+
+Back.propTypes = {
+  onClick: PropTypes.func.isRequired
+};

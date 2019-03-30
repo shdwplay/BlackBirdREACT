@@ -1,99 +1,99 @@
-.Card{
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 8px;
-    width: 100%;
-    margin: 10px 0;
-    border: 0.5px solid var(--light-grey);
-    color: var(--dark-grey);
-    overflow: hidden;
-    transition: all;
+.Card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  width: 100%;
+  margin: 10px 0;
+  border: 0.5px solid var(--light-grey);
+  color: var(--dark-grey);
+  overflow: hidden;
+  transition: all;
 }
 
-.Card-notification {
-    position: absolute;
-    top: 0;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    margin: 0;
-    display: block;
+.Card-notifications {
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  display: block;
 }
 
 .Card-numUnread {
-    position: absolute;
-    left: 1.5px;
-    transform: rotate(-45deg);
-    color: #fff;
-    letter-spacing: 0;
-    font-size: 13px;
-    top: 1.5px;
-    text-shadow: 0 0 1px rgba(0, 0, 0, 0.55);
+  position: absolute;
+  left: 1.5px;
+  transform: rotate(-45deg);
+  color: #fff;
+  letter-spacing: 0;
+  font-size: 13px;
+  top: 1.5px;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.55);
 }
 
-.Card-active {
-    box-shadow: 0 0 12px 0px rgba(0, 0, 0, 0.35);
-    border: none;
+.Card-unread {
+  box-shadow: 0 0 12px 0px rgba(0, 0, 0, 0.35);
+  border: none;
 }
 
-.Card-inactive{
-    box-shadow: none;
-    border: 0.5px solid var(--light-grey);
+.Card-read {
+  box-shadow: none;
+  border: 0.5px solid var(--light-grey);
 }
 
-.Card-selected{
-    background-image: url(../assets/bg-orange.svg);
-    background-size: 110%;
-    border: none;
-    color: #fff;
-    background-position: -7px -160px;
-    box-shadow: none;
-    width: 100%;
-    transition: background-position 0.5s;
-    animation: left 0.6s ease-in-out;
+.Card-selected {
+  background-image: url(../assets/bg-orange.svg);
+  background-size: 110%;
+  border: none;
+  color: #fff;
+  background-position: -7px -160px;
+  box-shadow: none;
+  width: 100%;
+  transition: background-position 0.5s;
+  animation: left 0.6s ease-in-out;
 }
 .Card-username {
-    font-size: 18px;
-    line-height: 18px;
-    margin-bottom: 5px;
+  font-size: 18px;
+  line-height: 18px;
+  margin-bottom: 5px;
 }
 .Card-text-preview {
-    font-size: 14px;
-    line-height: 14px;
+  font-size: 14px;
+  line-height: 14px;
 }
 .Card-timestamp {
-    font-size: 10px;
-    line-height: 10px;
-    margin-left: auto;
-    min-width: 46px;
-    padding-right: 40px;
+  font-size: 10px;
+  line-height: 10px;
+  margin-left: auto;
+  min-width: 46px;
+  padding-right: 40px;
 }
 
 .Card-dots-area {
-    position: absolute;
-    right: 0;
-    display: block;
-    height: 44px;
-    z-index: 4;
-    width: 44px;
-    cursor: pointer;
+  position: absolute;
+  right: 0;
+  display: block;
+  height: 44px;
+  z-index: 4;
+  width: 44px;
+  cursor: pointer;
 }
 
 .Card-dots {
-    display: block;
-    position: absolute;
-    right: 0;
-    height: 44px;
-    object-fit: contain;
-    padding: 10px;
+  display: block;
+  position: absolute;
+  right: 0;
+  height: 44px;
+  object-fit: contain;
+  padding: 10px;
 }
 
 .Card-Avatar {
-    padding-left: 30px;
-    padding-right: 10px;
-    padding-top: 7.5px;
-    padding-bottom: 7.5px;
-    height: 68px;
+  padding-left: 30px;
+  padding-right: 10px;
+  padding-top: 7.5px;
+  padding-bottom: 7.5px;
+  height: 68px;
 }
