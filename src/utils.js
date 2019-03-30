@@ -16,23 +16,15 @@ export function search(str, arr) {
 
 export const showNotifications = (num, silent) => {
   if (num === 0) return;
-  else {
-    if (!silent) {
-      return (
-        <div className="Card-notifications">
-          <img alt="notifications" src={notificationsOn} />
-          <span className="Card-numUnread">{num}</span>
-        </div>
-      );
-    } else {
-      return (
-        <div className="Card-notifications">
-          <img alt="notifications" src={notificationsOff} />
-          <span className="Card-numUnread">{num}</span>
-        </div>
-      );
-    }
-  }
+  return (
+    <div className="Card-notifications">
+      <img
+        alt="notifications"
+        src={silent ? notificationsOff : notificationsOn}
+      />
+      <span className="Card-numUnread">{num}</span>
+    </div>
+  );
 };
 
 export const getCapitals = string => {

@@ -12,12 +12,14 @@ import { showNotifications } from "../utils";
 import { dotsOnClick } from "../utils";
 import { setOption } from "../utils";
 
-const Card = props => {
-  var cardClass = "Card";
-  props.data.numUnread > 0
-    ? (cardClass += " Card-unread")
-    : (cardClass += " Card-read");
+import classNames from "classnames";
 
+const Card = props => {
+  var cardClass = classNames({
+    Card: true,
+    "Card-unread": props.data.numUnread > 0,
+    "Card-read": props.data.numUnread === 0
+  });
   return (
     <div onClick={props.onClick} className={cardClass}>
       {showNotifications(props.data.numUnread, props.data.silenced)}
