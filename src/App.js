@@ -15,6 +15,9 @@ import Profile from "./components/Profile";
 import Back from "./components/Back";
 import Favourites from "./components/Favourites";
 import Messages from "./components/Messages";
+import LoginForm from "./components/LoginForm";
+import LoginForgotPsw from "./components/LoginForgotPsw";
+import LoginPswInstructions from "./components/LoginPswInstructions";
 import { Route, Switch } from "react-router-dom";
 
 import { fakeState1 } from "./fakeStates";
@@ -74,7 +77,7 @@ class App extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" render={() => <Login />} />
+        {/* <Route exact path="/" render={() => <Login />} /> */}
         <Route
           path="/messages"
           render={() => (
@@ -137,6 +140,12 @@ class App extends Component {
               saveMessage={() => this.saveMessage()}
             />
           )}
+        />
+        <Route exact path="/" render={() => <LoginForm />} />
+        <Route path="/forgot-password" render={() => <LoginForgotPsw />} />
+        <Route
+          path="/password-instructions"
+          render={() => <LoginPswInstructions />}
         />
       </Switch>
     );
