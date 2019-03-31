@@ -20,9 +20,6 @@ import logo from "./assets/logo_blackbird.svg";
 import { fakeState1 } from "./fakeStates";
 import { fakeState2 } from "./fakeStates";
 import { fakeDatabase } from "./fakeDatabase";
-
-import Slice1 from "./assets/Slice1.png";
-import { reject } from "q";
 var uid;
 class App extends Component {
   constructor(props) {
@@ -45,12 +42,12 @@ class App extends Component {
         //authenticate user
         const user = "carlburns";
         user ? resolve(user) : reject("redirect");
-      }, 2000);
+      }, 500);
     });
   }
   redirectToLogin() {
     console.log("setting login redirect");
-    setTimeout(() => {}, 1000);
+    setTimeout(() => {}, 500);
   }
 
   getDatabaseState(user) {
@@ -60,7 +57,7 @@ class App extends Component {
     setTimeout(() => {
       const dbresult = fakeDatabase.users[user];
       this.setState(dbresult);
-    }, 2000);
+    }, 500);
   }
 
   searchFilter() {
