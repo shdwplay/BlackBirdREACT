@@ -36,7 +36,10 @@ const HighlightedCard = props => {
       </div>
       <div
         className="HighlightedCard-delete"
-        onClick={() => console.log("delete chat")}
+        onClick={evt => {
+          console.log("delete chat");
+          props.setOption(evt, "delete", props.highlightedCardOptions);
+        }}
       >
         <img src={deleteIcon} alt="delete" />
         <div className="HighlightedCard-label">Delete</div>

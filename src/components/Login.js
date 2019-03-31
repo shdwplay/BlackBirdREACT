@@ -3,28 +3,47 @@ import logo from "../assets/logo_welcome.png";
 import "./Login.css";
 import Button from "./Button";
 import Modal from "./Modal";
+import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   state = {
     email: "",
     password: "",
+    dbUserCredentials: [],
     Modal: false,
-    forgotPassword: false
+    forgotPassword: false,
+    redirect: false
   };
 
-  inputVerification = (name, pw) => {
-    //check for user in db + return user credentials
-    const credentials = ["1", "1"];
-    console.log(name + " " + pw);
-    if (name === credentials[0] && pw === credentials[1]) {
+  componentDidMount() {
+    //simulates request for list of users and passwords from db
+    setTimeout(() => {
       this.setState({
-        email: name,
-        password: pw
+        dbcredentials: [
+          ["antoniopellegrini@born2code.it", "pippo"],
+          ["carlburns@born2code.it", "fidelio"]
+        ]
       });
-      return true;
-    } else {
+    }, 2000); //*ISSUE IF USER ATTEMPS LOGIN BEFORE REQUEST IS FINISHED*
+  }
+  inputVerification = (name, pw) => {
+    let userExists = this.state.dbcredentials.map(el => el[0]).indexOf(name);
+    console.log(userExists);
+    if (userExists === -1) {
+      console.log("user not found");
       return false;
     }
+    if (
+      !(
+        name === this.state.dbcredentials[userExists][0] &&
+        pw === this.state.dbcredentials[userExists][1]
+      )
+    ) {
+      console.log("incorrect password");
+      return false;
+    }
+    console.log(name + " " + pw);
+    return true;
   };
 
   hideModal() {
@@ -32,6 +51,10 @@ class Login extends Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      var user = this.state.email.split("@")[0];
+      return <Redirect to={"/messages/" + user} />;
+    }
     if (!this.state.forgotPassword) {
       return (
         <div className="Login">
@@ -49,8 +72,8 @@ class Login extends Component {
                 <input
                   type="email"
                   name="email"
+                  onChange={evt => this.setState({ email: evt.target.value })}
                   className="Login-form-control"
-                  id="InputEmail"
                   aria-describedby="emailHelp"
                   placeholder="you@company.com"
                 />
@@ -62,6 +85,9 @@ class Login extends Component {
                 <input
                   type="password"
                   name="password"
+                  onChange={evt =>
+                    this.setState({ password: evt.target.value })
+                  } //is this bad??
                   className="Login-form-control"
                   id="InputPassword"
                   placeholder="Your Password"
@@ -92,14 +118,15 @@ class Login extends Component {
               <Button
                 text="Login"
                 type="filled"
-                function={() => {
-                  let email = document.getElementById("InputEmail").value;
-                  let password = document.getElementById("InputPassword").value;
-                  if (this.inputVerification(email, password))
-                    this.props.function();
-                  else {
-                    this.setState({ Modal: true });
-                  }
+                onClick={() => {
+                  if (
+                    this.inputVerification(
+                      this.state.email,
+                      this.state.password
+                    )
+                  ) {
+                    this.setState({ redirect: true });
+                  } else this.setState({ Modal: true });
                 }}
               />
             </div>
@@ -121,7 +148,11 @@ class Login extends Component {
             <input className="Login-forgotInput" type="email" />
           </div>
 
-          <Button text="submit" type="plain" />
+          <Button
+            text="submit"
+            type="plain"
+            onClick={() => this.props.setCredentials}
+          />
         </div>
       );
   }

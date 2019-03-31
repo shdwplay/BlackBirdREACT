@@ -3,34 +3,37 @@ import Header from "./Header";
 import TabBar from "./TabBar";
 import CardList from "./CardList";
 
-const Messages = props => {
-  return (
-    <div className="container">
-      <Header
-        name={props.name}
-        openSearch={props.openSearch}
-        searchToggle={props.searchToggle}
-        setQueryString={props.setQueryString}
-        querystr={props.querystr}
-      >
-        <TabBar
-          activeTab={props.activeTab}
-          selectTab={props.selectTab}
-          searchToggle={props.searchToggle}
+class Messages extends React.Component {
+  render() {
+    return (
+      <div className="container">
+        <Header
+          url={this.props.match.url}
+          name={this.props.name}
+          openSearch={this.props.openSearch}
+          searchToggle={this.props.searchToggle}
+          setQueryString={this.props.setQueryString}
+          querystr={this.props.querystr}
+        >
+          <TabBar
+            activeTab={this.props.activeTab}
+            selectTab={this.props.selectTab}
+            searchToggle={this.props.searchToggle}
+          />
+        </Header>
+        <CardList
+          setHighlightedCard={this.props.setHighlightedCard}
+          highlightedCard={this.props.highlightedCard}
+          highlightedCardOptions={this.props.highlightedCardOptions}
+          cardList={this.props.cardList}
+          displayNames={this.props.displayNames}
+          //activeChat={this.props.activeChat}
+          selectChat={this.props.selectChat}
+          searchToggle={this.props.searchToggle}
         />
-      </Header>
-      <CardList
-        setHighlightedCard={props.setHighlightedCard}
-        highlightedCard={props.highlightedCard}
-        highlightedCardOptions={props.highlightedCardOptions}
-        cardList={props.cardList}
-        displayNames={props.displayNames}
-        //activeChat={props.activeChat}
-        selectChat={props.selectChat}
-        searchToggle={props.searchToggle}
-      />
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 export default Messages;

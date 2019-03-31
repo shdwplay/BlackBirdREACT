@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./Button.css";
+//use CLASSNAMES!!
 
 //props text, function, type
 const Button = props => {
   return (
     <div className="Button-area">
-      <button className={"Button " + props.type} onClick={props.function}>
+      <button className={"Button " + props.type} onClick={props.onClick}>
         {props.text}
       </button>
     </div>

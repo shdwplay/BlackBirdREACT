@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const Back = props => {
   return (
     <div className="BackButton">
-      <img alt="backbutton" onClick={props.onClick} src={backImage} />
+      <img alt="backbutton" src={backImage} />
     </div>
   );
 };
@@ -14,5 +14,6 @@ const Back = props => {
 export default Back;
 
 Back.propTypes = {
-  onClick: PropTypes.func.isRequired
+  prevPage: PropTypes.string,
+  onClick: PropTypes.func
 };

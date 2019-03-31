@@ -6,13 +6,16 @@ import Button from "./Button";
 import logo from "../assets/logo_blackbird.svg";
 import Back from "./Back";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Profile = props => {
+  console.log(props.match);
+
   return (
-    <div>
+    <div className="ProfileContainer">
       <div className="ProfileHeader">
         <Link to={"/messages"}>
-          <div className="ProfileBack">
+          <div className="ProfileBackButton">
             <Back onClick={() => console.log("profile")} />
           </div>
         </Link>
@@ -114,3 +117,8 @@ const Profile = props => {
 };
 
 export default Profile;
+
+Profile.propTypes = {
+  name: PropTypes.string.isRequired,
+  prevPage: PropTypes.string
+};

@@ -15,18 +15,53 @@ import Profile from "./components/Profile";
 import Back from "./components/Back";
 import Favourites from "./components/Favourites";
 import Messages from "./components/Messages";
-import { Route, Switch } from "react-router-dom";
-
+import { Route, Switch, Redirect } from "react-router-dom";
+import logo from "./assets/logo_blackbird.svg";
 import { fakeState1 } from "./fakeStates";
 import { fakeState2 } from "./fakeStates";
-class App extends Component {
-  state = fakeState1;
+import { fakeDatabase } from "./fakeDatabase";
 
-  // componentDidMount() {
-  //   setTimeout(() => {
-  //     this.setState(fakeState2);
-  //   }, 2000);
-  // }
+import Slice1 from "./assets/Slice1.png";
+import { reject } from "q";
+var uid;
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.authenticateUser().then(
+      user => {
+        this.getDatabaseState(user);
+      },
+      err => {
+        console.log("identification error");
+        this.redirectToLogin();
+      }
+    );
+  }
+  authenticateUser() {
+    return new Promise((resolve, reject) => {
+      console.log("authenticating user...");
+      setTimeout(() => {
+        //authenticate user
+        const user = "carlburns";
+        user ? resolve(user) : reject("redirect");
+      }, 2000);
+    });
+  }
+  redirectToLogin() {
+    console.log("setting login redirect");
+    setTimeout(() => {}, 1000);
+  }
+
+  getDatabaseState(user) {
+    //preparation for firebase integration
+    console.log("user:" + user);
+    console.log("requesting user info from db");
+    setTimeout(() => {
+      const dbresult = fakeDatabase.users[user];
+      this.setState(dbresult);
+    }, 2000);
+  }
 
   searchFilter() {
     var reg = new RegExp(this.state.querystr, "gi");
@@ -49,9 +84,14 @@ class App extends Component {
     //invoking this method with "favourites" or "silenced" as an argument
     //will toggle the corresponding boolean value on the current highlighted chat card
     let aux = [...this.state.collocutors];
-    aux[this.state.highlightedCard][option] = !aux[this.state.highlightedCard][
-      option
-    ];
+    if (option === "delete") {
+      aux.splice(this.state.highlightedCard, 1);
+      this.setState({ highlightedCard: null });
+    } else {
+      aux[this.state.highlightedCard][option] = !aux[
+        this.state.highlightedCard
+      ][option];
+    }
     this.setState({ collocutors: aux });
   }
   selectTab(el) {
@@ -75,13 +115,40 @@ class App extends Component {
     this.setState({ searchToggle: !this.state.searchToggle, querystr: "" });
   }
   render() {
+    console.log("app rendering");
+    if (!this.state) {
+      return (
+        <div className="loadingContainer">
+          <div className="loadingSpinner">
+            <img className="logo" src={logo} alt="blackbird logo" />
+            <div className="spinner">
+              <div className="cube1" />
+              <div className="cube2" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    if (uid === "redirect") {
+      console.log("redirect to login");
+      return <Redirect to="/login" />;
+    }
+    // if (true)
+    //   //this.state.authentificationRequired)
+    //return <Redirect to="/login" />;
     return (
       <Switch>
-        <Route exact path="/" render={() => <Login />} />
         <Route
-          path="/messages"
-          render={() => (
+          exact
+          path="/login"
+          render={() => <Login setCredentials={x => this.setCredentials(x)} />}
+        />
+        <Route
+          path={"/messages/" + this.state.currentUser}
+          render={props => (
             <Messages
+              {...props}
+              getDatabaseState={x => this.getDatabaseState(x)}
               setHighlightedCard={x => this.setState({ highlightedCard: x })}
               highlightedCard={this.state.highlightedCard}
               highlightedCardOptions={x => this.highlightedCardOptions(x)}
@@ -135,7 +202,13 @@ class App extends Component {
         {/* <Route path="/send-new" render={()=><SendNew} /> */}
         <Route
           path="/profile"
-          render={() => <Profile currentUser={this.state.name} />}
+          render={props => (
+            <Profile
+              {...props}
+              currentUser={this.state.name}
+              prevPage={"test"}
+            />
+          )}
         />
         <Route
           path="/chat"
