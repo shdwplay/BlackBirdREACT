@@ -13,7 +13,7 @@ const Header = props => {
           props.searchToggle ? "Header-hidden" : null
         }`}
       >
-        <Link to={"/profile/"}>
+        <Link to={"/profile/" + props.currentUser}>
           <div className="Header-profile-pic">
             <Avatar
               size="xsmall"

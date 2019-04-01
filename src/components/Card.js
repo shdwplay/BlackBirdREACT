@@ -38,9 +38,9 @@ const Card = props => {
             __html: props.displayName
           }}
         />
-        <div className="Card-text-preview">{props.data.lastMessage.text}</div>
+        <div className="Card-text-preview">{props.data.lastMsg.text}</div>
       </div>
-      <MessageDate context="MessageDate" date={props.data.lastMessage.date} />
+      <MessageDate context="MessageDate" date={props.data.lastOpened.seconds} />
       <div className="Card-dots-area">
         <img
           alt="dots"
@@ -74,7 +74,7 @@ Card.propTypes = {
   data: PropTypes.shape({
     collocutor: PropTypes.string.isRequired,
     image: PropTypes.any,
-    lastMessage: PropTypes.shape({
+    lastMsg: PropTypes.shape({
       sender: PropTypes.string,
       text: PropTypes.string,
       date: PropTypes.string
