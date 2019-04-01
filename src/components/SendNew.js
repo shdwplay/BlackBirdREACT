@@ -3,30 +3,20 @@ import Header from "./Header";
 import TabBar from "./TabBar";
 import ContactList from "./ContactList";
 //props searchString
-class Messages extends React.Component {
-  searchFilter(str) {
-    let names;
-    let filtered;
-  }
-  render() {
-    this.searchFilter();
-    return (
-      <div className="container">
-        <Header name={this.props.name}>
-          <TabBar
-            activeTab={this.props.activeTab}
-            selectTab={this.props.selectTab}
-          />
-        </Header>
-        )}
-        <ContactList
-          contactList={this.props.contactList}
-          //activeChat={this.props.activeChat}
-          selectChat={this.props.selectChat}
-        />
-      </div>
-    );
-  }
-}
+const Messages = props => {
+  return (
+    <div className="container">
+      <Header name={props.name}>
+        <TabBar activeTab={props.activeTab} selectTab={props.selectTab} />
+      </Header>
+      )}
+      <ContactList
+        contactList={props.contactList}
+        //activeChat={props.activeChat}
+        selectChat={props.selectChat}
+      />
+    </div>
+  );
+};
 
 export default Messages;

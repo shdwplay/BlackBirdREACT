@@ -4,8 +4,13 @@ export const fakeState1 = {
   currentUser: "antoniopellegrini",
   name: "Antonio Pellegrini",
   favouritesActive: false,
+  highlightedCard: null,
   page: "Messages",
-  activeChat: { collocutor: "null", status: "null", messages: [] },
+  activeChat: {
+    collocutor: "null",
+    status: "null",
+    messages: []
+  },
   activeTab: "Messages",
   newMessage: "",
   searchToggle: false,
@@ -18,10 +23,14 @@ export const fakeState1 = {
       name: "Chiara Baroni",
       displayName: "*TEST*",
       status: "online",
-      favourite: true,
+      favourite: false,
       silenced: false,
       lastOpened: 1553573343,
-      lastMessage: { text: ":P", sender: "chiarabaroni", date: 1553591343 },
+      lastMessage: {
+        text: ":P",
+        sender: "chiarabaroni",
+        date: 1553591343
+      },
       numUnread: 7,
       image: "/images/profile_james.png",
       messages: [
@@ -65,7 +74,11 @@ export const fakeState1 = {
       favourite: true,
       silenced: true,
       lastOpened: 1553573343,
-      lastMessage: { text: ":P", sender: "edoardoaccivile", date: 1553591343 },
+      lastMessage: {
+        text: ":P",
+        sender: "edoardoaccivile",
+        date: 1553591343
+      },
       numUnread: 5,
       image: "/images/profile_james.png",
       messages: [
@@ -169,6 +182,7 @@ export const fakeState2 = {
   currentUser: "antoniopellegrini",
   name: "Antonio Pellegrini",
   favouritesActive: false,
+  highlightedCard: null,
   page: "Messages",
   activeChat: {
     collocutor: "null",
