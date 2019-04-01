@@ -18,19 +18,83 @@ import Messages from "./components/Messages";
 import LoginForm from "./components/LoginForm";
 import LoginForgotPsw from "./components/LoginForgotPsw";
 import LoginPswInstructions from "./components/LoginPswInstructions";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
+import logo from "./assets/logo_blackbird.svg";
 
 import { fakeState1 } from "./fakeStates";
 import { fakeState2 } from "./fakeStates";
-
+import { fakeDatabase } from "./fakeDatabase";
+var uid;
 class App extends Component {
-  state = fakeState1;
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState(fakeState2);
-    }, 2000);
+  constructor(props) {
+    super(props);
+
+    this.authenticateUser().then(
+      user => {
+        this.getDatabaseState(user);
+      },
+      err => {
+        console.log("identification error");
+        this.redirectToLogin();
+      }
+    );
+  }
+  authenticateUser() {
+    return new Promise((resolve, reject) => {
+      console.log("authenticating user...");
+      setTimeout(() => {
+        //authenticate user
+        const user = "carlburns";
+        user ? resolve(user) : reject("redirect");
+      }, 500);
+    });
+  }
+  redirectToLogin() {
+    console.log("setting login redirect");
+    setTimeout(() => {}, 500);
   }
 
+  getDatabaseState(user) {
+    //preparation for firebase integration
+    console.log("user:" + user);
+    console.log("requesting user info from db");
+    setTimeout(() => {
+      const dbresult = fakeDatabase.users[user];
+      this.setState(dbresult);
+    }, 500);
+  }
+
+  searchFilter() {
+    var reg = new RegExp(this.state.querystr, "gi");
+    let filtered = this.state.collocutors.filter(el =>
+      el.name.toLowerCase().includes(this.state.querystr)
+    );
+    let display = filtered.map(el =>
+      el.name.replace(
+        reg,
+        str => "<b style='background:#fc0fc0'>" + str + "</b>"
+      )
+    );
+    return [filtered, display];
+  }
+  setQueryString(str) {
+    this.setState({ querystr: str });
+  }
+
+  highlightedCardOptions(option) {
+    //invoking this method with "favourites" or "silenced" as an argument
+    //will toggle the corresponding boolean value on the current highlighted chat card
+    let aux = [...this.state.collocutors];
+    if (option === "delete") {
+      aux.splice(this.state.highlightedCard, 1);
+      this.setState({ highlightedCard: null });
+    } else {
+      aux[this.state.highlightedCard][option] = !aux[
+        this.state.highlightedCard
+      ][option];
+    }
+    this.setState({ collocutors: aux });
+  }
   selectTab(el) {
     this.setState({
       activeTab: el,
@@ -38,27 +102,6 @@ class App extends Component {
     });
   }
 
-  profilePage() {
-    this.setState({ page: "Profile" });
-  }
-
-  // newMessage(e) {
-  //   this.setState({
-  //     newMessage: e.target.value
-  //   });
-  //   console.log(messages);
-  // }
-  // saveMessage() {
-  //   messages = messages.concat({
-  //     sender: this.state.currentUser,
-  //     text: this.state.newMessage
-  //   });
-  //   this.setState({
-  //     messageList: messages,
-  //     newMessage: ""
-  //   });
-  //   console.log(messages);
-  // }
   selectChat(clickedCard) {
     this.setState({
       page: "Chat",
@@ -70,18 +113,46 @@ class App extends Component {
     this.setState({ page: prevPage });
   }
   setSearchOpen() {
-    this.state.searchToggle
-      ? this.setState({ searchToggle: false, querystr: "" })
-      : this.setState({ searchToggle: true });
+    this.setState({ searchToggle: !this.state.searchToggle, querystr: "" });
   }
   render() {
+    console.log("app rendering");
+    if (!this.state) {
+      return (
+        <div className="loadingContainer">
+          <div className="loadingSpinner">
+            <img className="logo" src={logo} alt="blackbird logo" />
+            <div className="spinner">
+              <div className="cube1" />
+              <div className="cube2" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    if (uid === "redirect") {
+      console.log("redirect to login");
+      return <Redirect to="/login" />;
+    }
+    // if (true)
+    //   //this.state.authentificationRequired)
+    //return <Redirect to="/login" />;
     return (
       <Switch>
-        {/* <Route exact path="/" render={() => <Login />} /> */}
         <Route
-          exact path="/messages"
-          render={() => (
+          exact
+          path="/login"
+          render={() => <Login setCredentials={x => this.setCredentials(x)} />}
+        />
+        <Route
+          path={"/messages/" + this.state.currentUser}
+          render={props => (
             <Messages
+              {...props}
+              getDatabaseState={x => this.getDatabaseState(x)}
+              setHighlightedCard={x => this.setState({ highlightedCard: x })}
+              highlightedCard={this.state.highlightedCard}
+              highlightedCardOptions={x => this.highlightedCardOptions(x)}
               name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
@@ -89,6 +160,8 @@ class App extends Component {
               cardList={this.state.collocutors}
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
+              setQueryString={x => this.setQueryString(x)}
+              querystr={this.state.querystr}
               searchToggle={this.state.searchToggle}
               openSearch={() => this.setSearchOpen()}
             />
@@ -125,7 +198,13 @@ class App extends Component {
         {/* <Route path="/send-new" render={()=><SendNew} /> */}
         <Route
           path="/profile"
-          render={() => <Profile currentUser={this.state.currentUser} />}
+          render={props => (
+            <Profile
+              {...props}
+              currentUser={this.state.name}
+              prevPage={"test"}
+            />
+          )}
         />
         <Route
           path="/messages/:id"
@@ -152,84 +231,6 @@ class App extends Component {
       </Switch>
     );
   }
-  // {
-  //   switch (this.state.page) {
-  //     case "Favourites":
-  //       return (
-  //         <Favourites
-  //           activeTab={this.state.activeTab}
-  //           selectTab={index => this.selectTab(index)}
-  //           cardList={this.state.collocutors}
-  //           activeChat={this.state.activeChat}
-  //           selectChat={x => this.selectChat}
-  //         />
-  //       );
-
-  //     case "Send New":
-  //       return (
-  //         <div className="App">
-  //           <div className="megacontainer">
-  //             <div className="supercontainer">
-  //               <div className="container">
-  //                 <Header>
-  //                   <TabBar
-  //                     activeTab={this.state.activeTab}
-  //                     selectTab={index => this.selectTab(index)}
-  //                   />
-  //                 </Header>
-  //                 <ContactList
-  //                   activeChat={this.state.activeChat}
-  //                   changeChat={x => this.changeChat(x)}
-  //                 />
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       );
-
-  //     case "Chat":
-  //       return (
-  //         <div className="App">
-  //           <div className="megacontainer">
-  //             <HeaderChat
-  //               name={this.state.activeChat[0]}
-  //               status={this.state.activeChat[1]}
-  //             />
-  //             <Chat
-  // currentUser={this.state.currentUser}
-  // collocutor={this.state.activeChat[0]}
-  // messageList={this.state.messageList}
-  // value={this.state.newMessage}
-  // newMessage={e => this.newMessage(e)}
-  // saveMessage={() => this.saveMessage()}
-  //             />
-  //           </div>
-  //         </div>
-  //       );
-
-  //     case "Messages":
-  //       return (
-  //         <Messages
-  // activeTab={this.state.activeTab}
-  // selectTab={index => this.selectTab(index)}
-  // cardList={this.state.collocutors}
-  // activeChat={this.state.activeChat}
-  // selectChat={x => this.selectChat}
-  // searchString={this.state.searchSting}
-  //         />
-  //       );
-
-  //     case "Profile":
-  //       return (
-  //         <Profile //add back button props when needed
-  //           backTo={() => this.backTo("Messages")}
-  //         />
-  //       );
-
-  //     default:
-  //       return <Login function={() => this.selectTab("Messages")} />;
-  //   }
-  //}
 }
 
 export default App;

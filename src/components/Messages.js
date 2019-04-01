@@ -8,9 +8,12 @@ class Messages extends React.Component {
     return (
       <div className="container">
         <Header
+          url={this.props.match.url}
           name={this.props.name}
           openSearch={this.props.openSearch}
           searchToggle={this.props.searchToggle}
+          setQueryString={this.props.setQueryString}
+          querystr={this.props.querystr}
         >
           <TabBar
             activeTab={this.props.activeTab}
@@ -19,6 +22,9 @@ class Messages extends React.Component {
           />
         </Header>
         <CardList
+          setHighlightedCard={this.props.setHighlightedCard}
+          highlightedCard={this.props.highlightedCard}
+          highlightedCardOptions={this.props.highlightedCardOptions}
           cardList={this.props.cardList}
           selectChat={this.props.selectChat}
           searchToggle={this.props.searchToggle}

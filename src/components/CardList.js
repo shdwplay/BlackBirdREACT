@@ -1,37 +1,39 @@
-import React, { Component } from "react";
+import React from "react";
 import Card from "./Card";
 import "./CardList.css";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 //props: cardList, activeChat
-class CardList extends Component {
-  render() {
-    return (
-      <div
-        className={`CardList ${
-          this.props.searchToggle ? "CardList-on-top" : ""
-        }`}
-      >
-        {this.props.cardList.map((el, index) => (
-          <Link to={"/messages/" + el.id}>
-            <Card
-              key={index}
-              onClick={() => {
-                this.props.selectChat({
-                  collocutor: el.name,
-                  status: el.status,
-                  messages: el.messages
-                });
-              }}
-              data={el}
-            />
-          </Link>
-        ))}
-      </div>
-    );
-  }
-}
+const CardList = props => {
+  return (
+    <div className={`CardList ${props.searchToggle ? "CardList-on-top" : ""}`}>
+      {props.cardList.map((el, index) => (
+        <Link to={"/chat/" + el.id}>
+          <Card
+            displayName={props.displayNames[index]}
+            key={index}
+            cardNumber={index}
+            setHighlightedCard={props.setHighlightedCard}
+            highlightedCard={props.highlightedCard}
+            highlightedCardOptions={props.highlightedCardOptions}
+            silenced={el.silenced}
+            favourite={el.favourite}
+            //isActive={props.activeChat === index}
+            onClick={() => {
+              props.selectChat({
+                collocutor: el.name,
+                status: el.status,
+                messages: el.messages
+              });
+            }}
+            data={el}
+          />
+        </Link>
+      ))}
+    </div>
+  );
+};
 
 export default CardList;
 

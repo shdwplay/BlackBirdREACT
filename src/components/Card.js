@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Card.css";
 import Avatar from "./Avatar.js";
 import MessageDate from "./MessageDate";
@@ -9,102 +9,64 @@ import HighlightedCard from "./HighlightedCard";
 
 import { showNotifications } from "../utils";
 
-const getUnread = num => {
-  if (num === 0) return "Card Card-inactive";
-  else return "Card Card-active";
-};
+import { dotsOnClick } from "../utils";
+import { setOption } from "../utils";
 
-const getActive = bool => {
-  if (bool) return "Card-selected";
-  else return null;
-};
+import classNames from "classnames";
 
-class Card extends Component {
-  state = {
-    highlighted: false,
-    favourite: this.props.data.favourite,
-    silenced: this.props.data.silenced
-  };
-
-  dotsF(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.setState({ highlighted: true });
-    console.log("highlight card");
-  }
-
-  setFavourite(evt) {
-    evt.stopPropagation();
-    this.setState({
-      favourite: !this.state.favourite
-    });
-  }
-
-  setSilenced(evt) {
-    evt.stopPropagation();
-    this.setState({
-      silenced: !this.state.silenced
-    });
-  }
-
-  setHighlight(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    this.setState({
-      highlighted: !this.state.highlighted
-    });
-  }
-
-  render() {
-    return (
-      <div
-        onClick={this.props.onClick}
-        className={
-          getUnread(this.props.data.numUnread) +
-          " " +
-          getActive(this.props.isActive)
-        }
-      >
-        {showNotifications(this.props.data.numUnread, this.props.data.silenced)}
-        <div className="Card-Avatar">
-          <Avatar
-            name={this.props.data.name}
-            imgurl={this.props.data.image}
-            size="small"
-            onClick={() => console.log("for use in profile")}
-          />
-        </div>
-        <div className="Card-message-text">
-          <div className="Card-username">{this.props.data.name}</div>
-          <div className="Card-text-preview">
-            {this.props.data.lastMessage.text}
-          </div>
-        </div>
-        <MessageDate
-          context="MessageDate"
-          date={this.props.data.lastMessage.date}
+const Card = props => {
+  var cardClass = classNames({
+    Card: true,
+    "Card-unread": props.data.numUnread > 0,
+    "Card-read": props.data.numUnread === 0
+  });
+  return (
+    <div onClick={props.onClick} className={cardClass}>
+      {showNotifications(props.data.numUnread, props.data.silenced)}
+      <div className="Card-Avatar">
+        <Avatar
+          name={props.data.name}
+          imgurl={props.data.image}
+          size="small"
+          onClick={() => console.log("for use in profile")}
         />
-        <div className="Card-dots-area">
-          <img
-            alt="dots"
-            className="Card-dots"
-            onClick={evt => this.dotsF(evt)}
-            src={dots}
-          />
-        </div>
-        {this.state.highlighted ? (
-          <HighlightedCard
-            favourite={this.state.favourite}
-            silence={this.state.silenced}
-            fav={evt => this.setFavourite(evt)}
-            sil={evt => this.setSilenced(evt)}
-            high={evt => this.setHighlight(evt)}
-          />
-        ) : null}
       </div>
-    );
-  }
-}
+      <div className="Card-message-text">
+        <div
+          className="Card-username"
+          dangerouslySetInnerHTML={{
+            __html: props.displayName
+          }}
+        />
+        <div className="Card-text-preview">{props.data.lastMessage.text}</div>
+      </div>
+      <MessageDate context="MessageDate" date={props.data.lastMessage.date} />
+      <div className="Card-dots-area">
+        <img
+          alt="dots"
+          className="Card-dots"
+          onClick={evt =>
+            dotsOnClick(evt, () => props.setHighlightedCard(props.cardNumber))
+          }
+          src={dots}
+        />
+      </div>
+      {props.highlightedCard === props.cardNumber ? (
+        <HighlightedCard
+          setOption={(a, b, c) => setOption(a, b, c)}
+          highlightedCardOptions={props.highlightedCardOptions}
+          silenced={props.silenced}
+          favourite={props.favourite}
+          closeHighlightedCard={evt => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            props.setHighlightedCard(null);
+          }}
+        />
+      ) : null}
+    </div>
+  );
+};
 
 export default Card;
 
