@@ -8,13 +8,6 @@ export const fakeDatabase = {
       name: "Antonio Pellegrini",
       favouritesActive: false,
       highlightedCard: null,
-      page: "Messages",
-      activeChat: {
-        collocutor: "null",
-        status: "null",
-        messages: []
-      },
-      activeTab: "Messages",
       newMessage: "",
       searchToggle: false,
       querystr: "",

@@ -21,47 +21,79 @@ import LoginPswInstructions from "./components/LoginPswInstructions";
 import { Route, Switch, Redirect } from "react-router-dom";
 import logo from "./assets/logo_blackbird.svg";
 
-import { fakeState1 } from "./fakeStates";
-import { fakeState2 } from "./fakeStates";
-import { fakeDatabase } from "./fakeDatabase";
-var uid;
+// import { fakeState1 } from "./fakeStates";
+// import { fakeState2 } from "./fakeStates";
+// import { fakeDatabase } from "./fakeDatabase";
+import firebase from "./firebase";
 class App extends Component {
-  constructor(props) {
-    super(props);
-
+  state = null;
+  componentDidMount() {
     this.authenticateUser().then(
-      user => {
-        this.getDatabaseState(user);
-      },
-      err => {
-        console.log("identification error");
-        this.redirectToLogin();
-      }
+      user => this.getDatabaseState(user),
+      err => this.setState({ authentificationRequired: true })
     );
   }
+  // componentDidUpdate(prevState) {
+  //   console.log(prevState);
+  //   this.setState({ authentificationRequired: false });
+  //   // console.log(prevState);
+  // }
   authenticateUser() {
     return new Promise((resolve, reject) => {
       console.log("authenticating user...");
       setTimeout(() => {
         //authenticate user
-        const user = "carlburns";
-        user ? resolve(user) : reject("redirect");
+        const user = "antoniopellegrini";
+        user ? resolve(user) : reject("redirect to login");
       }, 500);
     });
   }
-  redirectToLogin() {
-    console.log("setting login redirect");
-    setTimeout(() => {}, 500);
-  }
+  // redirectToLogin() {
+  //   console.log("setting login redirect");
+  //   if(this.state.authentificationRequired){return <Redirect to="/" />
+  // }
 
   getDatabaseState(user) {
-    //preparation for firebase integration
-    console.log("user:" + user);
-    console.log("requesting user info from db");
-    setTimeout(() => {
-      const dbresult = fakeDatabase.users[user];
-      this.setState(dbresult);
-    }, 500);
+    let aux;
+    var db = firebase.firestore();
+    let userRef = db.collection("users").doc(user);
+    let conversations = userRef.collection("collocutors");
+
+    userRef.onSnapshot(doc => {
+      var newState = {};
+
+      console.log(newState);
+      newState = doc.data();
+      conversations.onSnapshot(data => {
+        newState.collocutors = [];
+        data.forEach((el, index) => {
+          let collocutorId = el.id;
+          let last = el.data().lastOpened.seconds;
+          console.log("lastOpened with " + el.id + " at " + last);
+          conversations
+            .doc(collocutorId)
+            .collection("messages")
+            //.where("sender", "==", "chiarabaroni");
+            //.where(el.data().date.seconds, ">", el.data().lastOpened.seconds);
+            .onSnapshot(snapshot => {
+              let counter = 0;
+              aux = {};
+              snapshot.forEach(el => {
+                if (el.data().date.seconds > last) {
+                  counter++;
+                }
+              });
+              aux = el.data();
+              aux.numUnread = counter;
+              console.log(aux);
+            });
+
+          newState.collocutors.push(aux);
+        });
+        this.setState(newState);
+        console.log(newState);
+      });
+    });
   }
 
   searchFilter() {
@@ -130,18 +162,15 @@ class App extends Component {
         </div>
       );
     }
-    if (uid === "redirect") {
-      console.log("redirect to login");
-      return <Redirect to="/login" />;
+    if (this.state.authentificationRequired) {
+      //this.setState({ authentificationRequired: false }); //bad
+      return <Redirect to="/" />;
     }
-    // if (true)
-    //   //this.state.authentificationRequired)
-    //return <Redirect to="/login" />;
     return (
       <Switch>
         <Route
           exact
-          path="/login"
+          path="/"
           render={() => <Login setCredentials={x => this.setCredentials(x)} />}
         />
         <Route
@@ -149,7 +178,7 @@ class App extends Component {
           render={props => (
             <Messages
               {...props}
-              getDatabaseState={x => this.getDatabaseState(x)}
+              currentUser={this.state.currentUser}
               setHighlightedCard={x => this.setState({ highlightedCard: x })}
               highlightedCard={this.state.highlightedCard}
               highlightedCardOptions={x => this.highlightedCardOptions(x)}
@@ -157,7 +186,12 @@ class App extends Component {
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
               favouritesActive={this.state.favouritesActive}
-              cardList={this.state.collocutors}
+              cardList={
+                this.state.searchToggle
+                  ? this.searchFilter()[0]
+                  : this.state.collocutors
+              }
+              displayNames={this.searchFilter()[1]}
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
               setQueryString={x => this.setQueryString(x)}
@@ -197,11 +231,11 @@ class App extends Component {
         />
         {/* <Route path="/send-new" render={()=><SendNew} /> */}
         <Route
-          path="/profile"
+          path={"/profile/:currentUser"}
           render={props => (
             <Profile
-              {...props}
-              currentUser={this.state.name}
+              currentUser={props.match.params}
+              currentUser={this.state.currentUser}
               prevPage={"test"}
             />
           )}

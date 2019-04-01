@@ -9,12 +9,12 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const Profile = props => {
-  console.log(props.match);
+  console.log(props.currentUser);
 
   return (
     <div className="ProfileContainer">
       <div className="ProfileHeader">
-        <Link to={"/messages"}>
+        <Link to={"/messages/" + props.currentUser}>
           <div className="ProfileBackButton">
             <Back onClick={() => console.log("profile")} />
           </div>

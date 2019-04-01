@@ -10,6 +10,7 @@ class Messages extends React.Component {
         <Header
           url={this.props.match.url}
           name={this.props.name}
+          currentUser={this.props.currentUser}
           openSearch={this.props.openSearch}
           searchToggle={this.props.searchToggle}
           setQueryString={this.props.setQueryString}
@@ -26,6 +27,7 @@ class Messages extends React.Component {
           highlightedCard={this.props.highlightedCard}
           highlightedCardOptions={this.props.highlightedCardOptions}
           cardList={this.props.cardList}
+          displayNames={this.props.displayNames}
           selectChat={this.props.selectChat}
           searchToggle={this.props.searchToggle}
         />
