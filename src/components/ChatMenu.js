@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import threeDotsIcon from "../assets/threedots.svg";
 import closeIcon from "../assets/ics.svg";
 import "./ChatMenu.css";
+import PropTypes from "prop-types";
 
-class MenuChat extends Component {
+class ChatMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -65,7 +66,11 @@ class MenuChat extends Component {
     };
 };
 
-export default MenuChat;
+export default ChatMenu;
+
+ChatMenu.propTypes = {
+
+}
 
 {/* <ul className="menu">
     <li onClick={() => console.log('Add Favorites')}>Add Favorite</li>

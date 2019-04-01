@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ChatMenu from "./ChatMenu"
+import ChatMenu from "./ChatMenu";
 import "./HeaderChat.css";
 // import { search } from "../utils";
 // import Search from "./Search";
@@ -23,8 +23,7 @@ class HeaderChat extends Component {
             <div className="status">{this.props.status}</div>
           </div>
         )}
-        <ChatMenu 
-        />
+        <ChatMenu />
       </div>
     );
   }
