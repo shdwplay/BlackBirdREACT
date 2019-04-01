@@ -128,8 +128,10 @@ class App extends Component {
           render={() => <Profile currentUser={this.state.currentUser} />}
         />
         <Route
-          path="/messages/"
-          render={() => (
+          path="/messages/:id"
+          render={(props) => {
+            console.log(props)
+            return (
             <Chat
               activeChat={this.state.activeChat}
               currentUser={this.state.currentUser}
@@ -139,7 +141,7 @@ class App extends Component {
               newMessage={e => this.newMessage(e)}
               saveMessage={() => this.saveMessage()}
             />
-          )}
+          )}}
         />
         <Route exact path="/" render={() => <LoginForm />} />
         <Route path="/forgot-password" render={() => <LoginForgotPsw />} />

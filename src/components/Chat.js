@@ -6,6 +6,8 @@ import HeaderChat from "./HeaderChat";
 
 export default class Chat extends React.Component {
   render() {
+
+
     return (
       <div className="Chat-container">
         <HeaderChat
