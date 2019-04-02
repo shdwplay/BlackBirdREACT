@@ -103,7 +103,6 @@ class App extends Component {
   }
 
   addMessage(collocutorId, currentUserId) {
-    
     var db = firebase.firestore();
     let userRef = db.collection("users").doc('antoniopellegrini');
     let conversations = userRef.collection("collocutors")
@@ -119,6 +118,12 @@ class App extends Component {
       console.error("Error adding document: ", error);
   });
   this.setState({newMessage: ''})    
+  }
+
+  setActive(activeChat) {
+    this.setState({
+      activeChat2: activeChat
+    })
   }
  
   searchFilter() {
@@ -203,6 +208,7 @@ class App extends Component {
           render={props => (
             <Messages
               {...props}
+              
               currentUser={this.state.currentUser}
               setHighlightedCard={x => this.setState({ highlightedCard: x })}
               highlightedCard={this.state.highlightedCard}
@@ -272,6 +278,7 @@ class App extends Component {
             return (
             <Chat
               {...props}
+              setActive={(x)=>this.setActive(x)}
               activeChat={this.state.activeChat}
               currentUser={this.state.currentUser}
               /* collocutor={this.state.activeChat.collocutor}

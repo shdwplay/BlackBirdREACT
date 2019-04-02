@@ -24,7 +24,7 @@ const CardList = props => {
               props.selectChat({
                 collocutor: el.name,
                 status: el.status,
-                messages: el.collection('messages')
+                messages: el.messages,
               });
             }}
             data={el}
