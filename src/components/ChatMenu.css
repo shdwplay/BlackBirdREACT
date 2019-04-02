@@ -35,3 +35,9 @@ ul {
 .option {
     margin: 10px;
 }
+
+/* @media (min-width: 768px) and (orientation:landscape) {
+    .chat-menu {
+        display: none;
+    }
+} */

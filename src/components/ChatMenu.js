@@ -21,7 +21,7 @@ class ChatMenu extends Component {
     render() {
         if (!this.state.show) {
             return (
-                <div className="more">
+                <div className="chat-menu">
                     <img
                         className="open-icon" 
                         src={threeDotsIcon}
@@ -32,7 +32,7 @@ class ChatMenu extends Component {
             )
         }
         return (
-            <div className="more">
+            <div className="chat-menu">
                 <img
                     className="close-icon" 
                     src={closeIcon}
@@ -71,10 +71,3 @@ export default ChatMenu;
 ChatMenu.propTypes = {
 
 }
-
-{/* <ul className="menu">
-    <li onClick={() => console.log('Add Favorites')}>Add Favorite</li>
-    <li onClick={() => console.log('Mute')}>Mute</li>
-    <li onClick={() => console.log('Search')}>Search</li>
-    <li onClick={() => console.log('Delete Conversation')}>Delete conversation</li>
-</ul> */}

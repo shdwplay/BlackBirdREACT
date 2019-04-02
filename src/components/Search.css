@@ -41,3 +41,9 @@
 .topsomething {
   top: -10px;
 }
+
+@media (min-width: 768px) and (orientation:landscape) {
+  .Search {
+      display: none;
+  }
+}

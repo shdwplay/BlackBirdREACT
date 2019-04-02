@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ChatMenu from "./ChatMenu";
 import "./HeaderChat.css";
-// import { search } from "../utils";
-// import Search from "./Search";
+import { search } from "../utils";
+import Search from "./Search";
 // import Back from "./Back";
 
 class HeaderChat extends Component {
@@ -13,6 +13,14 @@ class HeaderChat extends Component {
       results: []
     };
   }
+  // searchFunction(e) {
+  //   this.setState({
+  //     string: e.target.value
+  //   });
+  //   this.setState({
+  //     results: search(e.target.value)
+  //   });
+  // }
 
   render() {
     return (
@@ -23,6 +31,12 @@ class HeaderChat extends Component {
             <div className="status">{this.props.status}</div>
           </div>
         )}
+        <Search
+          searchToggle={this.props.searchToggle}
+          string={this.state.string}
+          onChange={e => this.searchFunction(e)}
+          openSearch={() => this.props.setSearchOpen()}
+        />
         <ChatMenu />
       </div>
     );
