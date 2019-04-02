@@ -9,7 +9,7 @@ const CardList = props => {
   return (
     <div className={`CardList ${props.searchToggle ? "CardList-on-top" : ""}`}>
       {props.cardList.map((el, index) => (
-        <Link to={"/chat/" + el.id}>
+        <Link to={"/messages/" + el.id}>
           <Card
             displayName={props.displayNames[index]}
             key={index}
@@ -24,7 +24,7 @@ const CardList = props => {
               props.selectChat({
                 collocutor: el.name,
                 status: el.status,
-                messages: el.messages
+                messages: el.collection('messages')
               });
             }}
             data={el}

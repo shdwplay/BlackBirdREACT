@@ -21,13 +21,13 @@ import LoginPswInstructions from "./components/LoginPswInstructions";
 import { Route, Switch, Redirect } from "react-router-dom";
 import logo from "./assets/logo_blackbird.svg";
 
-// import { fakeState1 } from "./fakeStates";
+import { fakeState1 } from "./fakeStates";
 // import { fakeState2 } from "./fakeStates";
-// import { fakeDatabase } from "./fakeDatabase";
+//import { fakeDatabase } from "./fakeDatabase";
 import firebase from "./firebase";
 class App extends Component {
-  state = null;
-  componentDidMount() {
+  state = fakeState1;
+  /* componentDidMount() {
     this.authenticateUser().then(
       user => this.getDatabaseState(user),
       err => this.setState({ authentificationRequired: true })
@@ -88,14 +88,38 @@ class App extends Component {
               console.log(aux);
             });
 
-          newState.collocutors.push(aux);
+          newState.collocutors.push(el.data());
         });
         this.setState(newState);
         console.log(newState);
       });
     });
+  }*/
+
+  newMessage(e) {
+    this.setState({
+      newMessage: e.target.value
+    })
   }
 
+  addMessage() {
+    let collocutorId='chiarabaroni'
+    var db = firebase.firestore();
+    let userRef = db.collection("users").doc('antoniopellegrini');
+    let conversations = userRef.collection("collocutors")
+    conversations.doc(collocutorId).collection('messages').add({
+      text: this.state.newMessage,
+      time: new Date()
+  })
+  .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+  this.setState({newMessage: ''})    
+  }
+ 
   searchFilter() {
     var reg = new RegExp(this.state.querystr, "gi");
     let filtered = this.state.collocutors.filter(el =>
@@ -252,7 +276,7 @@ class App extends Component {
               messageList={this.state.activeChat.messages} */
               value={this.state.newMessage}
               newMessage={e => this.newMessage(e)}
-              saveMessage={() => this.saveMessage()}
+              addMessage={() => this.addMessage()}
             />
           )}}
         />
