@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import searchIcon from "../assets/search.svg";
-import icsIcon from "../assets/ics.svg";
+import closeIcon from "../assets/ics.svg";
 import "./Search.css";
 
 class Search extends Component {
@@ -24,7 +24,7 @@ class Search extends Component {
         {this.props.searchToggle ? (
           <img
             className="Search-img"
-            src={icsIcon}
+            src={closeIcon}
             alt="close"
             onClick={this.props.openSearch}
           />
