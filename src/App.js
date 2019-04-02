@@ -102,14 +102,15 @@ class App extends Component {
     })
   }
 
-  addMessage() {
-    let collocutorId='chiarabaroni'
+  addMessage(collocutorId, currentUserId) {
+    
     var db = firebase.firestore();
     let userRef = db.collection("users").doc('antoniopellegrini');
     let conversations = userRef.collection("collocutors")
     conversations.doc(collocutorId).collection('messages').add({
       text: this.state.newMessage,
-      time: new Date()
+      time: new Date(),
+      sender: currentUserId
   })
   .then(function(docRef) {
       console.log("Document written with ID: ", docRef.id);
@@ -270,13 +271,14 @@ class App extends Component {
             console.log(props)
             return (
             <Chat
+              {...props}
               activeChat={this.state.activeChat}
               currentUser={this.state.currentUser}
               /* collocutor={this.state.activeChat.collocutor}
               messageList={this.state.activeChat.messages} */
               value={this.state.newMessage}
               newMessage={e => this.newMessage(e)}
-              addMessage={() => this.addMessage()}
+              addMessage={(x,y) => this.addMessage(x,y)}
             />
           )}}
         />

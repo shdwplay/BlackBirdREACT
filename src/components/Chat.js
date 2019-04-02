@@ -44,7 +44,9 @@ export default class Chat extends React.Component {
           <img
             id="send-icon"
             onClick={() => {
-              this.props.addMessage();
+              console.log(this.props.match.params.id)
+              console.log(this.props.currentUser)
+              this.props.addMessage(this.props.match.params.id, this.props.currentUser);
             }}
             src={send}
             alt="send message"
