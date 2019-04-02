@@ -11,6 +11,8 @@ export default class Chat extends React.Component {
         <HeaderChat
           name={this.props.activeChat.collocutor}
           status={this.props.activeChat.status}
+          openSearch={this.props.openSearch}
+          searchToggle={this.props.searchToggle}
         />
         <div className="Chat" id="chat">
           {this.props.activeChat.messages.map((el, index) => {

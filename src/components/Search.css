@@ -43,7 +43,7 @@
 }
 
 @media (min-width: 768px) and (orientation: landscape) {
-  .Search {
+  .Search-img {
     display: none;
   }
 }

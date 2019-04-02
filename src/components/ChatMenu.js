@@ -46,7 +46,10 @@ class ChatMenu extends Component {
           <div className="option" onClick={() => console.log("Mute")}>
             Mute
           </div>
-          <div className="option" onClick={() => console.log("Search")}>
+          <div className="option" onClick={() => {
+            this.toggleShow()
+            this.props.onClick()}
+            }>
             Search
           </div>
           <div
