@@ -4,58 +4,61 @@ import logoW from "../assets/welcome_logo_w.svg";
 import "./Login.css";
 import Button from "./Button";
 import Modal from "./Modal";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link, withRouter, Route } from "react-router-dom";
+import firebase from "../firebase";
+import Messages from "./Messages";
+
+// const Auth ={
+//   isAuthenticated: false,
+//   authenticate(cb) {
+//     firebase
+//       .auth()
+//       .signInWithEmailAndPassword(email, pw
+//       .catch(() => this.setState({ Modal: true }));
+//   }
+// };
 
 class Login extends Component {
   state = {
     email: "",
     password: "",
-    dbUserCredentials: [],
     Modal: false,
     forgotPassword: false,
     redirect: false
   };
 
-  componentDidMount() {
-    //simulates request for list of users and passwords from db
-    setTimeout(() => {
-      this.setState({
-        dbcredentials: [
-          ["antoniopellegrini@born2code.it", "pippo"],
-          ["carlburns@born2code.it", "fidelio"]
-        ]
-      });
-    }, 2000); //*ISSUE IF USER ATTEMPS LOGIN BEFORE REQUEST IS FINISHED*
+  authenticate() {
+    firebase //authenticate
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => {
+        console.log("getting db");
+        this.props.getDatabaseState(this.state.email.split("@")[0]);
+      })
+      .catch(() => this.setState({ Modal: true }));
   }
-  inputVerification = (name, pw) => {
-    let userExists = this.state.dbcredentials.map(el => el[0]).indexOf(name);
-    console.log(userExists);
-    if (userExists === -1) {
-      console.log("user not found");
-      return false;
-    }
-    if (
-      !(
-        name === this.state.dbcredentials[userExists][0] &&
-        pw === this.state.dbcredentials[userExists][1]
-      )
-    ) {
-      console.log("incorrect password");
-      return false;
-    }
-    console.log(name + " " + pw);
-    return true;
-  };
 
   hideModal() {
     this.setState({ Modal: false });
   }
 
   render() {
-    if (this.state.redirect) {
-      var user = this.state.email.split("@")[0];
-      return <Redirect to={"/messages/" + user} />;
-    }
+    // if (this.state.redirect) {
+    //   return <Redirect to="/messages/" />;
+    // }
+    // const { from } = this.props.location.state || { from: { pathname: "/" } };
+    // // const { redirect } = this.state.redirect;
+    // // console.log(this.state.redirect);
+    // // console.log(from);
+    // if (this.state.redirect) {
+    //   return <Redirect to={from} />;
+    // } else {
+    //{
+    //   //var user = this.state.email.split("@")[0];
+    //   this.props.getDatabaseState(this.state.email.split("@")[0]).then(() => {
+    //     this.props.authenticate();
+    //   });
+
     if (!this.state.forgotPassword) {
       return (
         <div className="Login">
@@ -120,18 +123,20 @@ class Login extends Component {
                   Forgot Password?
                 </div>
               </div>
+
               <Button
                 text="Login"
                 type="filled"
                 onClick={() => {
-                  if (
-                    this.inputVerification(
-                      this.state.email,
-                      this.state.password
-                    )
-                  ) {
-                    this.setState({ redirect: true });
-                  } else this.setState({ Modal: true });
+                  this.authenticate();
+                  // firebase
+                  //   .auth()
+                  //   .signInWithEmailAndPassword(
+                  //     this.state.email,
+                  //     this.state.password
+                  //   )
+                  //   .then(this.props.authenticate())
+                  //   .catch(() => this.setState({ Modal: true }));
                 }}
               />
             </div>

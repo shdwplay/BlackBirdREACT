@@ -18,14 +18,20 @@ import Messages from "./components/Messages";
 import LoginForm from "./components/LoginForm";
 import LoginForgotPsw from "./components/LoginForgotPsw";
 import LoginPswInstructions from "./components/LoginPswInstructions";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, Link } from "react-router-dom";
 import logo from "./assets/logo_blackbird.svg";
 
+<<<<<<< HEAD
 import { fakeState1 } from "./fakeStates";
 // import { fakeState2 } from "./fakeStates";
 //import { fakeDatabase } from "./fakeDatabase";
+=======
+>>>>>>> 92dc876dc421379b8ce73669a8750310d32ca2fa
 import firebase from "./firebase";
+import { resolve } from "dns";
+
 class App extends Component {
+<<<<<<< HEAD
   state = fakeState1;
   /* componentDidMount() {
     this.authenticateUser().then(
@@ -92,6 +98,42 @@ class App extends Component {
         });
         this.setState(newState);
         console.log(newState);
+=======
+  state = null;
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        //could user user.uid instead
+        console.log("authenticated:" + user.email.split("@")[0]);
+        this.getDatabaseState(user.email.split("@")[0]);
+      } else {
+        console.log("unauthenticated");
+        this.setState({
+          isAuthenticated: false
+        });
+      }
+    });
+  }
+  getDatabaseState(userName) {
+    let newState = {};
+    let db = firebase.firestore();
+    let userRef = db.collection("users").doc(userName);
+    userRef.get().then(doc => {
+      return new Promise(resolve => {
+        userRef
+          .collection("collocutors")
+          .get()
+          .then(data => {
+            let collocutors = [];
+            newState = doc.data();
+            // console.log(doc.data());
+            // console.log(data.docs[0].data());
+            data.docs.forEach(el => collocutors.push(el.data()));
+            newState.collocutors = collocutors;
+            newState.isAuthenticated = true;
+            this.setState(newState);
+          });
+>>>>>>> 92dc876dc421379b8ce73669a8750310d32ca2fa
       });
     });
   }*/
@@ -144,8 +186,8 @@ class App extends Component {
   }
 
   highlightedCardOptions(option) {
-    //invoking this method with "favourites" or "silenced" as an argument
-    //will toggle the corresponding boolean value on the current highlighted chat card
+    //invoke this method "favourites" | "silenced" | "delete "as an argument
+    //to provide corrisponding functionality to chat cards
     let aux = [...this.state.collocutors];
     if (option === "delete") {
       aux.splice(this.state.highlightedCard, 1);
@@ -180,6 +222,7 @@ class App extends Component {
   render() {
     console.log("app rendering");
     if (!this.state) {
+      console.log("showing loading spinner");
       return (
         <div className="loadingContainer">
           <div className="loadingSpinner">
@@ -192,19 +235,27 @@ class App extends Component {
         </div>
       );
     }
-    if (this.state.authentificationRequired) {
-      //this.setState({ authentificationRequired: false }); //bad
-      return <Redirect to="/" />;
+    if (!this.state.isAuthenticated) {
+      return (
+        <Login authenticate={() => this.setState({ isAuthenticated: true })} />
+      );
     }
     return (
       <Switch>
         <Route
           exact
           path="/"
-          render={() => <Login setCredentials={x => this.setCredentials(x)} />}
+          render={() => (
+            <Login
+              getDatabaseState={x => this.getDatabaseState(x)}
+              authenticate={() =>
+                this.setState({ authentificationRequired: false })
+              }
+            />
+          )}
         />
         <Route
-          path={"/messages/" + this.state.currentUser}
+          path={"/messages/"}
           render={props => (
             <Messages
               {...props}
@@ -262,14 +313,8 @@ class App extends Component {
         />
         {/* <Route path="/send-new" render={()=><SendNew} /> */}
         <Route
-          path={"/profile/:currentUser"}
-          render={props => (
-            <Profile
-              currentUser={props.match.params}
-              currentUser={this.state.currentUser}
-              prevPage={"test"}
-            />
-          )}
+          path={"/profile/"}
+          render={() => <Profile currentUser={this.state.currentUser} />}
         />
         <Route
           path="/messages/:id"
