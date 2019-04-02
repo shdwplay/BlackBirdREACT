@@ -18,80 +18,47 @@ import Messages from "./components/Messages";
 import LoginForm from "./components/LoginForm";
 import LoginForgotPsw from "./components/LoginForgotPsw";
 import LoginPswInstructions from "./components/LoginPswInstructions";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, Link } from "react-router-dom";
 import logo from "./assets/logo_blackbird.svg";
 
-// import { fakeState1 } from "./fakeStates";
-// import { fakeState2 } from "./fakeStates";
-// import { fakeDatabase } from "./fakeDatabase";
 import firebase from "./firebase";
+import { resolve } from "dns";
+
 class App extends Component {
   state = null;
   componentDidMount() {
-    this.authenticateUser().then(
-      user => this.getDatabaseState(user),
-      err => this.setState({ authentificationRequired: true })
-    );
-  }
-  // componentDidUpdate(prevState) {
-  //   console.log(prevState);
-  //   this.setState({ authentificationRequired: false });
-  //   // console.log(prevState);
-  // }
-  authenticateUser() {
-    return new Promise((resolve, reject) => {
-      console.log("authenticating user...");
-      setTimeout(() => {
-        //authenticate user
-        const user = "antoniopellegrini";
-        user ? resolve(user) : reject("redirect to login");
-      }, 500);
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        //could user user.uid instead
+        console.log("authenticated:" + user.email.split("@")[0]);
+        this.getDatabaseState(user.email.split("@")[0]);
+      } else {
+        console.log("unauthenticated");
+        this.setState({
+          isAuthenticated: false
+        });
+      }
     });
   }
-  // redirectToLogin() {
-  //   console.log("setting login redirect");
-  //   if(this.state.authentificationRequired){return <Redirect to="/" />
-  // }
-
-  getDatabaseState(user) {
-    let aux;
-    var db = firebase.firestore();
-    let userRef = db.collection("users").doc(user);
-    let conversations = userRef.collection("collocutors");
-
-    userRef.onSnapshot(doc => {
-      var newState = {};
-
-      console.log(newState);
-      newState = doc.data();
-      conversations.onSnapshot(data => {
-        newState.collocutors = [];
-        data.forEach((el, index) => {
-          let collocutorId = el.id;
-          let last = el.data().lastOpened.seconds;
-          console.log("lastOpened with " + el.id + " at " + last);
-          conversations
-            .doc(collocutorId)
-            .collection("messages")
-            //.where("sender", "==", "chiarabaroni");
-            //.where(el.data().date.seconds, ">", el.data().lastOpened.seconds);
-            .onSnapshot(snapshot => {
-              let counter = 0;
-              aux = {};
-              snapshot.forEach(el => {
-                if (el.data().date.seconds > last) {
-                  counter++;
-                }
-              });
-              aux = el.data();
-              aux.numUnread = counter;
-              console.log(aux);
-            });
-
-          newState.collocutors.push(aux);
-        });
-        this.setState(newState);
-        console.log(newState);
+  getDatabaseState(userName) {
+    let newState = {};
+    let db = firebase.firestore();
+    let userRef = db.collection("users").doc(userName);
+    userRef.get().then(doc => {
+      return new Promise(resolve => {
+        userRef
+          .collection("collocutors")
+          .get()
+          .then(data => {
+            let collocutors = [];
+            newState = doc.data();
+            // console.log(doc.data());
+            // console.log(data.docs[0].data());
+            data.docs.forEach(el => collocutors.push(el.data()));
+            newState.collocutors = collocutors;
+            newState.isAuthenticated = true;
+            this.setState(newState);
+          });
       });
     });
   }
@@ -114,8 +81,8 @@ class App extends Component {
   }
 
   highlightedCardOptions(option) {
-    //invoking this method with "favourites" or "silenced" as an argument
-    //will toggle the corresponding boolean value on the current highlighted chat card
+    //invoke this method "favourites" | "silenced" | "delete "as an argument
+    //to provide corrisponding functionality to chat cards
     let aux = [...this.state.collocutors];
     if (option === "delete") {
       aux.splice(this.state.highlightedCard, 1);
@@ -150,6 +117,7 @@ class App extends Component {
   render() {
     console.log("app rendering");
     if (!this.state) {
+      console.log("showing loading spinner");
       return (
         <div className="loadingContainer">
           <div className="loadingSpinner">
@@ -162,19 +130,27 @@ class App extends Component {
         </div>
       );
     }
-    if (this.state.authentificationRequired) {
-      //this.setState({ authentificationRequired: false }); //bad
-      return <Redirect to="/" />;
+    if (!this.state.isAuthenticated) {
+      return (
+        <Login authenticate={() => this.setState({ isAuthenticated: true })} />
+      );
     }
     return (
       <Switch>
         <Route
           exact
           path="/"
-          render={() => <Login setCredentials={x => this.setCredentials(x)} />}
+          render={() => (
+            <Login
+              getDatabaseState={x => this.getDatabaseState(x)}
+              authenticate={() =>
+                this.setState({ authentificationRequired: false })
+              }
+            />
+          )}
         />
         <Route
-          path={"/messages/" + this.state.currentUser}
+          path={"/messages/"}
           render={props => (
             <Messages
               {...props}
@@ -231,14 +207,8 @@ class App extends Component {
         />
         {/* <Route path="/send-new" render={()=><SendNew} /> */}
         <Route
-          path={"/profile/:currentUser"}
-          render={props => (
-            <Profile
-              currentUser={props.match.params}
-              currentUser={this.state.currentUser}
-              prevPage={"test"}
-            />
-          )}
+          path={"/profile/"}
+          render={() => <Profile currentUser={this.state.currentUser} />}
         />
         <Route
           path="/chat"

@@ -7,10 +7,9 @@ import logo from "../assets/logo_blackbird.svg";
 import Back from "./Back";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import firebase from "../firebase";
 
 const Profile = props => {
-  console.log(props.currentUser);
-
   return (
     <div className="ProfileContainer">
       <div className="ProfileHeader">
@@ -32,9 +31,20 @@ const Profile = props => {
             <div className="Profile-data">
               <div className="profile-user-name">{props.currentUser}</div>
             </div>
-            <a className="Profile-logout-link" href="/">
+            <div
+              className="Profile-logout-link"
+              href="/"
+              onClick={() => {
+                firebase
+                  .auth()
+                  .signOut()
+                  .catch(function(error) {
+                    // An error happened.
+                  });
+              }}
+            >
               Logout
-            </a>
+            </div>
           </div>
         </div>
         <div className="Profile-settings">
