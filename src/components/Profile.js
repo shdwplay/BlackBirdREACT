@@ -8,24 +8,16 @@ import logo from "../assets/logo_blackbird.svg";
 import Back from "./Back";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import firebase from "../firebase";
-import FileInput from "react-file-input";
+import firebase from "../firebase.js";
 
 class Profile extends React.Component {
   state = {
     inputTypePassword: true
   };
-
-  onChange({ value }) {
-    const { input } = this.props;
-    input.onChange(value);
-    console.log(value);
-  }
   changeInputType() {
     this.setState({ inputTypePassword: !this.state.inputTypePassword });
   }
   render() {
-    const { input, label } = this.props;
     return (
       <div className="ProfileContainer">
         <div className="ProfileHeader">
@@ -37,38 +29,28 @@ class Profile extends React.Component {
           <div className="ProfileLogo">
             <img alt="BlackBird Logo" src={logo} />
           </div>
-          <FileInput
-            label="Awesome Uploader"
-            onChangeCallback={this.onChange}
-            onDragEnterCallback={input.onFocus}
-            onDragLeaveCallback={input.onBlur}
-          />
         </div>
-        <div className="Profile-container">
-          <div className="Profile-pic-and-logout-area">
-            <div className="Profile-pic">
-              <Avatar size="large" name={this.props.currentUser} />
+        <div className="Profile-pic-and-logout-area">
+          <div className="Profile-pic">
+            <Avatar size="large" name="Edoardo Accivile" />
+          </div>
+          <div className="Profile-logout-area">
+            <div className="Profile-data">
+              <div className="profile-user-name">{this.props.name}</div>
             </div>
-            <div className="Profile-logout-area">
-              <div className="Profile-data">
-                <div className="profile-user-name">
-                  {this.props.currentUser}
-                </div>
-              </div>
-              <div
-                className="Profile-logout-link"
-                href="/"
-                onClick={() => {
-                  firebase
-                    .auth()
-                    .signOut()
-                    .catch(function(error) {
-                      // An error happened.
-                    });
-                }}
-              >
-                Logout
-              </div>
+            <div
+              className="Profile-logout-link"
+              href="/"
+              onClick={() => {
+                firebase
+                  .auth()
+                  .signOut()
+                  .catch(err => {
+                    console.log(err);
+                  });
+              }}
+            >
+              Logout
             </div>
           </div>
           <div className="Profile-settings">
@@ -135,15 +117,28 @@ class Profile extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="Profile-settings-area">
-              <div className="Profile-settings-header">SETTINGS</div>
-              <div className="Profile-form-item Profile-form-item-first">
-                <label>Away</label>
-                <label className="switch">
-                  <input type="checkbox" name="afk" />
-                  <span className="slider round" />
-                </label>
-              </div>
+          </div>
+          <div className="Profile-settings-area">
+            <div className="Profile-settings-header">SETTINGS</div>
+            <div
+              className="Profile-form-item Profile-form-item-first"
+              // onClick={() => {
+              //   let status;
+              //   this,props.userStatus === "online"
+              //     ? (status = "away")
+              //     : (status = "online");
+              //   let db = firebase.firestore();
+              //   let x = db
+              //     .collection("users")
+              //     .doc(this.props.currentUser)
+              //     .update({ userStatus: status });
+              // }}
+            >
+              <label>Away</label>
+              <label className="switch">
+                <input type="checkbox" name="afk" />
+                <span className="slider round" />
+              </label>
             </div>
           </div>
           <Button

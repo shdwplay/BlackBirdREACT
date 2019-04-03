@@ -11,7 +11,7 @@ const MessageDate = props => {
         className={
           props.context === "MessageDate"
             ? "MessageDate-timestamp"
-            : "SingleChat-message-time"
+            : "Chat-message-time"
         }
       >
         {moment.unix(props.date).format("kk:mm")}
@@ -24,7 +24,7 @@ const MessageDate = props => {
         className={
           props.context === "MessageDate"
             ? "MessageDate-timestamp"
-            : "SingleChat-message-time"
+            : "Chat-message-time"
         }
       >
         Yesterday
@@ -36,7 +36,7 @@ const MessageDate = props => {
       className={
         props.context === "MessageDate"
           ? "MessageDate-timestamp"
-          : "SingleChat-message-time"
+          : "Chat-message-time"
       }
     >
       {moment.unix(props.date).format("DD/MM/YY")}
