@@ -15,7 +15,7 @@ const CardList = props => {
             key={index}
             cardNumber={index}
             setHighlightedCard={props.setHighlightedCard}
-            highlightedCard={props.highlightedCard}
+            highlightedCard={!props.searchToggle ? props.highlightedCard : null}
             highlightedCardOptions={props.highlightedCardOptions}
             silenced={el.silenced}
             favourite={el.favourite}

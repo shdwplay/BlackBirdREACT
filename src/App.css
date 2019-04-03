@@ -22,7 +22,8 @@
 .loadingContainer {
   width: 100%;
   height: 100vh;
-  background-color: var(--orange);
+  background-image: url(./assets/bg-orange.svg);
+  background-size: cover;
 }
 .loadingSpinner {
   font-size: 60px;
