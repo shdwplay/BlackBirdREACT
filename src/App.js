@@ -58,6 +58,7 @@ class App extends Component {
           //aux.displayName = el.name;
           collocutors.push(aux);
         });
+        newState.currentUser = userName;
         newState.collocutors = collocutors;
         newState.isAuthenticated = true;
         newState.loading = false;
@@ -65,27 +66,23 @@ class App extends Component {
         newState.querystr = "";
         newState.highlightedCard = null;
         this.setState(newState);
-        console.log(newState);
 
-        userRef
-          .collection("collocutors")
-          .get()
-          .then(x => {
-            for (let i = 0; i < x.docs.length; i++) {
-              newState.collocutors[i].messages = [];
-              userRef
-                .collection("collocutors")
-                .doc(x.docs[i].id)
-                .collection("messages")
-                .get()
-                .then(x => {
-                  for (let j = 0; j < x.docs.length; j++) {
-                    newState.collocutors[i].messages.push(x.docs[j].data());
-                  }
-                });
-            }
-          })
-          .then(() => this.setState(newState));
+        userRef.collection("collocutors").onSnapshot(x => {
+          for (let i = 0; i < x.docs.length; i++) {
+            newState.collocutors[i].messages = [];
+            userRef
+              .collection("collocutors")
+              .doc(x.docs[i].id)
+              .collection("messages")
+              .get()
+              .then(x => {
+                for (let j = 0; j < x.docs.length; j++) {
+                  newState.collocutors[i].messages.push(x.docs[j].data());
+                }
+                this.setState(newState);
+              });
+          }
+        });
       });
     });
   }
@@ -108,19 +105,29 @@ class App extends Component {
   }
 
   highlightedCardOptions(option) {
-    //invoked with "favourites" | "silenced" | "delete" =
+    //invoked with "favourite" | "silenced" | "delete" =
     //when user clicks on corrisponding icon on (highlighted) chat card
-    let aux = [...this.state.collocutors];
-    if (option === "delete") {
-      aux.splice(this.state.highlightedCard, 1);
-      this.setState({ highlightedCard: null });
-    } else {
-      aux[this.state.highlightedCard][option] = !aux[
-        this.state.highlightedCard
-      ][option];
+
+    let aux = this.state.collocutors[this.state.highlightedCard];
+    console.log(option);
+    console.log(aux.favourite);
+    //console.log(aux.messages);
+    let optionsRef = firebase
+      .firestore()
+      .collection("users")
+      .doc(this.state.currentUser)
+      .collection("collocutors");
+    if (option === "favourite") {
+      optionsRef.doc(aux.id).update({ favourite: !aux.favourite });
     }
-    this.setState({ collocutors: aux });
+    if (option === "silenced") {
+      optionsRef.doc(aux.id).update({ silenced: !aux.silenced });
+    }
+    if (option === "delete") {
+      //documents cannot be deleted directly
+    }
   }
+
   selectTab(el) {
     this.setState({
       activeTab: el
@@ -195,7 +202,13 @@ class App extends Component {
         {/* <Route path="/send-new" render={()=><SendNew} /> */}
         <Route
           path="/profile/"
-          render={() => <Profile currentUser={this.state.name} />}
+          render={() => (
+            <Profile
+              currentUser={this.state.currentUser}
+              name={this.state.name}
+              userStatus={this.state.userStatus}
+            />
+          )}
         />
         <Route
           exact
