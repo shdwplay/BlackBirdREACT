@@ -147,8 +147,7 @@ class App extends Component {
     return (
       <Switch>
         <Route
-          exact
-          path="/"
+          path="/messages"
           render={props => (
             <Messages
               {...props}
