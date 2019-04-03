@@ -8,7 +8,9 @@ class ChatMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
+      show: false,
+      favourite: false,
+      muted: false
     };
   }
 
@@ -16,6 +18,18 @@ class ChatMenu extends Component {
     this.setState({
       show: !this.state.show
     });
+  }
+  toggleFavourite() {
+    this.setState({
+      favourite: !this.state.favourite
+    });
+    // console.log('favourite: ' +this.state.favourite)
+  }
+  toggleMute() {
+    this.setState({
+      muted: !this.state.muted
+    });
+    // console.log('muted: ' +this.state.muted)
   }
 
   render() {
@@ -40,16 +54,23 @@ class ChatMenu extends Component {
           onClick={() => this.toggleShow()}
         />
         <div className="menu">
-          <div className="option" onClick={() => console.log("Add Favorites")}>
-            Add Favorite
+          <div className="option" onClick={() => this.toggleFavourite()}>
+            {this.state.favourite ? (
+              <p>Remove Favourite</p>
+            ) : (
+              <p>Add Favourite</p>
+            )}
           </div>
-          <div className="option" onClick={() => console.log("Mute")}>
-            Mute
+          <div className="option" onClick={() => this.toggleMute()}>
+            {this.state.muted ? <p>Unmute</p> : <p>Mute</p>}
           </div>
-          <div className="option" onClick={() => {
-            this.toggleShow()
-            this.props.onClick()}
-            }>
+          <div
+            className="option"
+            onClick={() => {
+              this.toggleShow();
+              this.props.onClick();
+            }}
+          >
             Search
           </div>
           <div
@@ -64,6 +85,6 @@ class ChatMenu extends Component {
   }
 }
 
-export default ChatMenu;
-
 ChatMenu.propTypes = {};
+
+export default ChatMenu;

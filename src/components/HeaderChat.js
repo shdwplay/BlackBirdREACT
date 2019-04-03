@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import ChatMenu from "./ChatMenu";
 import "./HeaderChat.css";
 import Search from "./Search";
+import PropTypes from "prop-types";
+
 // import Back from "./Back";
 
 class HeaderChat extends Component {
-
   render() {
     return (
       <div className="headerchat">
@@ -20,12 +21,12 @@ class HeaderChat extends Component {
           openSearch={this.props.openSearch}
           setQueryString={this.props.setQueryString}
         />
-        <ChatMenu
-          onClick={this.props.openSearch}
-        />
+        <ChatMenu onClick={this.props.openSearch} />
       </div>
     );
   }
 }
+
+HeaderChat.propTypes = {};
 
 export default HeaderChat;
