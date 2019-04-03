@@ -46,7 +46,7 @@
     animation-iteration-count: 1;
 }
 .Chat-message-time {
-    font-size: 12px;
+    font-size: 8px;
     position: absolute;
     right: 8px;
     bottom: 8px;

@@ -21,84 +21,13 @@ import LoginPswInstructions from "./components/LoginPswInstructions";
 import { Route, Switch, Redirect, Link } from "react-router-dom";
 import logo from "./assets/logo_blackbird.svg";
 
-<<<<<<< HEAD
-import { fakeState1 } from "./fakeStates";
+//import { fakeState1 } from "./fakeStates";
 // import { fakeState2 } from "./fakeStates";
 //import { fakeDatabase } from "./fakeDatabase";
-=======
->>>>>>> 92dc876dc421379b8ce73669a8750310d32ca2fa
 import firebase from "./firebase";
 import { resolve } from "dns";
 
 class App extends Component {
-<<<<<<< HEAD
-  state = fakeState1;
-  /* componentDidMount() {
-    this.authenticateUser().then(
-      user => this.getDatabaseState(user),
-      err => this.setState({ authentificationRequired: true })
-    );
-  }
-  // componentDidUpdate(prevState) {
-  //   console.log(prevState);
-  //   this.setState({ authentificationRequired: false });
-  //   // console.log(prevState);
-  // }
-  authenticateUser() {
-    return new Promise((resolve, reject) => {
-      console.log("authenticating user...");
-      setTimeout(() => {
-        //authenticate user
-        const user = "antoniopellegrini";
-        user ? resolve(user) : reject("redirect to login");
-      }, 500);
-    });
-  }
-  // redirectToLogin() {
-  //   console.log("setting login redirect");
-  //   if(this.state.authentificationRequired){return <Redirect to="/" />
-  // }
-
-  getDatabaseState(user) {
-    let aux;
-    var db = firebase.firestore();
-    let userRef = db.collection("users").doc(user);
-    let conversations = userRef.collection("collocutors");
-
-    userRef.onSnapshot(doc => {
-      var newState = {};
-
-      console.log(newState);
-      newState = doc.data();
-      conversations.onSnapshot(data => {
-        newState.collocutors = [];
-        data.forEach((el, index) => {
-          let collocutorId = el.id;
-          let last = el.data().lastOpened.seconds;
-          console.log("lastOpened with " + el.id + " at " + last);
-          conversations
-            .doc(collocutorId)
-            .collection("messages")
-            //.where("sender", "==", "chiarabaroni");
-            //.where(el.data().date.seconds, ">", el.data().lastOpened.seconds);
-            .onSnapshot(snapshot => {
-              let counter = 0;
-              aux = {};
-              snapshot.forEach(el => {
-                if (el.data().date.seconds > last) {
-                  counter++;
-                }
-              });
-              aux = el.data();
-              aux.numUnread = counter;
-              console.log(aux);
-            });
-
-          newState.collocutors.push(el.data());
-        });
-        this.setState(newState);
-        console.log(newState);
-=======
   state = null;
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
@@ -115,28 +44,63 @@ class App extends Component {
     });
   }
   getDatabaseState(userName) {
+    this.setState({ loading: true }); //shows spinner while waiting for response from db
     let newState = {};
     let db = firebase.firestore();
     let userRef = db.collection("users").doc(userName);
     userRef.get().then(doc => {
-      return new Promise(resolve => {
-        userRef
-          .collection("collocutors")
-          .get()
-          .then(data => {
-            let collocutors = [];
-            newState = doc.data();
-            // console.log(doc.data());
-            // console.log(data.docs[0].data());
-            data.docs.forEach(el => collocutors.push(el.data()));
-            newState.collocutors = collocutors;
-            newState.isAuthenticated = true;
-            this.setState(newState);
-          });
->>>>>>> 92dc876dc421379b8ce73669a8750310d32ca2fa
+      //console.log(snapshot.data());
+      newState = doc.data();
+      userRef.collection("collocutors").onSnapshot(snapshot => {
+        let collocutors = [];
+        snapshot.docs.forEach(el => {
+          let aux = el.data();
+          aux.id = el.id;
+          //aux.displayName = el.name;
+          collocutors.push(aux);
+        });
+        newState.currentUser = userName;
+        newState.collocutors = collocutors;
+        newState.isAuthenticated = true;
+        newState.loading = false;
+        newState.searchToggle = false;
+        newState.querystr = "";
+        newState.highlightedCard = null;
+        this.setState(newState);
+
+        userRef.collection("collocutors").onSnapshot(x => {
+          for (let i = 0; i < x.docs.length; i++) {
+            newState.collocutors[i].messages = [];
+            userRef
+              .collection("collocutors")
+              .doc(x.docs[i].id)
+              .collection("messages")
+              .get()
+              .then(x => {
+                for (let j = 0; j < x.docs.length; j++) {
+                  newState.collocutors[i].messages.push(x.docs[j].data());
+                }
+                this.setState(newState);
+              });
+          }
+        });
       });
     });
-  }*/
+  }
+
+  /* getMessages(userId, collocutorId){
+    let db = firebase.firestore();
+    let userRef = db.collection("users").doc(userId);
+    userRef.collection("collocutors").doc(collocutorId).collection('messages')
+    .onSnapshot(function(querySnapshot) {
+        var messages = [];
+        console.log(querySnapshot)
+        querySnapshot.forEach(function(doc) {
+            messages.push(doc.data().text);
+        });
+        console.log("Messaggi tra chiara e antonio: ", messages.join(", "));
+    });
+  } */
 
   newMessage(e) {
     this.setState({
@@ -146,23 +110,55 @@ class App extends Component {
 
   addMessage(collocutorId, currentUserId) {
     var db = firebase.firestore();
-    let userRef = db.collection("users").doc('antoniopellegrini');
+    let userRef = db.collection("users").doc(currentUserId);
     let conversations = userRef.collection("collocutors")
+    //aggiungo i nuovi messaggi all'utente corrente
+    conversations.doc(collocutorId).update({
+      lastMsg: {
+        text: this.state.newMessage,
+        date: new Date(),
+        sender: currentUserId
+      }
+    })
     conversations.doc(collocutorId).collection('messages').add({
       text: this.state.newMessage,
       time: new Date(),
       sender: currentUserId
-  })
+    })
   .then(function(docRef) {
       console.log("Document written with ID: ", docRef.id);
   })
   .catch(function(error) {
       console.error("Error adding document: ", error);
   });
-  this.setState({newMessage: ''})    
+  this.setState({newMessage: ''})   
+  userRef=db.collection('users').doc(collocutorId);
+  conversations=userRef.collection('collocutors')
+  //aggiungo i nuovi messaggi al collocutor
+  conversations.doc(currentUserId).update({
+    lastMsg: {
+      text: this.state.newMessage,
+      date: new Date(),
+      sender: currentUserId
+    }
+    })
+    conversations.doc(currentUserId).collection('messages').add({
+      text: this.state.newMessage,
+      time: new Date(),
+      sender: currentUserId
+    })
+  .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+
   }
 
+
   setActive(activeChat) {
+    
     this.setState({
       activeChat2: activeChat
     })
@@ -208,7 +204,6 @@ class App extends Component {
 
   selectChat(clickedCard) {
     this.setState({
-      page: "Chat",
       activeChat: clickedCard
     });
   }
@@ -255,7 +250,7 @@ class App extends Component {
           )}
         />
         <Route
-          path={"/messages/"}
+          exact path={"/messages/"}
           render={props => (
             <Messages
               {...props}
@@ -319,10 +314,15 @@ class App extends Component {
         <Route
           path="/messages/:id"
           render={(props) => {
-            console.log(props)
+            const collocutor = this.state.collocutors.find(element => {
+              if (element.id === props.match.params.id) return element
+              return null
+            })
             return (
             <Chat
               {...props}
+              collocutor={collocutor}
+              selectChat={x => this.selectChat(x)}
               setActive={(x)=>this.setActive(x)}
               activeChat={this.state.activeChat}
               currentUser={this.state.currentUser}

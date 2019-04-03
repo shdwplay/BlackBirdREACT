@@ -22,9 +22,10 @@ const CardList = props => {
             //isActive={props.activeChat === index}
             onClick={() => {
               props.selectChat({
-                collocutor: el.name,
+                /* collocutor: el.name,
                 status: el.status,
-                messages: el.messages,
+                messages: el.messages, */
+                messages: el.messages
               });
             }}
             data={el}

@@ -38,7 +38,7 @@ const Card = props => {
             __html: props.displayName
           }}
         />
-        <div className="Card-text-preview">{props.data.lastMessage.text}</div>
+        <div className="Card-text-preview">{props.data.lastMsg.text}</div>
       </div>
       <MessageDate context="MessageDate" date={props.data.lastOpened.seconds} />
       <div className="Card-dots-area">
