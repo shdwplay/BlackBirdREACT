@@ -65,7 +65,7 @@ class App extends Component {
         newState.searchToggle = false;
         newState.querystr = "";
         newState.highlightedCard = null;
-        this.setState(newState);
+        //this.setState(newState);
 
         userRef.collection("collocutors").onSnapshot(x => {
           for (let i = 0; i < x.docs.length; i++) {
@@ -234,7 +234,7 @@ class App extends Component {
     return (
       <Switch>
         <Route
-          path="/messages"
+          exact path="/messages"
           render={props => (
             <Messages
               {...props}
