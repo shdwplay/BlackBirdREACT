@@ -56,7 +56,7 @@ class ChatMenu extends Component {
         <div className="menu">
           <div className="option" onClick={() => this.toggleFavourite()}>
             {this.state.favourite ? (
-              <p>Remove Favourite</p>
+              <p>Remove from Favourites</p>
             ) : (
               <p>Add Favourite</p>
             )}
