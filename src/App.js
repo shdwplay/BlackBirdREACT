@@ -209,6 +209,8 @@ class App extends Component {
               value={this.state.newMessage}
               newMessage={e => this.newMessage(e)}
               saveMessage={() => this.saveMessage()}
+              searchToggle={this.state.searchToggle}
+              openSearch={() => this.setSearchOpen()}
             />
           )}
         />

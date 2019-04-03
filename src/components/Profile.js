@@ -9,15 +9,23 @@ import Back from "./Back";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import firebase from "../firebase";
+import FileInput from "react-file-input";
 
 class Profile extends React.Component {
   state = {
     inputTypePassword: true
   };
+
+  onChange({ value }) {
+    const { input } = this.props;
+    input.onChange(value);
+    console.log(value);
+  }
   changeInputType() {
     this.setState({ inputTypePassword: !this.state.inputTypePassword });
   }
   render() {
+    const { input, label } = this.props;
     return (
       <div className="ProfileContainer">
         <div className="ProfileHeader">
@@ -29,6 +37,12 @@ class Profile extends React.Component {
           <div className="ProfileLogo">
             <img alt="BlackBird Logo" src={logo} />
           </div>
+          <FileInput
+            label="Awesome Uploader"
+            onChangeCallback={this.onChange}
+            onDragEnterCallback={input.onFocus}
+            onDragLeaveCallback={input.onBlur}
+          />
         </div>
         <div className="Profile-container">
           <div className="Profile-pic-and-logout-area">
