@@ -9,27 +9,27 @@ const CardList = props => {
   return (
     <div className={`CardList ${props.searchToggle ? "CardList-on-top" : ""}`}>
       {props.cardList.map((el, index) => (
-        // <Link to={"/messages/" + el.id}>
-        <Card
-          displayName={props.displayNames[index]}
-          key={index}
-          cardNumber={index}
-          setHighlightedCard={props.setHighlightedCard}
-          highlightedCard={props.highlightedCard}
-          highlightedCardOptions={props.highlightedCardOptions}
-          silenced={el.silenced}
-          favourite={el.favourite}
-          //isActive={props.activeChat === index}
-          onClick={() => {
-            props.selectChat({
-              collocutor: el.id,
-              status: el.status,
-              messages: el.messages
-            });
-          }}
-          data={el}
-        />
-        // </Link>
+        <Link to={"/messages/" + el.id}>
+          <Card
+            displayName={props.displayNames[index]}
+            key={index}
+            cardNumber={index}
+            setHighlightedCard={props.setHighlightedCard}
+            highlightedCard={props.highlightedCard}
+            highlightedCardOptions={props.highlightedCardOptions}
+            silenced={el.silenced}
+            favourite={el.favourite}
+            //isActive={props.activeChat === index}
+            onClick={() => {
+              props.selectChat({
+                collocutor: el.id,
+                status: el.status,
+                messages: el.messages
+              });
+            }}
+            data={el}
+          />
+        </Link>
       ))}
     </div>
   );
