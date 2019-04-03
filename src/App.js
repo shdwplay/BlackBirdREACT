@@ -55,11 +55,15 @@ class App extends Component {
         snapshot.docs.forEach(el => {
           let aux = el.data();
           aux.id = el.id;
+          //aux.displayName = el.name;
           collocutors.push(aux);
         });
         newState.collocutors = collocutors;
         newState.isAuthenticated = true;
         newState.loading = false;
+        newState.searchToggle = false;
+        newState.querystr = "";
+        newState.highlightedCard = null;
         this.setState(newState);
         console.log(newState);
 
@@ -147,8 +151,7 @@ class App extends Component {
     return (
       <Switch>
         <Route
-          exact
-          path="/"
+          path="/messages"
           render={props => (
             <Messages
               {...props}

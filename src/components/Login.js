@@ -40,12 +40,23 @@ class Login extends Component {
     if (!this.state.forgotPassword) {
       return (
         <div className="Login">
-          {this.state.Modal && <Modal hide={() => this.hideModal()} />}
+          {this.state.Modal && (
+            <Modal
+              alertTitle="Invalid email or password"
+              alertText="Please reinsert both fields carefully"
+              hide={() => this.hideModal()}
+            />
+          )}
           <div className="Login-container">
             <div className="Login-header">
               <img
                 alt="BlackBird Logo"
-                className="Login-mobile-logo"
+                class="Logo-ipad Login-mobile-logo"
+                src={logoW}
+              />
+              <img
+                alt="BlackBird Logo"
+                class="Logo-mobile Login-mobile-logo"
                 src={logo}
               />
             </div>
