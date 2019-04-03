@@ -7,16 +7,8 @@ import Modal from "./Modal";
 import { Redirect, Link, withRouter, Route } from "react-router-dom";
 import firebase from "../firebase";
 import Messages from "./Messages";
-
-// const Auth ={
-//   isAuthenticated: false,
-//   authenticate(cb) {
-//     firebase
-//       .auth()
-//       .signInWithEmailAndPassword(email, pw
-//       .catch(() => this.setState({ Modal: true }));
-//   }
-// };
+import { showSpinner } from "../utils";
+import "../spinner.css";
 
 class Login extends Component {
   state = {
@@ -24,15 +16,16 @@ class Login extends Component {
     password: "",
     Modal: false,
     forgotPassword: false,
-    redirect: false
+    redirect: false,
+    loading: false
   };
 
   authenticate() {
-    firebase //authenticate
+    firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
-        console.log("getting db");
+        this.setState({ loading: true });
         this.props.getDatabaseState(this.state.email.split("@")[0]);
       })
       .catch(() => this.setState({ Modal: true }));
@@ -43,31 +36,27 @@ class Login extends Component {
   }
 
   render() {
-    // if (this.state.redirect) {
-    //   return <Redirect to="/messages/" />;
-    // }
-    // const { from } = this.props.location.state || { from: { pathname: "/" } };
-    // // const { redirect } = this.state.redirect;
-    // // console.log(this.state.redirect);
-    // // console.log(from);
-    // if (this.state.redirect) {
-    //   return <Redirect to={from} />;
-    // } else {
-    //{
-    //   //var user = this.state.email.split("@")[0];
-    //   this.props.getDatabaseState(this.state.email.split("@")[0]).then(() => {
-    //     this.props.authenticate();
-    //   });
-
+    if (this.state.loading) return showSpinner();
     if (!this.state.forgotPassword) {
       return (
         <div className="Login">
-          {this.state.Modal && <Modal hide={() => this.hideModal()} />}
+          {this.state.Modal && (
+            <Modal
+              alertTitle="Invalid email or password"
+              alertText="Please reinsert both fields carefully"
+              hide={() => this.hideModal()}
+            />
+          )}
           <div className="Login-container">
             <div className="Login-header">
               <img
                 alt="BlackBird Logo"
-                className="Login-mobile-logo"
+                class="Logo-ipad Login-mobile-logo"
+                src={logoW}
+              />
+              <img
+                alt="BlackBird Logo"
+                class="Logo-mobile Login-mobile-logo"
                 src={logo}
               />
             </div>
@@ -123,21 +112,10 @@ class Login extends Component {
                   Forgot Password?
                 </div>
               </div>
-
               <Button
                 text="Login"
                 type="filled"
-                onClick={() => {
-                  this.authenticate();
-                  // firebase
-                  //   .auth()
-                  //   .signInWithEmailAndPassword(
-                  //     this.state.email,
-                  //     this.state.password
-                  //   )
-                  //   .then(this.props.authenticate())
-                  //   .catch(() => this.setState({ Modal: true }));
-                }}
+                onClick={() => this.authenticate()}
               />
             </div>
           </div>

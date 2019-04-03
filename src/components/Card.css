@@ -58,10 +58,11 @@
   overflow: hidden;
   font-size: 18px;
   line-height: 18px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 180px;
+  height: 21px;
 }
 .Card-text-preview {
   font-size: 14px;
@@ -70,6 +71,7 @@
   text-overflow: ellipsis;
   width: 180px;
   white-space: nowrap;
+  height: 16px;
 }
 .Card-timestamp {
   font-size: 10px;

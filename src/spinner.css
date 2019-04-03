@@ -1,29 +1,7 @@
-.App {
-  display: -webkit-flex;
-  display: flex;
-  width: 100%;
-}
-.supercontainer {
-  width: 100%;
-  display: flex;
-}
-.megacontainer {
-  width: 100%;
-  display: flex;
-}
-.container {
-  padding-right: 10px;
-  padding-left: 10px;
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 100%;
-  width: 100%;
-}
 .loadingContainer {
   width: 100%;
   height: 100vh;
-  background-image: url(./assets/bg-orange.svg);
-  background-size: cover;
+  background-color: var(--orange);
 }
 .loadingSpinner {
   font-size: 60px;
@@ -44,16 +22,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 300px;
-  height: 200px;
+  width: 250px;
+  height: 150px;
   position: absolute;
 }
 
 .cube1,
 .cube2 {
-  background-image: url("./assets/piuma.svg");
-  width: 50px;
-  height: 50px;
+  background-color: #333;
+  width: 15px;
+  height: 15px;
   position: absolute;
   top: 0;
   left: 0;

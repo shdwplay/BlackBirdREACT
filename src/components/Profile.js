@@ -7,13 +7,13 @@ import logo from "../assets/logo_blackbird.svg";
 import Back from "./Back";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import firebase from "../firebase";
+import firebase from "../firebase.js";
 
 const Profile = props => {
   return (
     <div className="ProfileContainer">
       <div className="ProfileHeader">
-        <Link to={"/messages/" + props.currentUser}>
+        <Link to={"/messages"}>
           <div className="ProfileBackButton">
             <Back onClick={() => console.log("profile")} />
           </div>
@@ -29,7 +29,7 @@ const Profile = props => {
           </div>
           <div className="Profile-logout-area">
             <div className="Profile-data">
-              <div className="profile-user-name">{props.currentUser}</div>
+              <div className="profile-user-name">{props.name}</div>
             </div>
             <div
               className="Profile-logout-link"
@@ -38,8 +38,8 @@ const Profile = props => {
                 firebase
                   .auth()
                   .signOut()
-                  .catch(function(error) {
-                    // An error happened.
+                  .catch(err => {
+                    console.log(err);
                   });
               }}
             >
@@ -107,7 +107,20 @@ const Profile = props => {
           </div>
           <div className="Profile-settings-area">
             <div className="Profile-settings-header">SETTINGS</div>
-            <div className="Profile-form-item Profile-form-item-first">
+            <div
+              className="Profile-form-item Profile-form-item-first"
+              onClick={() => {
+                let status;
+                props.userStatus === "online"
+                  ? (status = "away")
+                  : (status = "online");
+                let db = firebase.firestore();
+                let x = db
+                  .collection("users")
+                  .doc(props.currentUser)
+                  .update({ userStatus: status });
+              }}
+            >
               <label>Away</label>
               <label className="switch">
                 <input type="checkbox" name="afk" />

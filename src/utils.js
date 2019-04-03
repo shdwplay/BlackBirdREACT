@@ -4,6 +4,8 @@ import React from "react";
 import notificationsOn from "./assets/notifica_orange-20.svg";
 import notificationsOff from "./assets/notifica_grey-20.svg";
 import moment from "moment";
+import logo from "./assets/logo_blackbird.svg";
+import "./spinner.css";
 
 export function search(str, arr) {
   if (!str) {
@@ -49,4 +51,18 @@ export const setOption = (evt, option, funct) => {
   evt.preventDefault();
   evt.stopPropagation();
   funct(option);
+};
+
+export const showSpinner = () => {
+  return (
+    <div className="loadingContainer">
+      <div className="loadingSpinner">
+        <img className="logo" src={logo} alt="blackbird logo" />
+        <div className="spinner">
+          <div className="cube1" />
+          <div className="cube2" />
+        </div>
+      </div>
+    </div>
+  );
 };

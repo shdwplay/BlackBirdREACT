@@ -26,7 +26,9 @@ class Messages extends React.Component {
           setHighlightedCard={this.props.setHighlightedCard}
           highlightedCard={this.props.highlightedCard}
           highlightedCardOptions={this.props.highlightedCardOptions}
+          activeChat={this.props.activeChat}
           cardList={this.props.cardList}
+          favouritesActive={this.props.favouritesActive}
           displayNames={this.props.displayNames}
           selectChat={this.props.selectChat}
           searchToggle={this.props.searchToggle}

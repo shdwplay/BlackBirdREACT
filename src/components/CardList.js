@@ -12,10 +12,11 @@ const CardList = props => {
         <Link to={"/messages/" + el.id}>
           <Card
             displayName={props.displayNames[index]}
+            name={el.name}
             key={index}
             cardNumber={index}
             setHighlightedCard={props.setHighlightedCard}
-            highlightedCard={props.highlightedCard}
+            highlightedCard={!props.searchToggle ? props.highlightedCard : null}
             highlightedCardOptions={props.highlightedCardOptions}
             silenced={el.silenced}
             favourite={el.favourite}

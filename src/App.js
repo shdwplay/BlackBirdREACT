@@ -20,12 +20,10 @@ import LoginForgotPsw from "./components/LoginForgotPsw";
 import LoginPswInstructions from "./components/LoginPswInstructions";
 import { Route, Switch, Redirect, Link } from "react-router-dom";
 import logo from "./assets/logo_blackbird.svg";
+import { showSpinner } from "./utils";
+import "./spinner.css";
 
-//import { fakeState1 } from "./fakeStates";
-// import { fakeState2 } from "./fakeStates";
-//import { fakeDatabase } from "./fakeDatabase";
-import firebase from "./firebase";
-import { resolve } from "dns";
+import firebase from "firebase";
 
 class App extends Component {
   state = null;
@@ -33,16 +31,17 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         //could user user.uid instead
-        console.log("authenticated:" + user.email.split("@")[0]);
+        console.log("authenticated user:" + user.email.split("@")[0]);
         this.getDatabaseState(user.email.split("@")[0]);
       } else {
-        console.log("unauthenticated");
+        console.log("unauthenticated user");
         this.setState({
           isAuthenticated: false
         });
       }
     });
   }
+
   getDatabaseState(userName) {
     this.setState({ loading: true }); //shows spinner while waiting for response from db
     let newState = {};
@@ -178,27 +177,36 @@ class App extends Component {
     return [filtered, display];
   }
   setQueryString(str) {
-    this.setState({ querystr: str });
+    this.setState({ querystr: str, highlightedCard: null });
   }
 
   highlightedCardOptions(option) {
-    //invoke this method "favourites" | "silenced" | "delete "as an argument
-    //to provide corrisponding functionality to chat cards
-    let aux = [...this.state.collocutors];
-    if (option === "delete") {
-      aux.splice(this.state.highlightedCard, 1);
-      this.setState({ highlightedCard: null });
-    } else {
-      aux[this.state.highlightedCard][option] = !aux[
-        this.state.highlightedCard
-      ][option];
+    //invoked with "favourite" | "silenced" | "delete" =
+    //when user clicks on corrisponding icon on (highlighted) chat card
+
+    let aux = this.state.collocutors[this.state.highlightedCard];
+    console.log(option);
+    console.log(aux.favourite);
+    //console.log(aux.messages);
+    let optionsRef = firebase
+      .firestore()
+      .collection("users")
+      .doc(this.state.currentUser)
+      .collection("collocutors");
+    if (option === "favourite") {
+      optionsRef.doc(aux.id).update({ favourite: !aux.favourite });
     }
-    this.setState({ collocutors: aux });
+    if (option === "silenced") {
+      optionsRef.doc(aux.id).update({ silenced: !aux.silenced });
+    }
+    if (option === "delete") {
+      //documents cannot be deleted directly
+    }
   }
+
   selectTab(el) {
     this.setState({
-      activeTab: el,
-      page: el
+      activeTab: el
     });
   }
 
@@ -208,49 +216,25 @@ class App extends Component {
     });
   }
 
-  backTo(prevPage) {
-    this.setState({ page: prevPage });
-  }
   setSearchOpen() {
-    this.setState({ searchToggle: !this.state.searchToggle, querystr: "" });
+    this.setState({
+      searchToggle: !this.state.searchToggle,
+      querystr: "",
+      highlightedCard: null //deselects current card to diplay list properly
+    });
   }
+
   render() {
     console.log("app rendering");
-    if (!this.state) {
-      console.log("showing loading spinner");
-      return (
-        <div className="loadingContainer">
-          <div className="loadingSpinner">
-            <img className="logo" src={logo} alt="blackbird logo" />
-            <div className="spinner">
-              <div className="cube1" />
-              <div className="cube2" />
-            </div>
-          </div>
-        </div>
-      );
-    }
-    if (!this.state.isAuthenticated) {
-      return (
-        <Login authenticate={() => this.setState({ isAuthenticated: true })} />
-      );
-    }
+    if (this.state === null) return showSpinner();
+    if (this.state.loading === true) return showSpinner();
+    if (!this.state.isAuthenticated)
+      return <Login getDatabaseState={x => this.getDatabaseState(x)} />;
+
     return (
       <Switch>
         <Route
-          exact
-          path="/"
-          render={() => (
-            <Login
-              getDatabaseState={x => this.getDatabaseState(x)}
-              authenticate={() =>
-                this.setState({ authentificationRequired: false })
-              }
-            />
-          )}
-        />
-        <Route
-          exact path={"/messages/"}
+          path="/messages"
           render={props => (
             <Messages
               {...props}
@@ -279,20 +263,6 @@ class App extends Component {
           )}
         />
         <Route
-          path="/favourites"
-          render={() => (
-            <Favourites
-              name={this.state.name}
-              activeTab={this.state.activeTab}
-              selectTab={index => this.selectTab(index)}
-              cardList={this.state.collocutors}
-              activeChat={this.state.activeChat}
-              selectChat={x => this.selectChat(x)}
-              searchString={this.state.searchSting}
-            />
-          )}
-        />
-        <Route
           path="/sendnew"
           render={() => (
             <SendNew
@@ -308,8 +278,14 @@ class App extends Component {
         />
         {/* <Route path="/send-new" render={()=><SendNew} /> */}
         <Route
-          path={"/profile/"}
-          render={() => <Profile currentUser={this.state.currentUser} />}
+          path="/profile/"
+          render={() => (
+            <Profile
+              currentUser={this.state.currentUser}
+              name={this.state.name}
+              userStatus={this.state.userStatus}
+            />
+          )}
         />
         <Route
           path="/messages/:id"
