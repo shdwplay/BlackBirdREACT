@@ -13,7 +13,7 @@ const Profile = props => {
   return (
     <div className="ProfileContainer">
       <div className="ProfileHeader">
-        <Link to={"/messages/" + props.currentUser}>
+        <Link to={"/"}>
           <div className="ProfileBackButton">
             <Back onClick={() => console.log("profile")} />
           </div>
