@@ -6,37 +6,59 @@ import messagesIcon from "../assets/messages.svg";
 import sendNewIcon from "../assets/new_chat.svg";
 
 import PropTypes from "prop-types";
-
-export default class TabBar extends React.Component {
-  render() {
-    return (
-      <div className={`TabBar ${this.props.searchToggle ? "TabBar-hidden" : ""}`}>
-        <NavLink to="/favourites">
+//props active tab, selectTab
+const TabBar = props => {
+  return (
+    <div className={`TabBar ${props.searchToggle ? "TabBar-hidden" : ""}`}>
+      <div
+        className="Tab-element"
+        onClick={() => {
+          props.selectTab("favourites");
+          props.toggleFavourites();
+        }}
+      >
+        {props.activeTab === "favourites" ? (
           <img
             className="TabBar-Icon"
             alt="go to favourites"
             src={favouritesIcon}
           />
-          <span>
-            Favourites
-          </span>
-        </NavLink>
-        <NavLink to="/messages">
+        ) : (
+          <span>Favourites</span>
+        )}
+      </div>
+      <div
+        className="Tab-element"
+        onClick={() => {
+          props.selectTab("messages");
+          props.toggleFavourites();
+        }}
+      >
+        {props.activeTab === "messages" ? (
           <img
             className="TabBar-Icon"
-            alt="go to messages"
+            alt="go to favourites"
             src={messagesIcon}
           />
+        ) : (
           <span>Messages</span>
-        </NavLink>
-        <NavLink to="/sendnew">
-          <img className="TabBar-Icon" alt="go to send new" src={sendNewIcon} />
-          <span>Send New</span>
-        </NavLink>
+        )}
       </div>
-    );
-  }
-}
+      <div className="Tab-element" onClick={() => props.selectTab("sendNew")}>
+        {props.activeTab === "sendNew" ? (
+          <img
+            className="TabBar-Icon"
+            alt="go to favourites"
+            src={sendNewIcon}
+          />
+        ) : (
+          <span>Send New</span>
+        )}
+      </div>
+    </div>
+  );
+};
+export default TabBar;
 
 TabBar.propTypes = {
   searchToggle: PropTypes.bool.isRequired

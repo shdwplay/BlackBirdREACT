@@ -20,6 +20,7 @@ class Messages extends React.Component {
             activeTab={this.props.activeTab}
             selectTab={this.props.selectTab}
             searchToggle={this.props.searchToggle}
+            toggleFavourites={this.props.toggleFavourites}
           />
         </Header>
         <CardList

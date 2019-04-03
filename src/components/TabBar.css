@@ -1,7 +1,7 @@
 .TabBar {
   display: flex;
   padding: 10px 0 0;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   font-weight: 700;
   text-transform: uppercase;
   font-size: 13px;
@@ -14,27 +14,16 @@
   color: var(--dark-grey);
 }
 
-.TabBar > .active span {
-  display: none;
-}
-.TabBar > .active img {
-  display: flex;
-  align-self: center;
-}
-
-.TabBar > a {
-  flex: 3;
-  opacity: 1;
-  text-align: center;
+.Tab-element {
+  width: Calc(100% / 3);
   display: flex;
   justify-content: center;
-  color: var(--dark-grey);
 }
 
 .TabBar-Icon {
   width: 25px;
   height: 25px;
-  display: none;
+  display: flex;
 }
 
 .TabBar-hidden {

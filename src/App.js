@@ -1,29 +1,21 @@
+//react and firebase
 import React, { Component } from "react";
-import CardList from "./components/CardList";
-import HeaderChat from "./components/HeaderChat";
-import Header from "./components/Header";
-import Chat from "./components/Chat";
-import packageImg from "./assets/package.jpg";
-import SendNew from "./components/SendNew";
-
-import "./App.css";
-
+import { Route, Switch } from "react-router-dom";
+import firebase from "firebase";
+//components
 import Login from "./components/Login";
-import TabBar from "./components/TabBar";
-import ContactList from "./components/ContactList";
-import Profile from "./components/Profile";
-import Back from "./components/Back";
-import Favourites from "./components/Favourites";
-import Messages from "./components/Messages";
 import LoginForm from "./components/LoginForm";
 import LoginForgotPsw from "./components/LoginForgotPsw";
 import LoginPswInstructions from "./components/LoginPswInstructions";
-import { Route, Switch, Redirect, Link } from "react-router-dom";
-import logo from "./assets/logo_blackbird.svg";
+import Messages from "./components/Messages";
+import Profile from "./components/Profile";
+import SendNew from "./components/SendNew";
+import Chat from "./components/Chat";
+import "./App.css";
+//utility functions
 import { showSpinner } from "./utils";
-import "./spinner.css";
-
-import firebase from "firebase";
+import { searchFilter } from "./utils";
+import { filterFavourites } from "./utils";
 
 class App extends Component {
   state = null;
@@ -32,6 +24,14 @@ class App extends Component {
       if (user) {
         //could user user.uid instead
         console.log("authenticated user:" + user.email.split("@")[0]);
+        this.setState({
+          loading: false,
+          searchToggle: false,
+          querystr: "",
+          highlightedCard: null,
+          favouritesActive: false,
+          activeTab: "messages"
+        });
         this.getDatabaseState(user.email.split("@")[0]);
       } else {
         console.log("unauthenticated user");
@@ -47,25 +47,21 @@ class App extends Component {
     let newState = {};
     let db = firebase.firestore();
     let userRef = db.collection("users").doc(userName);
-    userRef.get().then(doc => {
-      //console.log(snapshot.data());
+    userRef.onSnapshot(doc => {
       newState = doc.data();
       userRef.collection("collocutors").onSnapshot(snapshot => {
         let collocutors = [];
         snapshot.docs.forEach(el => {
           let aux = el.data();
           aux.id = el.id;
-          //aux.displayName = el.name;
           collocutors.push(aux);
         });
         newState.currentUser = userName;
         newState.collocutors = collocutors;
+        newState.favourites = filterFavourites(collocutors);
         newState.isAuthenticated = true;
         newState.loading = false;
-        newState.searchToggle = false;
-        newState.querystr = "";
-        newState.highlightedCard = null;
-        this.setState(newState);
+        this.setState(newState); // triggers landing page display
 
         userRef.collection("collocutors").onSnapshot(x => {
           for (let i = 0; i < x.docs.length; i++) {
@@ -87,19 +83,6 @@ class App extends Component {
     });
   }
 
-  searchFilter() {
-    var reg = new RegExp(this.state.querystr, "gi");
-    let filtered = this.state.collocutors.filter(el =>
-      el.name.toLowerCase().includes(this.state.querystr)
-    );
-    let display = filtered.map(el =>
-      el.name.replace(
-        reg,
-        str => "<b style='background:#fc0fc0'>" + str + "</b>"
-      )
-    );
-    return [filtered, display];
-  }
   setQueryString(str) {
     this.setState({ querystr: str, highlightedCard: null });
   }
@@ -107,30 +90,35 @@ class App extends Component {
   highlightedCardOptions(option) {
     //invoked with "favourite" | "silenced" | "delete" =
     //when user clicks on corrisponding icon on (highlighted) chat card
-
-    let aux = this.state.collocutors[this.state.highlightedCard];
-    console.log(option);
-    console.log(aux.favourite);
-    //console.log(aux.messages);
+    let aux = [];
+    if (this.state.favouritesActive)
+      aux = this.state.favourites[this.state.highlightedCard];
+    else aux = this.state.collocutors[this.state.highlightedCard];
+    console.log(aux);
     let optionsRef = firebase
       .firestore()
       .collection("users")
       .doc(this.state.currentUser)
       .collection("collocutors");
-    if (option === "favourite") {
-      optionsRef.doc(aux.id).update({ favourite: !aux.favourite });
-    }
-    if (option === "silenced") {
-      optionsRef.doc(aux.id).update({ silenced: !aux.silenced });
-    }
     if (option === "delete") {
-      //documents cannot be deleted directly
+      //in progress
+    } else {
+      console.log("entered");
+      console.log(aux[option]);
+      optionsRef.doc(aux.id).update({ [option]: !aux[option] });
+      this.setState({ highlightedCard: null });
     }
   }
 
-  selectTab(el) {
+  selectTab(tab) {
     this.setState({
-      activeTab: el
+      activeTab: tab
+    });
+  }
+  toggleFavourites() {
+    this.setState({
+      favouritesActive: !this.state.favouritesActive,
+      highlightedCard: null
     });
   }
 
@@ -170,12 +158,17 @@ class App extends Component {
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
               favouritesActive={this.state.favouritesActive}
+              toggleFavourites={() => this.toggleFavourites()}
               cardList={
-                this.state.searchToggle
-                  ? this.searchFilter()[0]
-                  : this.state.collocutors
+                this.state.favouritesActive
+                  ? searchFilter(this.state.favourites, this.state.querystr)[0]
+                  : searchFilter(this.state.collocutors, this.state.querystr)[0]
               }
-              displayNames={this.searchFilter()[1]}
+              displayNames={
+                this.state.favouritesActive
+                  ? searchFilter(this.state.favourites, this.state.querystr)[1]
+                  : searchFilter(this.state.collocutors, this.state.querystr)[1]
+              }
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
               setQueryString={x => this.setQueryString(x)}

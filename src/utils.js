@@ -66,3 +66,16 @@ export const showSpinner = () => {
     </div>
   );
 };
+
+export const searchFilter = (arr, str) => {
+  var reg = new RegExp(str, "gi");
+  let filtered = arr.filter(el => el.name.toLowerCase().includes(str));
+  let display = filtered.map(el =>
+    el.name.replace(reg, str => "<b style='background:#fc0fc0'>" + str + "</b>")
+  );
+  return [filtered, display];
+};
+
+export const filterFavourites = arr => {
+  return arr.filter(el => el.favourite);
+};
