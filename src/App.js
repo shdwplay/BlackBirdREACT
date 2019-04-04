@@ -17,146 +17,32 @@ import { showSpinner } from "./utils";
 import { searchFilter } from "./utils";
 import { filterFavourites } from "./utils";
 
+import { firebaseAuth } from "./api";
+import { getUserInfo } from "./api";
+import { listenCollocutorsList } from "./api";
+
 class App extends Component {
-  state = null;
+  state = {
+    loading: true,
+    isAuthenticated: null, //bool
+    currentUser: "",
+    collocutors: [],
+    favourites: [],
+    activeTab: "messages",
+    favouritesActive: false,
+    searchToggle: false,
+    querystr: "",
+    highlightedCard: null
+  };
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        //could user user.uid instead
-        console.log("authenticated user:" + user.email.split("@")[0]);
-        this.setState({
-          loading: false,
-          searchToggle: false,
-          querystr: "",
-          highlightedCard: null,
-          favouritesActive: false,
-          activeTab: "messages"
-        });
-        this.getDatabaseState(user.email.split("@")[0]);
-      } else {
-        console.log("unauthenticated user");
-        this.setState({
-          isAuthenticated: false
-        });
-      }
-    });
-  }
+    firebaseAuth()
+      .then(userName => getUserInfo(userName))
 
-  getDatabaseState(userName) {
-    this.setState({ loading: true }); //shows spinner while waiting for response from db
-    let newState = {};
-    let db = firebase.firestore();
-    let userRef = db.collection("users").doc(userName);
-    userRef.onSnapshot(doc => {
-      newState = doc.data();
-      userRef.collection("collocutors").onSnapshot(snapshot => {
-        let collocutors = [];
-        snapshot.docs.forEach(el => {
-          let aux = el.data();
-          aux.id = el.id;
-          collocutors.push(aux);
-        });
-        newState.currentUser = userName;
-        newState.collocutors = collocutors;
-        newState.favourites = filterFavourites(collocutors);
-        newState.isAuthenticated = true;
-        newState.loading = false;
-        newState.searchToggle = false;
-        newState.querystr = "";
-        newState.highlightedCard = null;
-        //this.setState(newState);
-
-        userRef.collection("collocutors").onSnapshot(x => {
-          for (let i = 0; i < x.docs.length; i++) {
-            newState.collocutors[i].messages = [];
-            userRef
-              .collection("collocutors")
-              .doc(x.docs[i].id)
-              .collection("messages")
-              .get()
-              .then(x => {
-                for (let j = 0; j < x.docs.length; j++) {
-                  newState.collocutors[i].messages.push(x.docs[j].data());
-                }
-                this.setState(newState);
-              });
-          }
-        });
-      });
-    });
-  }
-
-  /* getMessages(userId, collocutorId){
-    let db = firebase.firestore();
-    let userRef = db.collection("users").doc(userId);
-    userRef.collection("collocutors").doc(collocutorId).collection('messages')
-    .onSnapshot(function(querySnapshot) {
-        var messages = [];
-        console.log(querySnapshot)
-        querySnapshot.forEach(function(doc) {
-            messages.push(doc.data().text);
-        });
-        console.log("Messaggi tra chiara e antonio: ", messages.join(", "));
-    });
-  } */
-
-  newMessage(e) {
-    this.setState({
-      newMessage: e.target.value
-    });
-  }
-
-  addMessage(collocutorId, currentUserId) {
-    var db = firebase.firestore();
-    let userRef = db.collection("users").doc(currentUserId);
-    let conversations = userRef.collection("collocutors");
-    //aggiungo i nuovi messaggi all'utente corrente
-    conversations.doc(collocutorId).update({
-      lastMsg: {
-        text: this.state.newMessage,
-        date: new Date(),
-        sender: currentUserId
-      }
-    });
-    conversations
-      .doc(collocutorId)
-      .collection("messages")
-      .add({
-        text: this.state.newMessage,
-        time: new Date(),
-        sender: currentUserId
-      })
-      .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-      });
-    this.setState({ newMessage: "" });
-    userRef = db.collection("users").doc(collocutorId);
-    conversations = userRef.collection("collocutors");
-    //aggiungo i nuovi messaggi al collocutor
-    conversations.doc(currentUserId).update({
-      lastMsg: {
-        text: this.state.newMessage,
-        date: new Date(),
-        sender: currentUserId
-      }
-    });
-    conversations
-      .doc(currentUserId)
-      .collection("messages")
-      .add({
-        text: this.state.newMessage,
-        time: new Date(),
-        sender: currentUserId
-      })
-      .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-      });
+      .then(info =>
+        listenCollocutorsList("antoniopellegrini", x =>
+          this.setState({ collocutors: x, loading: false })
+        )
+      );
   }
 
   setActive(activeChat) {
@@ -233,7 +119,6 @@ class App extends Component {
 
   render() {
     console.log("app rendering");
-    if (this.state === null) return showSpinner();
     if (this.state.loading === true) return showSpinner();
     if (!this.state.isAuthenticated)
       return <Login getDatabaseState={x => this.getDatabaseState(x)} />;
