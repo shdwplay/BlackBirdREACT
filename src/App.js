@@ -65,12 +65,13 @@ class App extends Component {
         newState.searchToggle = false;
         newState.querystr = "";
         newState.highlightedCard = null;
+        
         //this.setState(newState);
 
         userRef.collection("collocutors").onSnapshot(x => {
           for (let i = 0; i < x.docs.length; i++) {
-            newState.collocutors[i].messages = [];
-            newState.collocutors[i].messages.id = [];
+              newState.collocutors[i].messages = [];
+              newState.collocutors[i].messages.id = [];
             userRef
               .collection("collocutors")
               .doc(x.docs[i].id)
@@ -147,64 +148,7 @@ class App extends Component {
     });
   } */
 
-  newMessage(e) {
-    this.setState({
-      newMessage: e.target.value
-    });
-  }
-
-  addMessage(collocutorId, currentUserId) {
-    var db = firebase.firestore();
-    let userRef = db.collection("users").doc(currentUserId);
-    let conversations = userRef.collection("collocutors");
-    //aggiungo i nuovi messaggi all'utente corrente
-    conversations.doc(collocutorId).update({
-      lastMsg: {
-        text: this.state.newMessage,
-        date: new Date(),
-        sender: currentUserId
-      }
-    });
-    conversations
-      .doc(collocutorId)
-      .collection("messages")
-      .add({
-        text: this.state.newMessage,
-        time: new Date(),
-        sender: currentUserId
-      })
-      .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-      });
-    this.setState({ newMessage: "" });
-    userRef = db.collection("users").doc(collocutorId);
-    conversations = userRef.collection("collocutors");
-    //aggiungo i nuovi messaggi al collocutor
-    conversations.doc(currentUserId).update({
-      lastMsg: {
-        text: this.state.newMessage,
-        date: new Date(),
-        sender: currentUserId
-      }
-    });
-    conversations
-      .doc(currentUserId)
-      .collection("messages")
-      .add({
-        text: this.state.newMessage,
-        time: new Date(),
-        sender: currentUserId
-      })
-      .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-      });
-  }
+  
 
   setActive(activeChat) {
     this.setState({
@@ -318,7 +262,7 @@ class App extends Component {
               name={this.state.name}
               activeTab={this.state.activeTab}
               selectTab={index => this.selectTab(index)}
-              contactList={this.state.contacts}
+              contactList={this.state.collocutors}
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
               searchString={this.state.searchSting}

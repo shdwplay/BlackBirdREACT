@@ -8,7 +8,7 @@ export default class ContactList extends React.Component {
     return (
       <div className="ContactList">
         {this.props.contactList.map((el, index) => (
-          <Link key={index} to={"/chat/" + el.id}>
+          <Link key={index} to={"/messages/" + el.id}>
             <Contact
               key={index}
               data={el}

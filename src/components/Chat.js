@@ -68,3 +68,77 @@ export default class Chat extends React.Component {
     );
   }
 }
+
+getMessages(userId, collocutorId){
+  let db = firebase.firestore();
+  let userRef = db.collection("users").doc(userId);
+  userRef.collection("collocutors").doc(collocutorId).collection('messages')
+  .onSnapshot(function(querySnapshot) {
+      var messages = [];
+      console.log(querySnapshot)
+      querySnapshot.forEach(function(doc) {
+          messages.push(doc.data().text);
+      });
+      console.log("Messaggi tra chiara e antonio: ", messages.join(", "));
+  });
+}
+
+
+newMessage(e) {
+  this.setState({
+    newMessage: e.target.value
+  });
+}
+
+addMessage(collocutorId, currentUserId) {
+  var db = firebase.firestore();
+  let userRef = db.collection("users").doc(currentUserId);
+  let conversations = userRef.collection("collocutors");
+  //aggiungo i nuovi messaggi all'utente corrente
+  conversations.doc(collocutorId).update({
+    lastMsg: {
+      text: this.state.newMessage,
+      date: new Date(),
+      sender: currentUserId
+    }
+  });
+  conversations
+    .doc(collocutorId)
+    .collection("messages")
+    .add({
+      text: this.state.newMessage,
+      time: new Date(),
+      sender: currentUserId
+    })
+    .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
+  this.setState({ newMessage: "" });
+  userRef = db.collection("users").doc(collocutorId);
+  conversations = userRef.collection("collocutors");
+  //aggiungo i nuovi messaggi al collocutor
+  conversations.doc(currentUserId).update({
+    lastMsg: {
+      text: this.state.newMessage,
+      date: new Date(),
+      sender: currentUserId
+    }
+  });
+  conversations
+    .doc(currentUserId)
+    .collection("messages")
+    .add({
+      text: this.state.newMessage,
+      time: new Date(),
+      sender: currentUserId
+    })
+    .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
+}
