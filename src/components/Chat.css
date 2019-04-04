@@ -1,119 +1,119 @@
 .Chat-container {
-    width: auto;
-    height: auto;
-    min-height: 600px;
-    background-image: url('../assets/bg-orange.svg');
-    display: none;
-    position: relative;
-    right: 0;
-    background-size: cover;
-    background-attachment: fixed;
-    overflow-y: scroll;
+  width: auto;
+  height: auto;
+  min-height: 600px;
+  background-image: url("../assets/bg-orange.svg");
+  /* //display: none; */
+  position: relative;
+  right: 0;
+  background-size: cover;
+  background-attachment: fixed;
+  overflow-y: scroll;
 }
 
 .Chat {
-    position: relative;
-    height: 100%;
-    margin-top: 60px;
-    padding: 15px 12.5px 60px;
-    display:flex;
-    justify-content: flex-start;
-    flex-direction: column;
+  position: relative;
+  height: 100%;
+  margin-top: 60px;
+  padding: 15px 12.5px 60px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 
 .Chat-message {
-    border-radius: 8px;
-    max-width: 75%;
-    font-size: 17px;
-    margin-bottom: 55px;
-    position: relative;
+  border-radius: 8px;
+  max-width: 75%;
+  font-size: 17px;
+  margin-bottom: 55px;
+  position: relative;
 }
 
 .Chat .Chat-message-box {
-    width: 100%;
+  width: 100%;
 }
 
 .Chat-message-received {
-    color: var(--dark-grey);;
-    align-self: flex-start;
-    background-color: #fff;
+  color: var(--dark-grey);
+  align-self: flex-start;
+  background-color: #fff;
 }
 .Chat-message-sent {
-    color: #fff;
-    align-self: flex-end;
-    background-color: var(--dark-grey);
-    animation: animateMessageRight ease-out .3s;
-    animation-iteration-count: 1;
+  color: #fff;
+  align-self: flex-end;
+  background-color: var(--dark-grey);
+  animation: animateMessageRight ease-out 0.3s;
+  animation-iteration-count: 1;
 }
 .Chat-message-time {
-    font-size: 8px;
-    position: absolute;
-    right: 8px;
-    bottom: 8px;
-    width: auto;
-    line-height: 12px;
-    margin-top: 5px;
+  font-size: 8px;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: auto;
+  line-height: 12px;
+  margin-top: 5px;
 }
 .Chat-message-text {
-    padding: 10px 45px 12px 15px;
+  padding: 10px 45px 12px 15px;
 }
 .Chat-message-img {
-    padding: 7px 8px 20px 8px;
-    max-width: 100%;
-    border-radius: 4px;
+  padding: 7px 8px 20px 8px;
+  max-width: 100%;
+  border-radius: 4px;
 }
 
-.page-singlechat .header-single-chat, .page-singlechat .input-keyboard {
-    width: 100%;
+.page-singlechat .header-single-chat,
+.page-singlechat .input-keyboard {
+  width: 100%;
 }
 .input-keyboard {
-    width: 100%;
-    background-color: var(--light-grey);
-    padding: 8px;
-    position: fixed;
-    bottom: 0;
-    z-index: 10;
+  width: 100%;
+  background-color: var(--light-grey);
+  padding: 8px;
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
 }
 #input-keyboard {
-    width: 93%;
-    border: none;
-    box-shadow: none;
-    border-radius: 8px;
-    font-size:18px;
-    padding: 8px 10px;
-    padding-right: 50px;
-    position: relative;
+  width: 93%;
+  border: none;
+  box-shadow: none;
+  border-radius: 8px;
+  font-size: 18px;
+  padding: 8px 10px;
+  padding-right: 50px;
+  position: relative;
 }
 .input-keyboard img {
-    position: absolute;
-    width: 44px;
-    height: 44px;
-    padding:12px;
-    z-index: 2;
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  z-index: 2;
 }
 
 #send-icon {
-    right: 5px;
-    bottom: 5px;
+  right: 5px;
+  bottom: 5px;
 }
 
 #attachment-icon {
-    right: 60px;
-    bottom: 5px;
+  right: 60px;
+  bottom: 5px;
 }
- 
 
-@media (min-width: 768px) and (orientation:landscape) {   
+/* @media (min-width: 768px) and (orientation:landscape) {   
     .supercontainer {
         margin-left: 0;
         margin-right: 0;
         flex: 1;
         /* overflow: hidden; */
-    }
+/* }
 
     .Chat-container {
         display: block;
         flex: 1;
         position: relative;
     }
-}
+} */

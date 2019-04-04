@@ -200,7 +200,7 @@ class App extends Component {
           path="/messages/:id"
           render={props => {
             const collocutor = this.state.collocutors.find(element => {
-              if (element.id === props.match.params.id) return element;
+              if (element.id === props.match.params.id) return element.id;
               return null;
             });
             return (
