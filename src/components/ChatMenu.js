@@ -5,13 +5,11 @@ import "./ChatMenu.css";
 import PropTypes from "prop-types";
 import { setOption } from "../utils";
 
-
 class ChatMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
-
+      show: false
     };
   }
 
@@ -55,8 +53,9 @@ class ChatMenu extends Component {
           onClick={() => this.toggleShow()}
         />
         <div className="menu">
-          <div className="option"
-            onClick={'favourite' => this.props.highlightedCardOptions('favourite')}
+          <div
+            className="option"
+            onClick={() => this.props.highlightedCardOptions("favourite")}
           >
             {this.props.favourite ? (
               <p>Remove from Favourites</p>
@@ -64,14 +63,17 @@ class ChatMenu extends Component {
               <p>Add Favourite</p>
             )}
           </div>
-          <div className="option">
+          <div
+            className="option"
+            onClick={() => this.props.highlightedCardOptions("silenced")}
+          >
             {this.props.silenced ? <p>Unsilenced</p> : <p>Silenced</p>}
           </div>
           <div
             className="option"
             onClick={() => {
               this.toggleShow();
-              this.props.onClick();
+              this.props.openSearch();
             }}
           >
             Search
