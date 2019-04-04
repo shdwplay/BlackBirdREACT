@@ -7,6 +7,7 @@ import MessageDate from "./MessageDate";
 
 import { addMessage } from "../api";
 import { listenMessages } from "../api";
+import PropTypes from "prop-types";
 export default class Chat extends React.Component {
   state = {
     newMessage: "",
@@ -90,3 +91,15 @@ export default class Chat extends React.Component {
     }
   }
 }
+
+Chat.propTypes = {
+  searchToggle: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  openSearch: PropTypes.func,
+  setQueryString: PropTypes.func,
+  messages: PropTypes.array,
+  currentUser: PropTypes.string,
+  newMessage: PropTypes.func,
+  value: PropTypes.string
+};

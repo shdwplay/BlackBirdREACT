@@ -24,7 +24,7 @@ export const showNotifications = (num, silent) => {
         alt="notifications"
         src={silent ? notificationsOff : notificationsOn}
       />
-      <span className="Card-numUnread">{num}</span>
+      <span className="Card-numUnread">{num > 99 ? "99+" : num}</span>
     </div>
   );
 };

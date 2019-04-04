@@ -31,6 +31,12 @@ class HeaderChat extends Component {
   }
 }
 
-HeaderChat.propTypes = {};
+HeaderChat.propTypes = {
+  searchToggle: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  openSearch: PropTypes.func,
+  setQueryString: PropTypes.func
+};
 
 export default HeaderChat;
