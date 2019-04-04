@@ -83,7 +83,7 @@ export const listenMessages = (collocutorId, currentUserId, cb) => {
     .doc(collocutorId)
     .collection("messages")
     .orderBy("date", "asc")
-    .limit(5)
+    .limit(100)
     .onSnapshot(snapshot => {
       var messages = [];
       snapshot.forEach(el => {

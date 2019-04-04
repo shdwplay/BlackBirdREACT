@@ -82,6 +82,11 @@ export default class Chat extends React.Component {
                   this.props.currentUser,
                   this.state.newMessage
                 );
+                addMessage(
+                  this.props.currentUser,
+                  this.props.collocutor.id,
+                  this.state.newMessage
+                );
               }}
               src={send}
               alt="send message"
