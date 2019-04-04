@@ -4,6 +4,7 @@ import logo from "../assets/logo_blackbird.svg";
 import Search from "./Search";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Header = props => {
   return (
@@ -36,6 +37,14 @@ const Header = props => {
       {props.children}
     </div>
   );
+};
+
+Header.propTypes = {
+  searchToggle: PropTypes.bool.isRequired,
+  querystr: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  openSearch: PropTypes.func,
+  setQueryString: PropTypes.func
 };
 
 export default Header;

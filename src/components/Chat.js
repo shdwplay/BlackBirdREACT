@@ -4,7 +4,7 @@ import send from "../assets/send.svg";
 import attach from "../assets/attachment.svg";
 import HeaderChat from "./HeaderChat";
 import MessageDate from "./MessageDate";
-
+import PropTypes from "prop-types";
 export default class Chat extends React.Component {
   constructor(props) {
     super(props);
@@ -67,3 +67,15 @@ export default class Chat extends React.Component {
     );
   }
 }
+
+Chat.propTypes = {
+  searchToggle: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  openSearch: PropTypes.func,
+  setQueryString: PropTypes.func,
+  messages: PropTypes.array,
+  currentUser: PropTypes.string,
+  newMessage: PropTypes.func,
+  value: PropTypes.string
+};

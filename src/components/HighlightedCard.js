@@ -91,6 +91,10 @@ class HighlightedCard extends React.Component {
 export default HighlightedCard;
 
 HighlightedCard.propTypes = {
+  modal: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
   favourite: PropTypes.bool.isRequired,
-  silence: PropTypes.bool.isRequired
+  silenced: PropTypes.bool.isRequired,
+  highlightedCardOptions: PropTypes.func,
+  closeHighlightedCard: PropTypes.func
 };
