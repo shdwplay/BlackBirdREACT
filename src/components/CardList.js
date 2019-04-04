@@ -16,15 +16,16 @@ const CardList = props => {
             key={index}
             cardNumber={index}
             setHighlightedCard={props.setHighlightedCard}
-            highlightedCard={!props.searchToggle ? props.highlightedCard : null}
+            highlightedCard={props.highlightedCard}
             highlightedCardOptions={props.highlightedCardOptions}
             silenced={el.silenced}
             favourite={el.favourite}
             //isActive={props.activeChat === index}
             onClick={() => {
               props.selectChat({
-                collocutor: el.name,
+                /* collocutor: el.name,
                 status: el.status,
+                messages: el.messages, */
                 messages: el.messages
               });
             }}

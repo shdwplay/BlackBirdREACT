@@ -61,7 +61,10 @@ class App extends Component {
         newState.favourites = filterFavourites(collocutors);
         newState.isAuthenticated = true;
         newState.loading = false;
-        this.setState(newState); // triggers landing page display
+        newState.searchToggle = false;
+        newState.querystr = "";
+        newState.highlightedCard = null;
+        //this.setState(newState);
 
         userRef.collection("collocutors").onSnapshot(x => {
           for (let i = 0; i < x.docs.length; i++) {
@@ -83,6 +86,98 @@ class App extends Component {
     });
   }
 
+  /* getMessages(userId, collocutorId){
+    let db = firebase.firestore();
+    let userRef = db.collection("users").doc(userId);
+    userRef.collection("collocutors").doc(collocutorId).collection('messages')
+    .onSnapshot(function(querySnapshot) {
+        var messages = [];
+        console.log(querySnapshot)
+        querySnapshot.forEach(function(doc) {
+            messages.push(doc.data().text);
+        });
+        console.log("Messaggi tra chiara e antonio: ", messages.join(", "));
+    });
+  } */
+
+  newMessage(e) {
+    this.setState({
+      newMessage: e.target.value
+    });
+  }
+
+  addMessage(collocutorId, currentUserId) {
+    var db = firebase.firestore();
+    let userRef = db.collection("users").doc(currentUserId);
+    let conversations = userRef.collection("collocutors");
+    //aggiungo i nuovi messaggi all'utente corrente
+    conversations.doc(collocutorId).update({
+      lastMsg: {
+        text: this.state.newMessage,
+        date: new Date(),
+        sender: currentUserId
+      }
+    });
+    conversations
+      .doc(collocutorId)
+      .collection("messages")
+      .add({
+        text: this.state.newMessage,
+        time: new Date(),
+        sender: currentUserId
+      })
+      .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
+    this.setState({ newMessage: "" });
+    userRef = db.collection("users").doc(collocutorId);
+    conversations = userRef.collection("collocutors");
+    //aggiungo i nuovi messaggi al collocutor
+    conversations.doc(currentUserId).update({
+      lastMsg: {
+        text: this.state.newMessage,
+        date: new Date(),
+        sender: currentUserId
+      }
+    });
+    conversations
+      .doc(currentUserId)
+      .collection("messages")
+      .add({
+        text: this.state.newMessage,
+        time: new Date(),
+        sender: currentUserId
+      })
+      .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
+  }
+
+  setActive(activeChat) {
+    this.setState({
+      activeChat2: activeChat
+    });
+  }
+
+  searchFilter() {
+    var reg = new RegExp(this.state.querystr, "gi");
+    let filtered = this.state.collocutors.filter(el =>
+      el.name.toLowerCase().includes(this.state.querystr)
+    );
+    let display = filtered.map(el =>
+      el.name.replace(
+        reg,
+        str => "<b style='background:#fc0fc0'>" + str + "</b>"
+      )
+    );
+    return [filtered, display];
+  }
   setQueryString(str) {
     this.setState({ querystr: str, highlightedCard: null });
   }
@@ -146,6 +241,7 @@ class App extends Component {
     return (
       <Switch>
         <Route
+          exact
           path="/messages"
           render={props => (
             <Messages
@@ -204,19 +300,31 @@ class App extends Component {
           )}
         />
         <Route
-          exact
-          path={"/messages/:id"}
-          render={() => (
-            <Chat
-              activeChat={this.state.activeChat}
-              currentUser={this.state.currentUser}
-              /* collocutor={this.state.activeChat.collocutor}
+          path="/messages/:id"
+          render={props => {
+            const collocutor = this.state.collocutors.find(element => {
+              if (element.id === props.match.params.id) return element;
+              return null;
+            });
+            return (
+              <Chat
+                {...props}
+                collocutor={collocutor}
+                selectChat={x => this.selectChat(x)}
+                setActive={x => this.setActive(x)}
+                activeChat={this.state.activeChat}
+                currentUser={this.state.currentUser}
+                /* collocutor={this.state.activeChat.collocutor}
               messageList={this.state.activeChat.messages} */
-              value={this.state.newMessage}
-              newMessage={e => this.newMessage(e)}
-              saveMessage={() => this.saveMessage()}
-            />
-          )}
+                value={this.state.newMessage}
+                newMessage={e => this.newMessage(e)}
+                saveMessage={() => this.saveMessage()}
+                searchToggle={this.state.searchToggle}
+                openSearch={() => this.setSearchOpen()}
+                addMessage={(x, y) => this.addMessage(x, y)}
+              />
+            );
+          }}
         />
         <Route exact path="/" render={() => <LoginForm />} />
         <Route path="/forgot-password" render={() => <LoginForgotPsw />} />

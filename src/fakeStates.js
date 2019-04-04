@@ -7,10 +7,11 @@ export const fakeState1 = {
   highlightedCard: null,
   page: "Messages",
   activeChat: {
-    collocutor: "null",
+
     status: "null",
-    messages: []
+    messages: [] 
   },
+  activeChat2: null,
   activeTab: "Messages",
   newMessage: "",
   searchToggle: false,

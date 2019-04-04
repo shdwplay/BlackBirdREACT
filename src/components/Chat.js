@@ -3,17 +3,25 @@ import "./Chat.css";
 import send from "../assets/send.svg";
 import attach from "../assets/attachment.svg";
 import HeaderChat from "./HeaderChat";
+import MessageDate from "./MessageDate";
 
 export default class Chat extends React.Component {
+  constructor(props) {
+    super(props);
+    this.props.selectChat(this.props.match.params.id);
+  }
+
   render() {
     return (
       <div className="Chat-container">
         <HeaderChat
-          name={this.props.activeChat.collocutor}
-          status={this.props.activeChat.status}
+          openSearch={this.props.openSearch}
+          searchToggle={this.props.searchToggle}
+          name={this.props.collocutor.name}
+          status={this.props.collocutor.status}
         />
         <div className="Chat" id="chat">
-          {this.props.activeChat.messages.map((el, index) => {
+          {this.props.collocutor.messages.map((el, index) => {
             return (
               <div
                 key={index}
@@ -24,7 +32,8 @@ export default class Chat extends React.Component {
                 }
               >
                 <div className="Chat-message-text">{el.text}</div>
-                <div className="Chat-message-time">11:02</div>
+                {/* <div className="Chat-message-time">11:02</div> */}
+                <MessageDate context="chat" date={el.time.seconds} />
               </div>
             );
           })}
@@ -42,7 +51,13 @@ export default class Chat extends React.Component {
           <img
             id="send-icon"
             onClick={() => {
-              this.props.saveMessage();
+              console.log(this.props.match.params.id);
+              console.log(this.props.currentUser);
+              //this.props.setActive(this.props.match.params.id)
+              this.props.addMessage(
+                this.props.match.params.id,
+                this.props.currentUser
+              );
             }}
             src={send}
             alt="send message"

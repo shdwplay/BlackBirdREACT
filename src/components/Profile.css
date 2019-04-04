@@ -7,16 +7,16 @@
   position: fixed;
   z-index: 5;
   width: 100%;
-  top:0;
+  top: 0;
   position: relative;
   height: 52px;
 }
 .Profile-pic {
   position: relative;
-  width:95px;
+  width: 95px;
 }
 .Profile-pic::after {
-  content: 'Edit';
+  content: "Edit";
   position: absolute;
   z-index: 14;
   bottom: -15px;
@@ -39,10 +39,10 @@
 }
 .Profile-logout-area {
   margin-left: 15px;
-  padding-top:10px;
+  padding-top: 10px;
   font-size: 20px;
   font-weight: 500;
-  letter-spacing: -.5px;
+  letter-spacing: -0.5px;
 }
 .Profile-settings {
   padding-top: 52px;
@@ -67,7 +67,7 @@
 .Profile-settings-header {
   margin-top: 20px;
   padding-bottom: 10px;
-  margin-bottom: -5px; 
+  margin-bottom: -5px;
   font-weight: 600;
 }
 .Profile-settings .Profile-form-item {
@@ -87,7 +87,7 @@
 .Profile-settings .Profile-form-item-first {
   border-top: 0.5px solid grey;
 }
-.Profile-settings input[type="password"] {
+.Profile-settings input {
   margin-left: 10px;
   border: none;
   width: 80px;
@@ -95,9 +95,9 @@
   font-family: Sarabun;
 }
 
-
 /*PASSWORD VISIBILITY TOGGLE*/
-.visibility {
+.visibility,
+.no-visibility {
   height: 20px;
   margin-left: auto;
   text-align: right;
@@ -105,7 +105,7 @@
   flex: 1 !important;
 }
 
-.no-visibility {
+.visibility img {
   height: 20px;
 }
 
@@ -167,4 +167,3 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-
