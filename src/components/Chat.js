@@ -5,10 +5,19 @@ import attach from "../assets/attachment.svg";
 import HeaderChat from "./HeaderChat";
 import MessageDate from "./MessageDate";
 
+import { addMessage } from "../api";
+import { listenMessages } from "../api";
 export default class Chat extends React.Component {
-  constructor(props) {
-    super(props);
-    this.props.selectChat(this.props.match.params.id);
+  state = {
+    newMessage: "",
+    messages: []
+  };
+  //export const listenMessages = (collocutorId, currentUserId, cb) => {
+
+  componentDidMount() {
+    listenMessages(this.props.collocutor, this.props.currentUser, x =>
+      this.setState({ messages: x })
+    );
   }
 
   render() {
@@ -21,7 +30,7 @@ export default class Chat extends React.Component {
           status={this.props.collocutor.status}
         />
         <div className="Chat" id="chat">
-          {this.props.collocutor.messages.map((el, index) => {
+          {this.props.state.messages.map((el, index) => {
             return (
               <div
                 key={index}
@@ -41,7 +50,7 @@ export default class Chat extends React.Component {
         <div className="input-keyboard">
           <input
             value={this.props.value}
-            onChange={e => this.props.newMessage(e)}
+            onChange={e => this.state.newMessage(e)}
             type="textarea"
             id="input-keyboard"
             name="input-keyboard"
@@ -54,9 +63,10 @@ export default class Chat extends React.Component {
               console.log(this.props.match.params.id);
               console.log(this.props.currentUser);
               //this.props.setActive(this.props.match.params.id)
-              this.props.addMessage(
-                this.props.match.params.id,
-                this.props.currentUser
+              addMessage(
+                this.props.collocutor,
+                this.props.currentUser,
+                this.state.newMessage
               );
             }}
             src={send}

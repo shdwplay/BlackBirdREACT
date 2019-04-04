@@ -26,6 +26,8 @@ class App extends Component {
     loading: true,
     isAuthenticated: null, //bool
     currentUser: "",
+    name: "",
+    userStatus: "",
     collocutors: [],
     favourites: [],
     activeTab: "messages",
@@ -36,13 +38,23 @@ class App extends Component {
   };
   componentDidMount() {
     firebaseAuth()
-      .then(userName => getUserInfo(userName))
-
-      .then(info =>
+      .then(userName => {
+        this.setState({ currentUser: userName });
+        getUserInfo(userName, x =>
+          this.setState({ name: x.name, userStatus: x.userStatus })
+        );
+      })
+      .then(info => {
+        console.log(info);
+        // this.setState({ userStatus: info.userStatus });
         listenCollocutorsList("antoniopellegrini", x =>
-          this.setState({ collocutors: x, loading: false })
-        )
-      );
+          this.setState({
+            collocutors: x,
+            loading: false,
+            isAuthenticated: true
+          })
+        );
+      });
   }
 
   setActive(activeChat) {
