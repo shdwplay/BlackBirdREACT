@@ -7,52 +7,86 @@ import addToFavIcon from "../assets/addToFavIcon.svg";
 import deleteIcon from "../assets/deleteIcon.svg";
 import closeXW from "../assets/closeXW.svg";
 import PropTypes from "prop-types";
+import Modal from "./Modal";
 
-const HighlightedCard = props => {
-  return (
-    <div className="HighlightedCard">
-      <div
-        className="HighlightedCard-silence"
-        onClick={evt =>
-          props.setOption(evt, "silenced", props.highlightedCardOptions)
-        }
-      >
-        <img src={props.silenced ? unsilenceIcon : silenceIcon} alt="silence" />
-        <div className="label">{props.silenced ? "Unsilence" : "Silence"}</div>
-      </div>
-      <div
-        className="HighlightedCard-remove"
-        onClick={evt =>
-          props.setOption(evt, "favourite", props.highlightedCardOptions)
-        }
-      >
-        <img
-          src={props.favourite ? removeFromFavIcon : addToFavIcon}
-          alt="remove from favourites"
-        />
-        <div className="HighlightedCard-label">
-          {props.favourite ? "Remove From Favourites" : "Add to Favourites"}
+class HighlightedCard extends React.Component {
+  state = { modal: false };
+  hideModal() {
+    this.setState({ modal: false });
+  }
+  render() {
+    return (
+      <div className="HighlightedCard">
+        {this.state.modal && (
+          <Modal
+            alertTitle={`Delete chat with ${this.props.name}`}
+            buttons={true}
+            hide={() => this.hideModal()}
+          />
+        )}
+        <div
+          className="HighlightedCard-silence"
+          onClick={evt =>
+            this.props.setOption(
+              evt,
+              "silenced",
+              this.props.highlightedCardOptions
+            )
+          }
+        >
+          <img
+            src={this.props.silenced ? unsilenceIcon : silenceIcon}
+            alt="silence"
+          />
+          <div className="label">
+            {this.props.silenced ? "Unsilence" : "Silence"}
+          </div>
         </div>
+        <div
+          className="HighlightedCard-remove"
+          onClick={evt =>
+            this.props.setOption(
+              evt,
+              "favourite",
+              this.props.highlightedCardOptions
+            )
+          }
+        >
+          <img
+            src={this.props.favourite ? removeFromFavIcon : addToFavIcon}
+            alt="remove from favourites"
+          />
+          <div className="HighlightedCard-label">
+            {this.props.favourite
+              ? "Remove From Favourites"
+              : "Add to Favourites"}
+          </div>
+        </div>
+        <div
+          className="HighlightedCard-delete"
+          onClick={evt => {
+            console.log("delete chat");
+            this.setState({ modal: true });
+            this.props.setOption(
+              evt,
+              "delete",
+              this.props.highlightedCardOptions
+            );
+          }}
+        >
+          <img src={deleteIcon} alt="delete" />
+          <div className="HighlightedCard-label">Delete</div>
+        </div>
+        <img
+          className="HighlightedCard-close-button"
+          onClick={this.props.closeHighlightedCard}
+          src={closeXW}
+          alt="close button"
+        />
       </div>
-      <div
-        className="HighlightedCard-delete"
-        onClick={evt => {
-          console.log("delete chat");
-          props.setOption(evt, "delete", props.highlightedCardOptions);
-        }}
-      >
-        <img src={deleteIcon} alt="delete" />
-        <div className="HighlightedCard-label">Delete</div>
-      </div>
-      <img
-        className="HighlightedCard-close-button"
-        onClick={props.closeHighlightedCard}
-        src={closeXW}
-        alt="close button"
-      />
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default HighlightedCard;
 

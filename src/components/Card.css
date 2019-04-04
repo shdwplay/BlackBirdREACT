@@ -30,7 +30,7 @@
   letter-spacing: 0;
   font-size: 13px;
   top: 1.5px;
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.75);
 }
 
 .Card-unread {

@@ -25,5 +25,5 @@
 }
 
 .plain {
-  background-color: var(--orange);
+  color: var(--orange);
 }
