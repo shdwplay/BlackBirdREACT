@@ -24,6 +24,7 @@ export default class Chat extends React.Component {
         />
         <div className="Chat" id="chat">
           {this.props.collocutor.messages.map((el, index) => {
+            //console.log(el.id)
             return (
               <div
                 key={index}

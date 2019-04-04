@@ -70,6 +70,54 @@ class App extends Component {
         userRef.collection("collocutors").onSnapshot(x => {
           for (let i = 0; i < x.docs.length; i++) {
             newState.collocutors[i].messages = [];
+            newState.collocutors[i].messages.id = [];
+            userRef
+              .collection("collocutors")
+              .doc(x.docs[i].id)
+              .collection("messages")
+              .orderBy('time', 'asc')
+              .get()
+              .then(x => {
+                for (let j = 0; j < x.docs.length; j++) {
+                  
+
+                  let aux = x.docs[j].data();
+                  console.log(aux)
+                  aux.id = x.docs[j].id;
+                  console.log(aux.id)
+                  console.log(newState.collocutors[i].messages.id)
+                  if(newState.collocutors[i].messages.id.indexOf(aux.id) === -1) {
+                    newState.collocutors[i].messages.push(aux);
+                  //console.log(newState.collocutors)
+                  }
+                  
+                }
+                this.setState(newState);
+              });
+              
+          }
+        });
+      });
+    });
+  }
+
+
+
+
+/*   userRef.collection("collocutors").forEach(el=>el
+    .collection("messages")
+    .onSnapshot(function(querySnapshot) {
+      var messages = [];
+      querySnapshot.forEach(function(doc) {
+          messages.push(doc.data());
+      });
+      console.log("Current cities in CA: ", messages);
+  })) */
+      
+
+        /* userRef.collection("collocutors").onSnapshot(x => {
+          for (let i = 0; i < x.docs.length; i++) {
+            newState.collocutors[i].messages = [];
             userRef
               .collection("collocutors")
               .doc(x.docs[i].id)
@@ -82,10 +130,8 @@ class App extends Component {
                 this.setState(newState);
               });
           }
-        });
-      });
-    });
-  }
+        }); */
+
 
   /* getMessages(userId, collocutorId){
     let db = firebase.firestore();
