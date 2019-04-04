@@ -25,7 +25,8 @@ class HeaderChat extends Component {
           silenced={this.props.silenced}
           favourite={this.props.favourite}
           highlightedCardOptions={this.props.highlightedCardOptions}
-          openSearch={this.props.openSearch} />
+          openSearch={this.props.openSearch}
+        />
       </div>
     );
   }

@@ -36,6 +36,7 @@ export default class Chat extends React.Component {
             openSearch={this.props.openSearch}
             searchToggle={this.props.searchToggle}
             name={this.props.collocutor.name}
+            status={this.props.collocutor.status}
             silenced={this.props.collocutor.silenced}
             favourite={this.props.collocutor.favourite}
             highlightedCardOptions={this.props.highlightedCardOptions}
