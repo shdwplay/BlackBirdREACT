@@ -3,14 +3,13 @@ import threeDotsIcon from "../assets/threedots.svg";
 import closeIcon from "../assets/ics.svg";
 import "./ChatMenu.css";
 import PropTypes from "prop-types";
+import { setOption } from "../utils";
 
 class ChatMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
-      favourite: false,
-      muted: false
+      show: false
     };
   }
 
@@ -19,18 +18,18 @@ class ChatMenu extends Component {
       show: !this.state.show
     });
   }
-  toggleFavourite() {
-    this.setState({
-      favourite: !this.state.favourite
-    });
-    // console.log('favourite: ' +this.state.favourite)
-  }
-  toggleMute() {
-    this.setState({
-      muted: !this.state.muted
-    });
-    // console.log('muted: ' +this.state.muted)
-  }
+  // toggleFavourite() {
+  //   this.setState({
+  //     favourite: !this.state.favourite
+  //   });
+  //   // console.log('favourite: ' +this.state.favourite)
+  // }
+  // toggleMute() {
+  //   this.setState({
+  //     muted: !this.state.muted
+  //   });
+  //   // console.log('muted: ' +this.state.muted)
+  // }
 
   render() {
     if (!this.state.show) {
@@ -54,21 +53,27 @@ class ChatMenu extends Component {
           onClick={() => this.toggleShow()}
         />
         <div className="menu">
-          <div className="option" onClick={() => this.toggleFavourite()}>
-            {this.state.favourite ? (
+          <div
+            className="option"
+            onClick={() => this.props.highlightedCardOptions("favourite")}
+          >
+            {this.props.favourite ? (
               <p>Remove from Favourites</p>
             ) : (
               <p>Add Favourite</p>
             )}
           </div>
-          <div className="option" onClick={() => this.toggleMute()}>
-            {this.state.muted ? <p>Unmute</p> : <p>Mute</p>}
+          <div
+            className="option"
+            onClick={() => this.props.highlightedCardOptions("silenced")}
+          >
+            {this.props.silenced ? <p>Unsilenced</p> : <p>Silenced</p>}
           </div>
           <div
             className="option"
             onClick={() => {
               this.toggleShow();
-              this.props.onClick();
+              this.props.openSearch();
             }}
           >
             Search

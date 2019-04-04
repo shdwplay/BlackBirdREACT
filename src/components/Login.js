@@ -17,14 +17,14 @@ class Login extends Component {
   state = {
     email: "",
     password: "",
-    Modal: false,
+    modal: false,
     forgotPassword: false,
     redirect: false,
     loading: false
   };
 
   hideModal() {
-    this.setState({ Modal: false });
+    this.setState({ modal: false });
   }
 
   render() {
@@ -32,7 +32,7 @@ class Login extends Component {
     if (!this.state.forgotPassword) {
       return (
         <div className="Login">
-          {this.state.Modal && (
+          {this.state.modal && (
             <Modal
               alertTitle="Invalid email or password"
               alertText="Please reinsert both fields carefully"

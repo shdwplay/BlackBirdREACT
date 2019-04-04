@@ -40,7 +40,10 @@ const Card = props => {
         />
         <div className="Card-text-preview">{props.data.lastMsg.text}</div>
       </div>
-      <MessageDate context="MessageDate" date={props.data.lastMsg.seconds} />
+      <MessageDate
+        context="MessageDate"
+        date={props.data.lastMsg.date.seconds}
+      />
       <div className="Card-dots-area">
         <img
           alt="dots"
@@ -57,6 +60,7 @@ const Card = props => {
           highlightedCardOptions={props.highlightedCardOptions}
           silenced={props.silenced}
           favourite={props.favourite}
+          name={props.name}
           closeHighlightedCard={evt => {
             evt.preventDefault();
             evt.stopPropagation();

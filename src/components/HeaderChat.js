@@ -21,12 +21,23 @@ class HeaderChat extends Component {
           openSearch={this.props.openSearch}
           setQueryString={this.props.setQueryString}
         />
-        <ChatMenu onClick={this.props.openSearch} />
+        <ChatMenu
+          silenced={this.props.silenced}
+          favourite={this.props.favourite}
+          highlightedCardOptions={this.props.highlightedCardOptions}
+          openSearch={this.props.openSearch}
+        />
       </div>
     );
   }
 }
 
-HeaderChat.propTypes = {};
+HeaderChat.propTypes = {
+  searchToggle: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  openSearch: PropTypes.func,
+  setQueryString: PropTypes.func
+};
 
 export default HeaderChat;
