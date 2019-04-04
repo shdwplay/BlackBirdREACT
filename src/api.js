@@ -1,10 +1,14 @@
 import firebase from "./firebase.js";
 
+export const logIn = (email, pw) => {
+  return firebase.auth().signInWithEmailAndPassword(email, pw);
+};
+
 export const firebaseAuth = () => {
   return new Promise((resolve, reject) => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) resolve(user.email.split("@")[0]);
-      else reject("authentification failed");
+      else reject("fail");
     });
   });
 };
@@ -67,7 +71,7 @@ export const addMessage = (collocutorId, currentUserId, text) => {
     .doc(collocutorId);
 
   userRef.collection("messages").add(message);
-  userRef.update({ lastMessage: message });
+  userRef.update({ lastMsg: message });
 };
 
 export const listenMessages = (collocutorId, currentUserId, cb) => {

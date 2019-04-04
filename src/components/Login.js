@@ -8,6 +8,9 @@ import { Redirect, Link, withRouter, Route } from "react-router-dom";
 import firebase from "../firebase";
 import Messages from "./Messages";
 import { showSpinner } from "../utils";
+import { logIn } from "../api";
+import { getUserInfo } from "../api";
+import { listenCollocutorsList } from "../api";
 import "../spinner.css";
 
 class Login extends Component {
@@ -19,17 +22,6 @@ class Login extends Component {
     redirect: false,
     loading: false
   };
-
-  authenticate() {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
-        this.setState({ loading: true });
-        this.props.getDatabaseState(this.state.email.split("@")[0]);
-      })
-      .catch(() => this.setState({ Modal: true }));
-  }
 
   hideModal() {
     this.setState({ Modal: false });
@@ -51,12 +43,12 @@ class Login extends Component {
             <div className="Login-header">
               <img
                 alt="BlackBird Logo"
-                class="Logo-ipad Login-mobile-logo"
+                className="Logo-ipad Login-mobile-logo"
                 src={logoW}
               />
               <img
                 alt="BlackBird Logo"
-                class="Logo-mobile Login-mobile-logo"
+                className="Logo-mobile Login-mobile-logo"
                 src={logo}
               />
             </div>
@@ -115,7 +107,22 @@ class Login extends Component {
               <Button
                 text="Login"
                 type="filled"
-                onClick={() => this.authenticate()}
+                onClick={() =>
+                  logIn(this.state.email, this.state.password).then(x =>
+                    getUserInfo(x.user.email.split("@")[0], x => {
+                      console.log(x);
+                      this.props.setstate({
+                        currentUser: x.email.split("@")[0]
+                      });
+                    }).then(() => {
+                      listenCollocutorsList(x.user.email.split("@")[0], x =>
+                        this.props.setstate({ collocutors: x })
+                      );
+                      this.props.setAuthenticated();
+                      console.log(x);
+                    })
+                  )
+                }
               />
             </div>
           </div>

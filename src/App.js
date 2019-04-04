@@ -20,12 +20,13 @@ import { filterFavourites } from "./utils";
 import { firebaseAuth } from "./api";
 import { getUserInfo } from "./api";
 import { listenCollocutorsList } from "./api";
+import { ninvoke } from "q";
 
 class App extends Component {
   state = {
     loading: true,
     isAuthenticated: null, //bool
-    currentUser: "",
+    currentUser: null,
     name: "",
     userStatus: "",
     collocutors: [],
@@ -36,25 +37,36 @@ class App extends Component {
     querystr: "",
     highlightedCard: null
   };
+
   componentDidMount() {
-    firebaseAuth()
-      .then(userName => {
-        this.setState({ currentUser: userName });
-        getUserInfo(userName, x =>
-          this.setState({ name: x.name, userStatus: x.userStatus })
-        );
-      })
-      .then(info => {
-        console.log(info);
-        // this.setState({ userStatus: info.userStatus });
-        listenCollocutorsList("antoniopellegrini", x =>
-          this.setState({
-            collocutors: x,
-            loading: false,
-            isAuthenticated: true
-          })
-        );
-      });
+    if (this.state.currentUser) {
+      firebaseAuth()
+        .then(
+          userName => {
+            this.setState({ currentUser: userName });
+            getUserInfo(userName, x =>
+              this.setState({ name: x.name, userStatus: x.userStatus })
+            );
+          },
+          err => {
+            this.setState({ isAuthenticated: false, loading: false });
+          }
+        )
+        //.catch(() => console.log("wtf"))
+        .then(info => {
+          console.log(info);
+          // this.setState({ userStatus: info.userStatus });
+          listenCollocutorsList(this.state.currentUser, x =>
+            this.setState({
+              collocutors: x,
+              loading: false,
+              isAuthenticated: true
+            })
+          );
+        });
+    } else {
+      this.setState({ isAuthenticated: false, loading: false });
+    }
   }
 
   setActive(activeChat) {
@@ -133,7 +145,12 @@ class App extends Component {
     console.log("app rendering");
     if (this.state.loading === true) return showSpinner();
     if (!this.state.isAuthenticated)
-      return <Login getDatabaseState={x => this.getDatabaseState(x)} />;
+      return (
+        <Login
+          setstate={x => this.setState(x)}
+          setAuthenticated={() => this.setState({ isAuthenticated: true })}
+        />
+      );
 
     return (
       <Switch>
