@@ -19,6 +19,10 @@ export default class Chat extends React.Component {
           searchToggle={this.props.searchToggle}
           name={this.props.collocutor.name}
           status={this.props.collocutor.status}
+          silenced={this.props.collocutor.silenced}
+          favourite={this.props.collocutor.favourite}
+          highlightedCardOptions={this.props.highlightedCardOptions}
+
         />
         <div className="Chat" id="chat">
           {this.props.collocutor.messages.map((el, index) => {
@@ -33,7 +37,7 @@ export default class Chat extends React.Component {
               >
                 <div className="Chat-message-text">{el.text}</div>
                 {/* <div className="Chat-message-time">11:02</div> */}
-                <MessageDate context="chat" date={el.time.seconds} />
+                {/* <MessageDate context="chat" date={el.time.seconds} /> */}
               </div>
             );
           })}
