@@ -49,9 +49,13 @@
   display: flex;
   width: 100%;
 }
+.ProfileContainer {
+  position: relative;
+  padding: 0px 16px 20px 16px;
+}
 .Profile-container {
   position: relative;
-  padding: 20px 16px;
+  padding-top: 20px;
 }
 .Profile-logout-link {
   position: relative;
@@ -70,7 +74,8 @@
   margin-bottom: -5px;
   font-weight: 600;
 }
-.Profile-settings .Profile-form-item {
+.Profile-settings .Profile-form-item,
+.Profile-settings-area .Profile-form-item {
   width: 100%;
   border-bottom: 1px solid grey;
   padding-top: 10px;
@@ -84,7 +89,8 @@
 .Profile-settings .Profile-password-settings .Profile-form-item > * {
   flex: 3;
 }
-.Profile-settings .Profile-form-item-first {
+.Profile-settings .Profile-form-item-first,
+.Profile-settings-area .Profile-form-item-first {
   border-top: 0.5px solid grey;
 }
 .Profile-settings input {

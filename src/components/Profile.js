@@ -30,27 +30,29 @@ class Profile extends React.Component {
             <img alt="BlackBird Logo" src={logo} />
           </div>
         </div>
-        <div className="Profile-pic-and-logout-area">
-          <div className="Profile-pic">
-            <Avatar size="large" name="Edoardo Accivile" />
-          </div>
-          <div className="Profile-logout-area">
-            <div className="Profile-data">
-              <div className="profile-user-name">{this.props.name}</div>
+        <div className="Profile-container">
+          <div className="Profile-pic-and-logout-area">
+            <div className="Profile-pic">
+              <Avatar size="large" name="Edoardo Accivile" />
             </div>
-            <div
-              className="Profile-logout-link"
-              href="/"
-              onClick={() => {
-                firebase
-                  .auth()
-                  .signOut()
-                  .catch(err => {
-                    console.log(err);
-                  });
-              }}
-            >
-              Logout
+            <div className="Profile-logout-area">
+              <div className="Profile-data">
+                <div className="profile-user-name">{this.props.name}</div>
+              </div>
+              <div
+                className="Profile-logout-link"
+                href="/"
+                onClick={() => {
+                  firebase
+                    .auth()
+                    .signOut()
+                    .catch(err => {
+                      console.log(err);
+                    });
+                }}
+              >
+                Logout
+              </div>
             </div>
           </div>
           <div className="Profile-settings">
@@ -124,13 +126,13 @@ class Profile extends React.Component {
               className="Profile-form-item Profile-form-item-first"
               // onClick={() => {
               //   let status;
-              //   this,props.userStatus === "online"
+              //   this,this..userStatus === "online"
               //     ? (status = "away")
               //     : (status = "online");
               //   let db = firebase.firestore();
               //   let x = db
               //     .collection("users")
-              //     .doc(this.props.currentUser)
+              //     .doc(this.this..currentUser)
               //     .update({ userStatus: status });
               // }}
             >
