@@ -219,6 +219,7 @@ class App extends Component {
                 searchToggle={this.state.searchToggle}
                 openSearch={() => this.setSearchOpen()}
                 addMessage={(x, y) => this.addMessage(x, y)}
+                highlightedCardOptions={x => this.highlightedCardOptions(x)}
               />
             );
           }}
