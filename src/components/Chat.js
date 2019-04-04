@@ -10,17 +10,15 @@ export default class Chat extends React.Component {
     super(props);
     this.props.selectChat(this.props.match.params.id);
   }
-  
- 
+
   render() {
-    
     return (
-      
       <div className="Chat-container">
         <HeaderChat
+          openSearch={this.props.openSearch}
+          searchToggle={this.props.searchToggle}
           name={this.props.collocutor.name}
           status={this.props.collocutor.status}
-          
         />
         <div className="Chat" id="chat">
           {this.props.collocutor.messages.map((el, index) => {
@@ -36,7 +34,7 @@ export default class Chat extends React.Component {
               >
                 <div className="Chat-message-text">{el.text}</div>
                 {/* <div className="Chat-message-time">11:02</div> */}
-                <MessageDate context='chat' date={el.time.seconds} />
+                <MessageDate context="chat" date={el.time.seconds} />
               </div>
             );
           })}
@@ -54,10 +52,13 @@ export default class Chat extends React.Component {
           <img
             id="send-icon"
             onClick={() => {
-              console.log(this.props.match.params.id)
-              console.log(this.props.currentUser)
-              //this.props.setActive(this.props.match.params.id) 
-              this.props.addMessage(this.props.match.params.id, this.props.currentUser);
+              console.log(this.props.match.params.id);
+              console.log(this.props.currentUser);
+              //this.props.setActive(this.props.match.params.id)
+              this.props.addMessage(
+                this.props.match.params.id,
+                this.props.currentUser
+              );
             }}
             src={send}
             alt="send message"

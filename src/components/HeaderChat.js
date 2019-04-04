@@ -1,35 +1,32 @@
-import React from "react";
-import { search } from "../utils";
+import React, { Component } from "react";
+import ChatMenu from "./ChatMenu";
 import "./HeaderChat.css";
 import Search from "./Search";
-import Back from "./Back";
+import PropTypes from "prop-types";
 
-const HeaderChat = props => {
-  // searchFunction(e) {
-  //   this.setState({
-  //     string: e.target.value
-  //   });
-  //   this.setState({
-  //     results: search(e.target.value)
-  //   });
-  // }
+// import Back from "./Back";
 
-  return (
-    <div className="headerchat">
-      {!props.toggleOpen && (
-        <div className="user">
-          <div className="name">{props.name}</div>
-          <div className="status">{props.status}</div>
-        </div>
-      )}
-      <Search
-        searchToggle={props.searchToggle}
-        string={props.string}
-        //onChange={e => searchFunction(e)}
-        openSearch={() => props.setSearchOpen()}
-      />
-    </div>
-  );
-};
+class HeaderChat extends Component {
+  render() {
+    return (
+      <div className="headerchat">
+        {!this.props.searchToggle && (
+          <div className="user">
+            <div className="name">{this.props.name}</div>
+            <div className="status">{this.props.status}</div>
+          </div>
+        )}
+        <Search
+          searchToggle={this.props.searchToggle}
+          openSearch={this.props.openSearch}
+          setQueryString={this.props.setQueryString}
+        />
+        <ChatMenu onClick={this.props.openSearch} />
+      </div>
+    );
+  }
+}
+
+HeaderChat.propTypes = {};
 
 export default HeaderChat;
