@@ -72,6 +72,16 @@ export const addMessage = (collocutorId, currentUserId, text) => {
 
   userRef.collection("messages").add(message);
   userRef.update({ lastMsg: message });
+
+  userRef = firebase
+    .firestore()
+    .collection("users")
+    .doc(collocutorId)
+    .collection("collocutors")
+    .doc(currentUserId);
+
+  userRef.collection("messages").add(message);
+  userRef.update({ lastMsg: message });
 };
 
 export const listenMessages = (collocutorId, currentUserId, cb) => {

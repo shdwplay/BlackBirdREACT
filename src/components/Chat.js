@@ -75,16 +75,12 @@ export default class Chat extends React.Component {
               onClick={() => {
                 console.log(this.props.match.params.id);
                 console.log(this.props.currentUser);
+                console.log(this.props.collocutor.id);
                 //this.props.setActive(this.props.match.params.id)
                 this.setState({ newMessage: "" });
                 addMessage(
                   this.props.collocutor.id,
                   this.props.currentUser,
-                  this.state.newMessage
-                );
-                addMessage(
-                  this.props.currentUser,
-                  this.props.collocutor.id,
                   this.state.newMessage
                 );
               }}
