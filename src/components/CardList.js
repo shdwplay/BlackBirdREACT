@@ -11,10 +11,10 @@ const CardList = props => {
       {props.cardList.map((el, index) => (
         <Link to={"/messages/" + el.id}>
           <Card
-            displayName={props.displayNames[index]}
             name={el.name}
             key={index}
             cardNumber={index}
+            querystr={props.querystr}
             setHighlightedCard={props.setHighlightedCard}
             highlightedCard={props.highlightedCard}
             highlightedCardOptions={props.highlightedCardOptions}

@@ -14,9 +14,7 @@ import Chat from "./components/Chat";
 import "./App.css";
 //utility functions
 import { showSpinner } from "./utils";
-import { searchFilter } from "./utils";
 
-import { firebaseAuth } from "./api";
 import { getUserDetails } from "./api";
 import { listenCollocutorsList } from "./api";
 import { setAuthObserver } from "./api";
@@ -38,27 +36,29 @@ class App extends Component {
   componentDidMount() {
     setAuthObserver(
       () => {
+        //unauthenticated user causes login page to display
         this.setState({ isAuthenticated: false, loading: false });
       },
+      //authenticated user fetch information
       async user => {
         this.setState({ loading: true });
-        console.log(user);
         let userName = user.email.split("@")[0];
         const userDetails = await getUserDetails(userName);
-        console.log("awaited:", userDetails);
-
         this.setState({
           currentUser: userName,
           userStatus: userDetails.userStatus,
           name: userDetails.name
         });
-        listenCollocutorsList(userName, collocutors =>
+
+        listenCollocutorsList(userName, collocutors => {
+          let favourites = collocutors.filter(el => el.favourite);
           this.setState({
             collocutors: collocutors,
+            favourites: favourites,
             isAuthenticated: true,
             loading: false
-          })
-        );
+          });
+        });
       }
     );
   }
@@ -69,23 +69,31 @@ class App extends Component {
     });
   }
 
-  searchFilter() {
-    var reg = new RegExp(this.state.querystr, "gi");
-    let filtered = this.state.collocutors.filter(el =>
-      el.name.toLowerCase().includes(this.state.querystr)
-    );
-    let display = filtered.map(el =>
-      el.name.replace(
-        reg,
-        str => "<b style='background:#fc0fc0'>" + str + "</b>"
-      )
-    );
-    return [filtered, display];
+  toggleFavourites() {
+    this.setState({
+      favouritesActive: !this.state.favouritesActive,
+      highlightedCard: null
+    });
   }
+
+  setSearchOpen() {
+    this.setState({
+      searchToggle: !this.state.searchToggle,
+      querystr: "",
+      highlightedCard: null //deselects current card to diplay list properly
+    });
+  }
+
   setQueryString(str) {
     this.setState({ querystr: str, highlightedCard: null });
   }
+  searchFilter() {
+    let filtered = this.state.collocutors.filter(el =>
+      el.name.toLowerCase().includes(this.state.querystr)
+    );
 
+    return filtered;
+  }
   highlightedCardOptions(option) {
     //invoked with "favourite" | "silenced" | "delete" =
     //when user clicks on corrisponding icon on (highlighted) chat card
@@ -93,17 +101,13 @@ class App extends Component {
     if (this.state.favouritesActive)
       aux = this.state.favourites[this.state.highlightedCard];
     else aux = this.state.collocutors[this.state.highlightedCard];
-    console.log(aux);
     let optionsRef = firebase
       .firestore()
       .collection("users")
       .doc(this.state.currentUser)
       .collection("collocutors");
     if (option === "delete") {
-      //in progress
     } else {
-      console.log("entered");
-      console.log(aux[option]);
       optionsRef.doc(aux.id).update({ [option]: !aux[option] });
       this.setState({ highlightedCard: null });
     }
@@ -114,24 +118,10 @@ class App extends Component {
       activeTab: tab
     });
   }
-  toggleFavourites() {
-    this.setState({
-      favouritesActive: !this.state.favouritesActive,
-      highlightedCard: null
-    });
-  }
 
   selectChat(clickedCard) {
     this.setState({
       activeChat: clickedCard
-    });
-  }
-
-  setSearchOpen() {
-    this.setState({
-      searchToggle: !this.state.searchToggle,
-      querystr: "",
-      highlightedCard: null //deselects current card to diplay list properly
     });
   }
 
@@ -163,16 +153,8 @@ class App extends Component {
               selectTab={index => this.selectTab(index)}
               favouritesActive={this.state.favouritesActive}
               toggleFavourites={() => this.toggleFavourites()}
-              cardList={
-                this.state.favouritesActive
-                  ? searchFilter(this.state.favourites, this.state.querystr)[0]
-                  : searchFilter(this.state.collocutors, this.state.querystr)[0]
-              }
-              displayNames={
-                this.state.favouritesActive
-                  ? searchFilter(this.state.favourites, this.state.querystr)[1]
-                  : searchFilter(this.state.collocutors, this.state.querystr)[1]
-              }
+              collocutors={this.state.collocutors}
+              //cardList={this.state.collocutors}
               activeChat={this.state.activeChat}
               selectChat={x => this.selectChat(x)}
               setQueryString={x => this.setQueryString(x)}

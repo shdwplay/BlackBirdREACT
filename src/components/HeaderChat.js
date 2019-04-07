@@ -2,35 +2,50 @@ import React, { Component } from "react";
 import ChatMenu from "./ChatMenu";
 import "./HeaderChat.css";
 import Search from "./Search";
+import backImage from "../assets/backbutton.svg";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
 // import Back from "./Back";
 
-class HeaderChat extends Component {
-  render() {
-    return (
-      <div className="headerchat">
-        {!this.props.searchToggle && (
-          <div className="user">
-            <div className="name">{this.props.name}</div>
-            <div className="status">{this.props.status}</div>
-          </div>
-        )}
+const HeaderChat = props => {
+  console.log(props.searchToggle);
+  var searchClass = classNames({
+    "HeaderChat-search": true,
+    open: props.searchToggle
+  });
+  return (
+    <div className="HeaderChat">
+      <Link to="/messages">
+        <div className="HeaderChat-back">
+          <img className="HeaderChat-back-arrow" src={backImage} alt="back" />
+        </div>
+      </Link>
+      {!props.searchToggle && (
+        <div className="HeaderChat-user">
+          <div className="HeaderChat-user-name">{props.name}</div>
+          <div className="HeaderChat-user-status">{props.status}</div>
+        </div>
+      )}
+      <div className={searchClass}>
         <Search
-          searchToggle={this.props.searchToggle}
-          openSearch={this.props.openSearch}
-          setQueryString={this.props.setQueryString}
-        />
-        <ChatMenu
-          silenced={this.props.silenced}
-          favourite={this.props.favourite}
-          highlightedCardOptions={this.props.highlightedCardOptions}
-          openSearch={this.props.openSearch}
+          searchToggle={props.searchToggle}
+          openSearch={props.openSearch}
+          setQueryString={props.setChatQuerystr}
         />
       </div>
-    );
-  }
-}
+      <div className="HeaderChat-menu">
+        <ChatMenu
+          silenced={props.silenced}
+          favourite={props.favourite}
+          highlightedCardOptions={props.highlightedCardOptions}
+          openSearch={props.openSearch}
+        />
+      </div>
+    </div>
+  );
+};
 
 HeaderChat.propTypes = {
   searchToggle: PropTypes.bool.isRequired,

@@ -67,15 +67,26 @@ export const showSpinner = () => {
   );
 };
 
-export const searchFilter = (arr, str) => {
-  var reg = new RegExp(str, "gi");
-  let filtered = arr.filter(el => el.name.toLowerCase().includes(str));
-  let display = filtered.map(el =>
-    el.name.replace(reg, str => "<b style='background:#fc0fc0'>" + str + "</b>")
-  );
-  return [filtered, display];
+export const showDisplayName = (name, str) => {
+  if (str !== "") {
+    var reg = new RegExp(str, "gi");
+    return name.replace(
+      reg,
+      str => "<strong style='background:#fc0fc0'>" + str + "</strong>"
+    );
+  } else return name;
 };
 
-export const filterFavourites = arr => {
-  return arr.filter(el => el.favourite);
+export const calcCardList = (favActive, searchStr, unfilteredList) => {
+  let filtered = [...unfilteredList].filter(el =>
+    el.name.toLowerCase().includes(searchStr)
+  );
+  if (favActive) {
+    return filtered.filter(el => el.favourite);
+  } else return filtered;
+};
+
+export const filterMessages = (messages, str) => {
+  let filtered = messages.filter(el => el.text.includes(str));
+  return filtered;
 };

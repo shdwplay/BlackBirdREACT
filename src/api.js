@@ -28,7 +28,6 @@ export async function getUserDetails(userName) {
     .get();
   let aux = userDoc.data();
   aux.userName = userName;
-  console.log(aux);
   return aux;
 }
 
@@ -58,7 +57,6 @@ export const getMessages = (userId, collocutorId) => {
     .collection("messages")
     .onSnapshot(function(querySnapshot) {
       var messages = [];
-      console.log(querySnapshot);
       querySnapshot.forEach(function(doc) {
         messages.push(doc.data().text);
       });

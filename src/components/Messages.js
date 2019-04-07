@@ -2,41 +2,57 @@ import React from "react";
 import Header from "./Header";
 import TabBar from "./TabBar";
 import CardList from "./CardList";
+import { calcCardList } from "../utils";
+import PropTypes from "prop-types";
 
-class Messages extends React.Component {
-  render() {
-    return (
-      <div className="container">
-        <Header
-          url={this.props.match.url}
-          name={this.props.name}
-          currentUser={this.props.currentUser}
-          openSearch={this.props.openSearch}
-          searchToggle={this.props.searchToggle}
-          setQueryString={this.props.setQueryString}
-          querystr={this.props.querystr}
-        >
-          <TabBar
-            activeTab={this.props.activeTab}
-            selectTab={this.props.selectTab}
-            searchToggle={this.props.searchToggle}
-            toggleFavourites={this.props.toggleFavourites}
-          />
-        </Header>
-        <CardList
-          setHighlightedCard={this.props.setHighlightedCard}
-          highlightedCard={this.props.highlightedCard}
-          highlightedCardOptions={this.props.highlightedCardOptions}
-          activeChat={this.props.activeChat}
-          cardList={this.props.cardList}
-          favouritesActive={this.props.favouritesActive}
-          displayNames={this.props.displayNames}
-          selectChat={this.props.selectChat}
-          searchToggle={this.props.searchToggle}
+const Messages = props => {
+  const filteredCardList = calcCardList(
+    props.favouritesActive,
+    props.querystr,
+    props.collocutors
+  );
+  return (
+    <div className="container">
+      <Header
+        url={props.match.url}
+        name={props.name}
+        currentUser={props.currentUser}
+        openSearch={props.openSearch}
+        searchToggle={props.searchToggle}
+        setQueryString={props.setQueryString}
+        querystr={props.querystr}
+      >
+        <TabBar
+          activeTab={props.activeTab}
+          selectTab={props.selectTab}
+          searchToggle={props.searchToggle}
+          toggleFavourites={props.toggleFavourites}
         />
-      </div>
-    );
-  }
-}
+      </Header>
+      <CardList
+        setHighlightedCard={props.setHighlightedCard}
+        highlightedCard={props.highlightedCard}
+        highlightedCardOptions={props.highlightedCardOptions}
+        activeChat={props.activeChat}
+        cardList={filteredCardList}
+        selectChat={props.selectChat}
+        searchToggle={props.searchToggle}
+        querystr={props.querystr}
+      />
+    </div>
+  );
+};
 
 export default Messages;
+
+Messages.propTypes = {
+  name: PropTypes.string,
+  openSearch: PropTypes.func,
+  searchToggle: PropTypes.bool,
+  setQueryString: PropTypes.func,
+  querystr: PropTypes.string,
+  highlightedCard: PropTypes.number,
+  setHighlightedCard: PropTypes.func,
+  highlightedCardOptions: PropTypes.func,
+  cardList: PropTypes.array
+};

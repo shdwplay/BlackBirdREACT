@@ -11,7 +11,7 @@ import { showNotifications } from "../utils";
 
 import { dotsOnClick } from "../utils";
 import { setOption } from "../utils";
-
+import { showDisplayName } from "../utils";
 import classNames from "classnames";
 
 const Card = props => {
@@ -24,18 +24,13 @@ const Card = props => {
     <div onClick={props.onClick} className={cardClass}>
       {showNotifications(props.data.numUnread, props.data.silenced)}
       <div className="Card-Avatar">
-        <Avatar
-          name={props.data.name}
-          imgurl={props.data.image}
-          size="small"
-          onClick={() => console.log("for use in profile")}
-        />
+        <Avatar name={props.data.name} imgurl={props.data.image} size="small" />
       </div>
       <div className="Card-message-text">
         <div
           className="Card-username"
           dangerouslySetInnerHTML={{
-            __html: props.displayName
+            __html: showDisplayName(props.name, props.querystr)
           }}
         />
         <div className="Card-text-preview">{props.data.lastMsg.text}</div>
