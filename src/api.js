@@ -1,26 +1,36 @@
 import firebase from "./firebase.js";
 
-export const logIn = (email, pw) => {
-  return firebase.auth().signInWithEmailAndPassword(email, pw);
-};
-
-export const firebaseAuth = () => {
-  return new Promise((resolve, reject) => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) resolve(user.email.split("@")[0]);
-      else reject("fail");
-    });
-  });
-};
-
-export const getUserInfo = (userName, cb) => {
+export function login(email, pw, cb) {
   return firebase
+    .auth()
+    .signInWithEmailAndPassword(email, pw)
+    .catch(err => {
+      console.log(err);
+      cb();
+    });
+}
+export function setAuthObserver(showLogin, getUserData) {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      console.log("loggged", user);
+      getUserData(user);
+    } else {
+      console.log("not logged:", user);
+      showLogin();
+    }
+  });
+}
+export async function getUserDetails(userName) {
+  const userDoc = await firebase
     .firestore()
     .collection("users")
     .doc(userName)
-    .get()
-    .then(doc => cb(doc.data()));
-};
+    .get();
+  let aux = userDoc.data();
+  aux.userName = userName;
+  console.log(aux);
+  return aux;
+}
 
 export const listenCollocutorsList = (userName, callback) => {
   return firebase

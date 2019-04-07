@@ -1,7 +1,7 @@
 //react and firebase
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
-import firebase from "firebase";
+import firebase from "./firebase";
 //components
 import Login from "./components/Login";
 import LoginForm from "./components/LoginForm";
@@ -15,13 +15,11 @@ import "./App.css";
 //utility functions
 import { showSpinner } from "./utils";
 import { searchFilter } from "./utils";
-import { filterFavourites } from "./utils";
 
 import { firebaseAuth } from "./api";
-import { getUserInfo } from "./api";
+import { getUserDetails } from "./api";
 import { listenCollocutorsList } from "./api";
-import { ninvoke } from "q";
-
+import { setAuthObserver } from "./api";
 class App extends Component {
   state = {
     loading: true,
@@ -37,36 +35,32 @@ class App extends Component {
     querystr: "",
     highlightedCard: null
   };
-
   componentDidMount() {
-    if (this.state.currentUser) {
-      firebaseAuth()
-        .then(
-          userName => {
-            this.setState({ currentUser: userName });
-            getUserInfo(userName, x =>
-              this.setState({ name: x.name, userStatus: x.userStatus })
-            );
-          },
-          err => {
-            this.setState({ isAuthenticated: false, loading: false });
-          }
-        )
-        //.catch(() => console.log("wtf"))
-        .then(info => {
-          console.log(info);
-          // this.setState({ userStatus: info.userStatus });
-          listenCollocutorsList(this.state.currentUser, x =>
-            this.setState({
-              collocutors: x,
-              loading: false,
-              isAuthenticated: true
-            })
-          );
+    setAuthObserver(
+      () => {
+        this.setState({ isAuthenticated: false, loading: false });
+      },
+      async user => {
+        this.setState({ loading: true });
+        console.log(user);
+        let userName = user.email.split("@")[0];
+        const userDetails = await getUserDetails(userName);
+        console.log("awaited:", userDetails);
+
+        this.setState({
+          currentUser: userName,
+          userStatus: userDetails.userStatus,
+          name: userDetails.name
         });
-    } else {
-      this.setState({ isAuthenticated: false, loading: false });
-    }
+        listenCollocutorsList(userName, collocutors =>
+          this.setState({
+            collocutors: collocutors,
+            isAuthenticated: true,
+            loading: false
+          })
+        );
+      }
+    );
   }
 
   setActive(activeChat) {
@@ -143,12 +137,12 @@ class App extends Component {
 
   render() {
     console.log("app rendering");
-    if (this.state.loading === true) return showSpinner();
+    if (this.state.loading) return showSpinner();
     if (!this.state.isAuthenticated)
       return (
         <Login
-          setstate={x => this.setState(x)}
-          setAuthenticated={() => this.setState({ isAuthenticated: true })}
+          setLoginState={x => this.setState(x)}
+          //setAuthenticated={() => this.setState({ isAuthenticated: true })}
         />
       );
 
