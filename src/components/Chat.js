@@ -8,6 +8,7 @@ import MessageDate from "./MessageDate";
 import { addMessage } from "../api";
 import { listenMessages } from "../api";
 import { filterMessages } from "../utils";
+import { setReadMessages } from "../api";
 import PropTypes from "prop-types";
 export default class Chat extends React.Component {
   state = {
@@ -20,8 +21,30 @@ export default class Chat extends React.Component {
 
   componentDidMount() {
     this.props.setActive(this.props.collocutor.id);
-    listenMessages(this.props.collocutor.id, this.props.currentUser, x =>
-      this.setState({ messages: x, loading: false })
+    this.unsub = this.getMessagesUpdates();
+  }
+
+  componentDidUpdate() {
+    let unreadMessages = this.state.messages
+      .filter(el => !el.read)
+      .map(el => el.id);
+    setReadMessages(
+      this.props.collocutor.id,
+      this.props.currentUser,
+      unreadMessages
+    );
+  }
+
+  componentWillUnmount() {
+    console.log(this.getMessagesUpdates);
+    this.unsub();
+  }
+
+  getMessagesUpdates() {
+    return listenMessages(
+      this.props.collocutor.id,
+      this.props.currentUser,
+      newMessages => this.setState({ messages: newMessages, loading: false })
     );
   }
 
@@ -30,8 +53,6 @@ export default class Chat extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state);
     if (this.state.loading) return <div>loading...</div>;
     else {
       return (
@@ -84,9 +105,9 @@ export default class Chat extends React.Component {
             <img
               id="send-icon"
               onClick={() => {
-                console.log(this.props.match.params.id);
-                console.log(this.props.currentUser);
-                console.log(this.props.collocutor.id);
+                // console.log(this.props.match.params.id);
+                // console.log(this.props.currentUser);
+                // console.log(this.props.collocutor.id);
                 //this.props.setActive(this.props.match.params.id)
                 this.setState({ newMessage: "" });
                 addMessage(
