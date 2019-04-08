@@ -9,13 +9,19 @@ import Back from "./Back";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import firebase from "../firebase.js";
-
+import { listenProfile } from "../api";
 class Profile extends React.Component {
   state = {
-    inputTypePassword: true
+    inputTypePassword: true,
+    toggleAFK: ""
   };
   changeInputType() {
     this.setState({ inputTypePassword: !this.state.inputTypePassword });
+  }
+  componentDidMount() {
+    listenProfile(this.props.currentUser, x =>
+      this.setState({ toggleAFK: !x })
+    );
   }
   render() {
     return (
@@ -138,13 +144,17 @@ class Profile extends React.Component {
             >
               <label>Away</label>
               <label className="switch">
-                <input type="checkbox" name="afk" />
+                <input
+                  type="checkbox"
+                  name="afk"
+                  onChange={() => this.props.toggleAFK(this.props.currentUser)}
+                />
                 <span className="slider round" />
               </label>
             </div>
           </div>
           <Button
-            type="plain"
+            type="filled"
             text="save"
             onClick={() => console.log("save settings")}
           />

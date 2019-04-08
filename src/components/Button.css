@@ -26,4 +26,5 @@
 
 .plain {
   color: var(--orange);
+  background-color: transparent;
 }

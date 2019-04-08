@@ -16,7 +16,19 @@ class Modal extends React.Component {
           </div>
           {this.props.buttons && (
             <div>
-              <Button text="Delete" type="filled" />
+              <Button
+                text="Delete"
+                type="filled"
+                onClick={evt => {
+                  evt.preventDefault();
+                  evt.stopPropagation();
+                  this.props.setUnlistedCard(
+                    this.props.currentUserId,
+                    this.props.highlightedCardId,
+                    this.props.listed
+                  );
+                }}
+              />
               <Button text="Cancel" type="plain" onClick={this.props.hide} />
             </div>
           )}

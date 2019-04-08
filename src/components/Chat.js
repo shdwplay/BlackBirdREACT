@@ -42,12 +42,14 @@ export default class Chat extends React.Component {
               this.setState({ chatSearchToggle: !this.state.chatSearchToggle })
             }
             setChatQuerystr={str => this.setState({ chatQuerystr: str })}
+            currentUserId={this.props.currentUser}
+            collocutorId={this.props.collocutor.id}
             name={this.props.collocutor.name}
             status={this.props.collocutor.status}
             silenced={this.props.collocutor.silenced}
             favourite={this.props.collocutor.favourite}
-            highlightedCardOptions={this.props.highlightedCardOptions}
-            //status={this.props.collocutor.status}
+            setFavouriteCard={this.props.setFavouriteCard}
+            setSilenceCard={this.props.setSilenceCard}
           />
           <div className="Chat" id="chat">
             {filterMessages(this.state.messages, this.state.chatQuerystr).map(
