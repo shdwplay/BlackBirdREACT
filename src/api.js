@@ -1,58 +1,50 @@
 import firebase from "./firebase.js";
 
-export const logIn = (email, pw) => {
-  return firebase.auth().signInWithEmailAndPassword(email, pw);
-};
+const db = firebase.firestore();
 
-export const firebaseAuth = () => {
-  return new Promise((resolve, reject) => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) resolve(user.email.split("@")[0]);
-      else reject("fail");
-    });
-  });
-};
-
-export const getUserInfo = (userName, cb) => {
+export function login(email, pw, cb) {
   return firebase
-    .firestore()
+    .auth()
+    .signInWithEmailAndPassword(email, pw)
+    .catch(err => {
+      console.log(err);
+      cb();
+    });
+}
+
+export function setAuthObserver(cb1, cb2) {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      console.log("loggged", user);
+      cb1(user);
+    } else {
+      console.log("not logged:", user);
+      cb2();
+    }
+  });
+}
+export async function getUserDetails(userName) {
+  const userDoc = await db
     .collection("users")
     .doc(userName)
-    .get()
-    .then(doc => cb(doc.data()));
-};
+    .get();
+  return { ...userDoc.data(), userName: userName };
+}
 
 export const listenCollocutorsList = (userName, callback) => {
-  return firebase
-    .firestore()
+  return db
     .collection("users")
     .doc(userName)
     .collection("collocutors")
     .onSnapshot(snapshot => {
       let collocutors = [];
       snapshot.docs.forEach(el => {
-        let aux = el.data();
-        aux.id = el.id;
-        collocutors.push(aux);
+        collocutors.push({
+          ...el.data(),
+          id: el.id
+        });
       });
       callback(collocutors);
-    });
-};
-
-export const getMessages = (userId, collocutorId) => {
-  let db = firebase.firestore();
-  let userRef = db.collection("users").doc(userId);
-  userRef
-    .collection("collocutors")
-    .doc(collocutorId)
-    .collection("messages")
-    .onSnapshot(function(querySnapshot) {
-      var messages = [];
-      console.log(querySnapshot);
-      querySnapshot.forEach(function(doc) {
-        messages.push(doc.data().text);
-      });
-      console.log("Messaggi tra chiara e antonio: ", messages.join(", "));
     });
 };
 
@@ -63,8 +55,7 @@ export const addMessage = (collocutorId, currentUserId, text) => {
     date: new Date(),
     unread: true
   };
-  let userRef = firebase
-    .firestore()
+  let userRef = db
     .collection("users")
     .doc(currentUserId)
     .collection("collocutors")
@@ -73,31 +64,28 @@ export const addMessage = (collocutorId, currentUserId, text) => {
   userRef.collection("messages").add(message);
   userRef.update({ lastMsg: message });
 
-  userRef = firebase
-    .firestore()
+  let collocutorsRef = db
     .collection("users")
     .doc(collocutorId)
     .collection("collocutors")
     .doc(currentUserId);
 
-  userRef.collection("messages").add(message);
-  userRef.update({ lastMsg: message });
+  collocutorsRef.collection("messages").add(message);
+  collocutorsRef.update({ lastMsg: message });
 };
 
 export const listenMessages = (collocutorId, currentUserId, cb) => {
-  firebase
-    .firestore()
-    .collection("users")
+  db.collection("users")
     .doc(currentUserId)
     .collection("collocutors")
     .doc(collocutorId)
     .collection("messages")
-    .orderBy("date", "asc")
+    .orderBy("date", "desc")
     .limit(100)
     .onSnapshot(snapshot => {
       var messages = [];
       snapshot.forEach(el => {
-        messages.push(el.data());
+        messages.push(el.data()); //give id
       });
       cb(messages);
     });

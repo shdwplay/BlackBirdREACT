@@ -7,15 +7,19 @@ import MessageDate from "./MessageDate";
 
 import { addMessage } from "../api";
 import { listenMessages } from "../api";
+import { filterMessages } from "../utils";
 import PropTypes from "prop-types";
 export default class Chat extends React.Component {
   state = {
     newMessage: "",
     messages: [],
-    loading: true
+    chatQuerystr: "",
+    loading: true,
+    chatSearchToggle: false
   };
 
   componentDidMount() {
+    this.props.setActive(this.props.collocutor.id);
     listenMessages(this.props.collocutor.id, this.props.currentUser, x =>
       this.setState({ messages: x, loading: false })
     );
@@ -33,8 +37,11 @@ export default class Chat extends React.Component {
       return (
         <div className="Chat-container">
           <HeaderChat
-            openSearch={this.props.openSearch}
-            searchToggle={this.props.searchToggle}
+            searchToggle={this.state.chatSearchToggle}
+            openSearch={() =>
+              this.setState({ chatSearchToggle: !this.state.chatSearchToggle })
+            }
+            setChatQuerystr={str => this.setState({ chatQuerystr: str })}
             name={this.props.collocutor.name}
             status={this.props.collocutor.status}
             silenced={this.props.collocutor.silenced}
@@ -43,22 +50,24 @@ export default class Chat extends React.Component {
             //status={this.props.collocutor.status}
           />
           <div className="Chat" id="chat">
-            {this.state.messages.map((el, index) => {
-              return (
-                <div
-                  key={index}
-                  className={
-                    el.sender === this.props.currentUser
-                      ? "Chat-message Chat-message-sent"
-                      : "Chat-message Chat-message-received"
-                  }
-                >
-                  <div className="Chat-message-text">{el.text}</div>
-                  {/* <div className="Chat-message-time">11:02</div> */}
-                  <MessageDate context="chat" date={el.date.seconds} />
-                </div>
-              );
-            })}
+            {filterMessages(this.state.messages, this.state.chatQuerystr).map(
+              (el, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={
+                      el.sender === this.props.currentUser
+                        ? "Chat-message Chat-message-sent"
+                        : "Chat-message Chat-message-received"
+                    }
+                  >
+                    <div className="Chat-message-text">{el.text}</div>
+                    {/* <div className="Chat-message-time">11:02</div> */}
+                    <MessageDate context="chat" date={el.date.seconds} />
+                  </div>
+                );
+              }
+            )}
           </div>
           <div className="input-keyboard">
             <input

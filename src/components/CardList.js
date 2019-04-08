@@ -11,23 +11,19 @@ const CardList = props => {
       {props.cardList.map((el, index) => (
         <Link to={"/messages/" + el.id}>
           <Card
-            displayName={props.displayNames[index]}
             name={el.name}
             key={index}
             cardNumber={index}
+            activeChat={props.activeChat}
+            querystr={props.querystr}
             setHighlightedCard={props.setHighlightedCard}
             highlightedCard={props.highlightedCard}
             highlightedCardOptions={props.highlightedCardOptions}
             silenced={el.silenced}
             favourite={el.favourite}
-            //isActive={props.activeChat === index}
-            onClick={() => {
-              props.selectChat({
-                /* collocutor: el.name,
-                status: el.status,
-                messages: el.messages, */
-                messages: el.messages
-              });
+            onClick={e => {
+              console.log(el);
+              props.selectChat(el.id);
             }}
             data={el}
           />

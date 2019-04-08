@@ -11,31 +11,28 @@ import { showNotifications } from "../utils";
 
 import { dotsOnClick } from "../utils";
 import { setOption } from "../utils";
-
+import { showDisplayName } from "../utils";
 import classNames from "classnames";
 
 const Card = props => {
   var cardClass = classNames({
     Card: true,
     "Card-unread": props.data.numUnread > 0,
-    "Card-read": props.data.numUnread === 0
+    "Card-read": props.data.numUnread === 0,
+    "Card-active": props.data.id === props.activeChat
   });
+
   return (
     <div onClick={props.onClick} className={cardClass}>
       {showNotifications(props.data.numUnread, props.data.silenced)}
       <div className="Card-Avatar">
-        <Avatar
-          name={props.data.name}
-          imgurl={props.data.image}
-          size="small"
-          onClick={() => console.log("for use in profile")}
-        />
+        <Avatar name={props.data.name} imgurl={props.data.image} size="small" />
       </div>
       <div className="Card-message-text">
         <div
           className="Card-username"
           dangerouslySetInnerHTML={{
-            __html: props.displayName
+            __html: showDisplayName(props.name, props.querystr)
           }}
         />
         <div className="Card-text-preview">{props.data.lastMsg.text}</div>
@@ -49,12 +46,12 @@ const Card = props => {
           alt="dots"
           className="Card-dots"
           onClick={evt =>
-            dotsOnClick(evt, () => props.setHighlightedCard(props.cardNumber))
+            dotsOnClick(evt, () => props.setHighlightedCard(props.data.id))
           }
           src={dots}
         />
       </div>
-      {props.highlightedCard === props.cardNumber ? (
+      {props.highlightedCard === props.data.id ? (
         <HighlightedCard
           setOption={(a, b, c) => setOption(a, b, c)}
           highlightedCardOptions={props.highlightedCardOptions}

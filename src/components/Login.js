@@ -4,14 +4,9 @@ import logoW from "../assets/welcome_logo_w.svg";
 import "./Login.css";
 import Button from "./Button";
 import Modal from "./Modal";
-import { Redirect, Link, withRouter, Route } from "react-router-dom";
-import firebase from "../firebase";
-import Messages from "./Messages";
-import { showSpinner } from "../utils";
-import { logIn } from "../api";
-import { getUserInfo } from "../api";
-import { listenCollocutorsList } from "../api";
+import { login } from "../api";
 import "../spinner.css";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -23,12 +18,7 @@ class Login extends Component {
     loading: false
   };
 
-  hideModal() {
-    this.setState({ modal: false });
-  }
-
   render() {
-    if (this.state.loading) return showSpinner();
     if (!this.state.forgotPassword) {
       return (
         <div className="Login">
@@ -36,7 +26,7 @@ class Login extends Component {
             <Modal
               alertTitle="Invalid email or password"
               alertText="Please reinsert both fields carefully"
-              hide={() => this.hideModal()}
+              hide={() => this.setState({ modal: false })}
             />
           )}
           <div className="Login-container">
@@ -94,35 +84,16 @@ class Login extends Component {
                 </label>
               </div>
               <div className="Login-form-item Login-form-forgot">
-                <div
-                  className="Login-link"
-                  onClick={() => {
-                    console.log("forgot password");
-                    this.setState({ forgotPassword: true });
-                  }}
-                >
-                  Forgot Password?
-                </div>
+                <Link to="/forgot-password">Forgot Password?</Link>
               </div>
               <Button
                 text="Login"
                 type="filled"
-                onClick={() =>
-                  logIn(this.state.email, this.state.password).then(x =>
-                    getUserInfo(x.user.email.split("@")[0], x => {
-                      console.log(x);
-                      this.props.setstate({
-                        currentUser: x.email.split("@")[0]
-                      });
-                    }).then(() => {
-                      listenCollocutorsList(x.user.email.split("@")[0], x =>
-                        this.props.setstate({ collocutors: x })
-                      );
-                      this.props.setAuthenticated();
-                      console.log(x);
-                    })
-                  )
-                }
+                onClick={() => {
+                  login(this.state.email, this.state.password, () =>
+                    this.setState({ modal: true })
+                  );
+                }}
               />
             </div>
           </div>
