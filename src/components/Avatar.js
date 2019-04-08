@@ -2,6 +2,7 @@ import React from "react";
 import "./Avatar.css";
 import PropTypes from "prop-types";
 import { getCapitals } from "../utils";
+import { randomColor } from "../utils";
 
 const Avatar = props => {
   if (props.imgurl) {
@@ -16,7 +17,10 @@ const Avatar = props => {
     );
   }
   return (
-    <div className={"Avatar Avatar-" + props.size}>
+    <div
+      style={{ backgroundColor: randomColor(props.name) }}
+      className={"Avatar Avatar-" + props.size}
+    >
       {getCapitals(props.name)}
     </div>
   );

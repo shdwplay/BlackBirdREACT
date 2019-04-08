@@ -90,3 +90,27 @@ export const filterMessages = (messages, str) => {
   let filtered = messages.filter(el => el.text.includes(str));
   return filtered;
 };
+
+export const randomColor = str => {
+  var colours = [
+    "#01ABCE",
+    "#71BF45",
+    "#01A55D",
+    "#FFCA08",
+    "#F7941D",
+    "#F25822",
+    "#ED008C",
+    "#D41E4E",
+    "#AC54A0",
+    "#5A2E90"
+  ];
+  var hash = 0;
+  if (str.length === 0) return hash;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    hash = hash & hash;
+  }
+  hash = ((hash % colours.length) + colours.length) % colours.length;
+  return colours[hash];
+};
+console.log(randomColor("edoardo"));
