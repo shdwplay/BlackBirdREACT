@@ -4,7 +4,7 @@ import TabBar from "./TabBar";
 import CardList from "./CardList";
 import { calcCardList } from "../utils";
 import PropTypes from "prop-types";
-
+import "./Messages.css";
 const Messages = props => {
   const filteredCardList = calcCardList(
     props.favouritesActive,
@@ -12,11 +12,10 @@ const Messages = props => {
     props.collocutors
   );
   return (
-    <div className="container">
+    <div className="Messages-container">
       <Header
         url={props.match.url}
         name={props.name}
-        currentUser={props.currentUser}
         openSearch={props.openSearch}
         searchToggle={props.searchToggle}
         setQueryString={props.setQueryString}
@@ -30,14 +29,14 @@ const Messages = props => {
         />
       </Header>
       <CardList
-        setHighlightedCard={props.setHighlightedCard}
-        highlightedCard={props.highlightedCard}
-        highlightedCardOptions={props.highlightedCardOptions}
-        activeChat={props.activeChat}
         cardList={filteredCardList}
+        activeChat={props.activeChat}
         selectChat={props.selectChat}
         searchToggle={props.searchToggle}
         querystr={props.querystr}
+        setHighlightedCard={props.setHighlightedCard}
+        highlightedCard={props.highlightedCard}
+        highlightedCardOptions={props.highlightedCardOptions}
       />
     </div>
   );

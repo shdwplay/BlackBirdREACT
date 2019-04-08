@@ -1,6 +1,6 @@
 //react and firebase
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import firebase from "./firebase";
 //components
 import Login from "./components/Login";
@@ -28,6 +28,7 @@ class App extends Component {
     collocutors: [],
     favourites: [],
     activeTab: "messages",
+    activeChat: "",
     favouritesActive: false,
     searchToggle: false,
     querystr: "",
@@ -63,12 +64,6 @@ class App extends Component {
     );
   }
 
-  setActive(activeChat) {
-    this.setState({
-      activeChat2: activeChat
-    });
-  }
-
   toggleFavourites() {
     this.setState({
       favouritesActive: !this.state.favouritesActive,
@@ -87,13 +82,7 @@ class App extends Component {
   setQueryString(str) {
     this.setState({ querystr: str, highlightedCard: null });
   }
-  searchFilter() {
-    let filtered = this.state.collocutors.filter(el =>
-      el.name.toLowerCase().includes(this.state.querystr)
-    );
 
-    return filtered;
-  }
   highlightedCardOptions(option) {
     //invoked with "favourite" | "silenced" | "delete" =
     //when user clicks on corrisponding icon on (highlighted) chat card
@@ -137,93 +126,97 @@ class App extends Component {
       );
 
     return (
-      <Switch>
-        <Route
-          exact
-          path="/messages"
-          render={props => (
-            <Messages
-              {...props}
-              currentUser={this.state.currentUser}
-              setHighlightedCard={x => this.setState({ highlightedCard: x })}
-              highlightedCard={this.state.highlightedCard}
-              highlightedCardOptions={x => this.highlightedCardOptions(x)}
-              name={this.state.name}
-              activeTab={this.state.activeTab}
-              selectTab={index => this.selectTab(index)}
-              favouritesActive={this.state.favouritesActive}
-              toggleFavourites={() => this.toggleFavourites()}
-              collocutors={this.state.collocutors}
-              //cardList={this.state.collocutors}
-              activeChat={this.state.activeChat}
-              selectChat={x => this.selectChat(x)}
-              setQueryString={x => this.setQueryString(x)}
-              querystr={this.state.querystr}
-              searchToggle={this.state.searchToggle}
-              openSearch={() => this.setSearchOpen()}
-            />
-          )}
-        />
-        <Route
-          path="/sendnew"
-          render={() => (
-            <SendNew
-              name={this.state.name}
-              activeTab={this.state.activeTab}
-              selectTab={index => this.selectTab(index)}
-              contactList={this.state.contacts}
-              activeChat={this.state.activeChat}
-              selectChat={x => this.selectChat(x)}
-              searchString={this.state.searchSting}
-            />
-          )}
-        />
-        {/* <Route path="/send-new" render={()=><SendNew} /> */}
-        <Route
-          path="/profile/"
-          render={() => (
-            <Profile
-              currentUser={this.state.currentUser}
-              name={this.state.name}
-              userStatus={this.state.userStatus}
-            />
-          )}
-        />
-        <Route
-          path="/messages/:id"
-          render={props => {
-            const collocutor = this.state.collocutors.find(element => {
-              if (element.id === props.match.params.id) return element.id;
-              return null;
-            });
-            return (
-              <Chat
+      <div className="optimusPrime">
+        <div className="workspace">workspace</div>
+        <BrowserRouter>
+          <Route
+            path="/messages"
+            render={props => (
+              <Messages
                 {...props}
-                collocutor={collocutor}
+                name={this.state.name}
+                activeTab={this.state.activeTab}
+                selectTab={index => this.selectTab(index)}
+                collocutors={this.state.collocutors}
+                favouritesActive={this.state.favouritesActive}
+                toggleFavourites={() => this.toggleFavourites()}
                 selectChat={x => this.selectChat(x)}
-                setActive={x => this.setActive(x)}
                 activeChat={this.state.activeChat}
-                currentUser={this.state.currentUser}
-                /* collocutor={this.state.activeChat.collocutor}
-              messageList={this.state.activeChat.messages} */
-                value={this.state.newMessage}
-                newMessage={e => this.newMessage(e)}
-                saveMessage={() => this.saveMessage()}
+                highlightedCard={this.state.highlightedCard}
+                setHighlightedCard={x => this.setState({ highlightedCard: x })}
+                highlightedCardOptions={x => this.highlightedCardOptions(x)}
                 searchToggle={this.state.searchToggle}
                 openSearch={() => this.setSearchOpen()}
-                addMessage={(x, y) => this.addMessage(x, y)}
-                highlightedCardOptions={x => this.highlightedCardOptions(x)}
+                querystr={this.state.querystr}
+                setQueryString={x => this.setQueryString(x)}
               />
-            );
-          }}
-        />
-        <Route exact path="/" render={() => <LoginForm />} />
-        <Route path="/forgot-password" render={() => <LoginForgotPsw />} />
-        <Route
-          path="/password-instructions"
-          render={() => <LoginPswInstructions />}
-        />
-      </Switch>
+            )}
+          />
+          <Route
+            path="/sendnew"
+            render={() => (
+              <SendNew
+                name={this.state.name}
+                activeTab={this.state.activeTab}
+                selectTab={index => this.selectTab(index)}
+                contactList={this.state.contacts}
+                activeChat={this.state.activeChat}
+                selectChat={x => this.selectChat(x)}
+                searchString={this.state.searchSting}
+              />
+            )}
+          />
+          {/* <Route path="/send-new" render={()=><SendNew} /> */}
+          <Route
+            path="/profile/"
+            render={() => (
+              <Profile
+                currentUser={this.state.currentUser}
+                name={this.state.name}
+                userStatus={this.state.userStatus}
+              />
+            )}
+          />
+          <Route
+            path="/messages/:id"
+            render={props => {
+              const collocutor = this.state.collocutors.find(element => {
+                if (element.id === props.match.params.id) {
+                  return element.id;
+                }
+                return null;
+              });
+              return (
+                <Chat
+                  {...props}
+                  collocutor={collocutor}
+                  selectChat={x => this.selectChat(x)}
+                  setActive={x => this.setState({ activeChat: x })}
+                  activeChat={this.state.activeChat}
+                  currentUser={this.state.currentUser}
+                  /* collocutor={this.state.activeChat.collocutor}
+              messageList={this.state.activeChat.messages} */
+                  value={this.state.newMessage}
+                  newMessage={e => this.newMessage(e)}
+                  saveMessage={() => this.saveMessage()}
+                  searchToggle={this.state.searchToggle}
+                  openSearch={() => this.setSearchOpen()}
+                  addMessage={(x, y) => this.addMessage(x, y)}
+                  highlightedCardOptions={x => this.highlightedCardOptions(x)}
+                />
+              );
+            }}
+          />
+
+          {/* <Route exact path="/" render={() => <LoginForm />} /> */}
+          <Route path="/forgot-password" render={() => <LoginForgotPsw />} />
+          <Route
+            path="/password-instructions"
+            render={() => <LoginPswInstructions />}
+          />
+          {/* <Redirect to="/messages" /> */}
+        </BrowserRouter>
+      </div>
     );
   }
 }

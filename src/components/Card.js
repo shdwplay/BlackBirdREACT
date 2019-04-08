@@ -18,8 +18,10 @@ const Card = props => {
   var cardClass = classNames({
     Card: true,
     "Card-unread": props.data.numUnread > 0,
-    "Card-read": props.data.numUnread === 0
+    "Card-read": props.data.numUnread === 0,
+    "Card-active": props.data.id === props.activeChat
   });
+
   return (
     <div onClick={props.onClick} className={cardClass}>
       {showNotifications(props.data.numUnread, props.data.silenced)}

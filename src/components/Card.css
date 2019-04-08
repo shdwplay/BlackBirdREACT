@@ -43,7 +43,7 @@
   border: 0.5px solid var(--light-grey);
 }
 
-.Card-selected {
+.Card-active {
   background-image: url(../assets/bg-orange.svg);
   background-size: 110%;
   border: none;

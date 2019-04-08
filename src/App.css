@@ -11,11 +11,36 @@
   width: 100%;
   display: flex;
 }
-.container {
+.Messages-container {
   padding-right: 10px;
   padding-left: 10px;
   margin-right: auto;
   margin-left: auto;
   max-width: 100%;
   width: 100%;
+}
+.workspace {
+  width: 50px;
+  height: 100vh;
+  background-color: black;
+}
+.optimusPrime {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+@media only screen and (min-width: 768px) {
+  .Messages-container {
+    width: calc(50% - 50px);
+    background: yellow;
+    height: 100vh;
+    padding: 0px;
+    margin: 0px;
+  }
+  .Chat-container {
+    width: 50%;
+    height: 100vh;
+    padding: 0px;
+    margin: 0px;
+  }
 }

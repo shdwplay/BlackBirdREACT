@@ -19,6 +19,7 @@ export default class Chat extends React.Component {
   };
 
   componentDidMount() {
+    this.props.setActive(this.props.collocutor.id);
     listenMessages(this.props.collocutor.id, this.props.currentUser, x =>
       this.setState({ messages: x, loading: false })
     );
