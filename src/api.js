@@ -1,5 +1,7 @@
 import firebase from "./firebase.js";
 
+const db = firebase.firestore();
+
 export function login(email, pw, cb) {
   return firebase
     .auth()
@@ -9,6 +11,7 @@ export function login(email, pw, cb) {
       cb();
     });
 }
+//add two callbacks
 export function setAuthObserver(showLogin, getUserData) {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
@@ -29,7 +32,7 @@ export async function getUserDetails(userName) {
   let aux = userDoc.data();
   aux.userName = userName;
   return aux;
-}
+} //use spread
 
 export const listenCollocutorsList = (userName, callback) => {
   return firebase
@@ -40,29 +43,32 @@ export const listenCollocutorsList = (userName, callback) => {
     .onSnapshot(snapshot => {
       let collocutors = [];
       snapshot.docs.forEach(el => {
-        let aux = el.data();
-        aux.id = el.id;
-        collocutors.push(aux);
+        // let aux = el.data();
+        // aux.id = el.id;
+        collocutors.push({
+          ...el.data(),
+          id: el.id
+        });
       });
       callback(collocutors);
     });
 };
 
-export const getMessages = (userId, collocutorId) => {
-  let db = firebase.firestore();
-  let userRef = db.collection("users").doc(userId);
-  userRef
-    .collection("collocutors")
-    .doc(collocutorId)
-    .collection("messages")
-    .onSnapshot(function(querySnapshot) {
-      var messages = [];
-      querySnapshot.forEach(function(doc) {
-        messages.push(doc.data().text);
-      });
-      console.log("Messaggi tra chiara e antonio: ", messages.join(", "));
-    });
-};
+// export const getMessages = (userName, collocutorId) => {
+//   let db = firebase.firestore();
+//   let userRef = db.collection("users").doc(userName);
+//   userRef
+//     .collection("collocutors")
+//     .doc(collocutorId)
+//     .collection("messages")
+//     .onSnapshot(function(querySnapshot) {
+//       var messages = [];
+//       querySnapshot.forEach(function(doc) {
+//         messages.push(doc.data().text);
+//       });
+//       console.log("Messaggi tra chiara e antonio: ", messages.join(", "));
+//     });
+// };
 
 export const addMessage = (collocutorId, currentUserId, text) => {
   let message = {
@@ -81,15 +87,15 @@ export const addMessage = (collocutorId, currentUserId, text) => {
   userRef.collection("messages").add(message);
   userRef.update({ lastMsg: message });
 
-  userRef = firebase
+  let collocutorsRef = firebase
     .firestore()
     .collection("users")
     .doc(collocutorId)
     .collection("collocutors")
     .doc(currentUserId);
 
-  userRef.collection("messages").add(message);
-  userRef.update({ lastMsg: message });
+  collocutorsRef.collection("messages").add(message);
+  collocutorsRef.update({ lastMsg: message });
 };
 
 export const listenMessages = (collocutorId, currentUserId, cb) => {
@@ -100,12 +106,12 @@ export const listenMessages = (collocutorId, currentUserId, cb) => {
     .collection("collocutors")
     .doc(collocutorId)
     .collection("messages")
-    .orderBy("date", "asc")
+    .orderBy("date", "desc")
     .limit(100)
     .onSnapshot(snapshot => {
       var messages = [];
       snapshot.forEach(el => {
-        messages.push(el.data());
+        messages.push(el.data()); //give id
       });
       cb(messages);
     });

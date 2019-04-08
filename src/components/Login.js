@@ -6,6 +6,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import { login } from "../api";
 import "../spinner.css";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -83,15 +84,7 @@ class Login extends Component {
                 </label>
               </div>
               <div className="Login-form-item Login-form-forgot">
-                <div
-                  className="Login-link"
-                  onClick={() => {
-                    console.log("forgot password");
-                    this.setState({ forgotPassword: true });
-                  }}
-                >
-                  Forgot Password?
-                </div>
+                <Link to="/forgot-password">Forgot Password?</Link>
               </div>
               <Button
                 text="Login"

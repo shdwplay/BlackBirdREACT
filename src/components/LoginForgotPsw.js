@@ -4,7 +4,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import logo from "../assets/logo_welcome.svg";
 import logoW from "../assets/welcome_logo_w.svg";
-
+import { Link } from "react-router-dom";
 class LoginForgotPsw extends Component {
   state = {
     email: "",
@@ -68,7 +68,9 @@ class LoginForgotPsw extends Component {
                   placeholder="you@company.com"
                 />
               </div>
-              <Button text="Submit" type="filled" />
+              <Link to="/password-instructions">
+                <Button text="Submit" type="filled" />
+              </Link>
             </div>
           </div>
         </div>

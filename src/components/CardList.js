@@ -23,6 +23,7 @@ const CardList = props => {
             favourite={el.favourite}
             onClick={e => {
               console.log(el);
+              props.selectChat(el.id);
             }}
             data={el}
           />

@@ -119,17 +119,27 @@ class App extends Component {
     if (this.state.loading) return showSpinner();
     if (!this.state.isAuthenticated)
       return (
-        <Login
-          setLoginState={x => this.setState(x)}
-          //setAuthenticated={() => this.setState({ isAuthenticated: true })}
-        />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => <Login setLoginState={x => this.setState(x)} />}
+          />
+          <Route path="/forgot-password" render={() => <LoginForgotPsw />} />
+          <Route
+            path="/password-instructions"
+            render={() => <LoginPswInstructions />}
+          />
+          <Redirect to="/" />
+        </Switch>
       );
 
     return (
       <div className="optimusPrime">
-        <div className="workspace">workspace</div>
-        <BrowserRouter>
+        {/* <div className="workspace">workspace</div> */}
+        <Switch>
           <Route
+            exact
             path="/messages"
             render={props => (
               <Messages
@@ -207,15 +217,8 @@ class App extends Component {
               );
             }}
           />
-
-          {/* <Route exact path="/" render={() => <LoginForm />} /> */}
-          <Route path="/forgot-password" render={() => <LoginForgotPsw />} />
-          <Route
-            path="/password-instructions"
-            render={() => <LoginPswInstructions />}
-          />
-          {/* <Redirect to="/messages" /> */}
-        </BrowserRouter>
+          <Redirect to="/messages" />
+        </Switch>
       </div>
     );
   }

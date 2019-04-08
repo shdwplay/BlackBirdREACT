@@ -3,6 +3,7 @@ import "./LoginPswInstructions.css";
 import Button from "./Button";
 import logo from "../assets/logo_welcome.svg";
 import logoW from "../assets/welcome_logo_w.svg";
+import { Link } from "react-router-dom";
 
 class LoginPswInstructions extends React.Component {
   render() {
@@ -30,7 +31,9 @@ class LoginPswInstructions extends React.Component {
                 <br />
                 your company email inbox
               </div>
-              <Button text="Return to Login" type="filled" />
+              <Link to="/">
+                <Button text="Return to Login" type="filled" />
+              </Link>
             </div>
           </div>
         </div>
