@@ -121,17 +121,14 @@ class App extends Component {
     if (!this.state.isAuthenticated)
       return (
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => <Login setLoginState={x => this.setState(x)} />}
-          />
           <Route path="/forgot-password" render={() => <LoginForgotPsw />} />
           <Route
             path="/password-instructions"
             render={() => <LoginPswInstructions />}
           />
-          <Redirect to="/" />
+          <Route
+            render={() => <Login setLoginState={x => this.setState(x)} />}
+          />
         </Switch>
       );
 
