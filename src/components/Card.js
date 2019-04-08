@@ -46,12 +46,12 @@ const Card = props => {
           alt="dots"
           className="Card-dots"
           onClick={evt =>
-            dotsOnClick(evt, () => props.setHighlightedCard(props.cardNumber))
+            dotsOnClick(evt, () => props.setHighlightedCard(props.data.id))
           }
           src={dots}
         />
       </div>
-      {props.highlightedCard === props.cardNumber ? (
+      {props.highlightedCard === props.data.id ? (
         <HighlightedCard
           setOption={(a, b, c) => setOption(a, b, c)}
           highlightedCardOptions={props.highlightedCardOptions}

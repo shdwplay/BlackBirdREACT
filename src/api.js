@@ -11,40 +11,34 @@ export function login(email, pw, cb) {
       cb();
     });
 }
-//add two callbacks
-export function setAuthObserver(showLogin, getUserData) {
+
+export function setAuthObserver(cb1, cb2) {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
       console.log("loggged", user);
-      getUserData(user);
+      cb1(user);
     } else {
       console.log("not logged:", user);
-      showLogin();
+      cb2();
     }
   });
 }
 export async function getUserDetails(userName) {
-  const userDoc = await firebase
-    .firestore()
+  const userDoc = await db
     .collection("users")
     .doc(userName)
     .get();
-  let aux = userDoc.data();
-  aux.userName = userName;
-  return aux;
-} //use spread
+  return { ...userDoc.data(), userName: userName };
+}
 
 export const listenCollocutorsList = (userName, callback) => {
-  return firebase
-    .firestore()
+  return db
     .collection("users")
     .doc(userName)
     .collection("collocutors")
     .onSnapshot(snapshot => {
       let collocutors = [];
       snapshot.docs.forEach(el => {
-        // let aux = el.data();
-        // aux.id = el.id;
         collocutors.push({
           ...el.data(),
           id: el.id
@@ -54,22 +48,6 @@ export const listenCollocutorsList = (userName, callback) => {
     });
 };
 
-// export const getMessages = (userName, collocutorId) => {
-//   let db = firebase.firestore();
-//   let userRef = db.collection("users").doc(userName);
-//   userRef
-//     .collection("collocutors")
-//     .doc(collocutorId)
-//     .collection("messages")
-//     .onSnapshot(function(querySnapshot) {
-//       var messages = [];
-//       querySnapshot.forEach(function(doc) {
-//         messages.push(doc.data().text);
-//       });
-//       console.log("Messaggi tra chiara e antonio: ", messages.join(", "));
-//     });
-// };
-
 export const addMessage = (collocutorId, currentUserId, text) => {
   let message = {
     text: text,
@@ -77,8 +55,7 @@ export const addMessage = (collocutorId, currentUserId, text) => {
     date: new Date(),
     unread: true
   };
-  let userRef = firebase
-    .firestore()
+  let userRef = db
     .collection("users")
     .doc(currentUserId)
     .collection("collocutors")
@@ -87,8 +64,7 @@ export const addMessage = (collocutorId, currentUserId, text) => {
   userRef.collection("messages").add(message);
   userRef.update({ lastMsg: message });
 
-  let collocutorsRef = firebase
-    .firestore()
+  let collocutorsRef = db
     .collection("users")
     .doc(collocutorId)
     .collection("collocutors")
@@ -99,9 +75,7 @@ export const addMessage = (collocutorId, currentUserId, text) => {
 };
 
 export const listenMessages = (collocutorId, currentUserId, cb) => {
-  firebase
-    .firestore()
-    .collection("users")
+  db.collection("users")
     .doc(currentUserId)
     .collection("collocutors")
     .doc(collocutorId)

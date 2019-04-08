@@ -32,14 +32,10 @@ class App extends Component {
     favouritesActive: false,
     searchToggle: false,
     querystr: "",
-    highlightedCard: null
+    highlightedCard: ""
   };
   componentDidMount() {
     setAuthObserver(
-      () => {
-        //unauthenticated user causes login page to display
-        this.setState({ isAuthenticated: false, loading: false });
-      },
       //authenticated user fetch information
       async user => {
         this.setState({ loading: true });
@@ -60,6 +56,10 @@ class App extends Component {
             loading: false
           });
         });
+      },
+      () => {
+        //unauthenticated user causes login page to display
+        this.setState({ isAuthenticated: false, loading: false });
       }
     );
   }
@@ -83,24 +83,25 @@ class App extends Component {
     this.setState({ querystr: str, highlightedCard: null });
   }
 
-  highlightedCardOptions(option) {
-    //invoked with "favourite" | "silenced" | "delete" =
-    //when user clicks on corrisponding icon on (highlighted) chat card
-    let aux = [];
-    if (this.state.favouritesActive)
-      aux = this.state.favourites[this.state.highlightedCard];
-    else aux = this.state.collocutors[this.state.highlightedCard];
-    let optionsRef = firebase
-      .firestore()
-      .collection("users")
-      .doc(this.state.currentUser)
-      .collection("collocutors");
-    if (option === "delete") {
-    } else {
-      optionsRef.doc(aux.id).update({ [option]: !aux[option] });
-      this.setState({ highlightedCard: null });
-    }
-  }
+  highlightedCardOptions(options) {}
+  // highlightedCardOptions(option) {
+  //   //invoked with "favourite" | "silenced" | "delete" =
+  //   //when user clicks on corrisponding icon on (highlighted) chat card
+  //   let aux = [];
+  //   if (this.state.favouritesActive)
+  //     aux = this.state.favourites[this.state.highlightedCard];
+  //   else aux = this.state.collocutors[this.state.highlightedCard];
+  //   let optionsRef = firebase
+  //     .firestore()
+  //     .collection("users")
+  //     .doc(this.state.currentUser)
+  //     .collection("collocutors");
+  //   if (option === "delete") {
+  //   } else {
+  //     optionsRef.doc(aux.id).update({ [option]: !aux[option] });
+  //     this.setState({ highlightedCard: null });
+  //   }
+  // }
 
   selectTab(tab) {
     this.setState({
