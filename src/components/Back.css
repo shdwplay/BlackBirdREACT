@@ -4,7 +4,8 @@
   visibility: visible;
   text-decoration: none;
   position: absolute;
-  top:12px;
+  top: 12px;
+  left: 0;
 }
 .BackButton img {
   height: 32px;

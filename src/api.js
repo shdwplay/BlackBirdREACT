@@ -36,6 +36,7 @@ export const listenCollocutorsList = (userName, callback) => {
     .collection("users")
     .doc(userName)
     .collection("collocutors")
+    .where("listed", "==", true)
     .onSnapshot(snapshot => {
       let collocutors = [];
       snapshot.docs.forEach(el => {
@@ -88,5 +89,49 @@ export const listenMessages = (collocutorId, currentUserId, cb) => {
         messages.push(el.data()); //give id
       });
       cb(messages);
+    });
+};
+
+export const setFavouriteCard = (currentUserId, cardId, value) => {
+  db.collection("users")
+    .doc(currentUserId)
+    .collection("collocutors")
+    .doc(cardId)
+    .update({ favourite: !value });
+};
+export const setSilenceCard = (currentUserId, cardId, value) => {
+  db.collection("users")
+    .doc(currentUserId)
+    .collection("collocutors")
+    .doc(cardId)
+    .update({ silenced: !value });
+};
+export const setUnlistedCard = (currentUserId, cardId, value) => {
+  db.collection("users")
+    .doc(currentUserId)
+    .collection("collocutors")
+    .doc(cardId)
+    .update({ listed: !value });
+};
+
+export const toggleAFK = currentUserId => {
+  db.collection("users")
+    .doc(currentUserId)
+    .get()
+    .then(doc => {
+      db.collection("users")
+        .doc(currentUserId)
+        .update({
+          userStatus: doc.data().userStatus === "away" ? "online" : "away"
+        });
+    });
+};
+
+export const listenProfile = (currentUserId, cb) => {
+  db.collection("users")
+    .doc(currentUserId)
+    .onSnapshot(snapshot => {
+      let userStatus = snapshot.data().userStatus;
+      cb(userStatus);
     });
 };
