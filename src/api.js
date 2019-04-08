@@ -2,6 +2,7 @@ import firebase from "./firebase.js";
 
 const db = firebase.firestore();
 
+//mettere catch altra parte
 export function login(email, pw, cb) {
   return firebase
     .auth()
@@ -39,12 +40,23 @@ export const listenCollocutorsList = (userName, callback) => {
     .onSnapshot(snapshot => {
       let collocutors = [];
       snapshot.docs.forEach(el => {
-        collocutors.push({
-          ...el.data(),
-          id: el.id
-        });
+        let collocutorid = el.data().id;
+        db.collection("users")
+          .doc(userName)
+          .collection("collocutors")
+          .doc(collocutorid)
+          .collection("messages")
+          .where("read", "==", false)
+          .get()
+          .then(x => {
+            collocutors.push({
+              ...el.data(),
+              numUnread: x.docs.length,
+              id: el.id
+            });
+          })
+          .then(() => callback(collocutors));
       });
-      callback(collocutors);
     });
 };
 
@@ -53,7 +65,7 @@ export const addMessage = (collocutorId, currentUserId, text) => {
     text: text,
     sender: currentUserId,
     date: new Date(),
-    unread: true
+    read: false
   };
   let userRef = db
     .collection("users")
@@ -75,7 +87,8 @@ export const addMessage = (collocutorId, currentUserId, text) => {
 };
 
 export const listenMessages = (collocutorId, currentUserId, cb) => {
-  db.collection("users")
+  return db
+    .collection("users")
     .doc(currentUserId)
     .collection("collocutors")
     .doc(collocutorId)
@@ -85,8 +98,78 @@ export const listenMessages = (collocutorId, currentUserId, cb) => {
     .onSnapshot(snapshot => {
       var messages = [];
       snapshot.forEach(el => {
-        messages.push(el.data()); //give id
+        console.log(el.data());
+        messages.push({ ...el.data(), id: el.id });
       });
       cb(messages);
     });
 };
+export const setReadMessages = (collocutorId, currentUserId, newMessageIds) => {
+  newMessageIds.forEach(el => {
+    db.collection("users")
+      .doc(currentUserId)
+      .collection("collocutors")
+      .doc(collocutorId)
+      .collection("messages")
+      .doc(el)
+      .update({ read: true });
+  });
+};
+
+// export const setMessagesRead = (currentUserId, collocutorId) => {
+//   db.collection("users")
+//     .doc(currentUserId)
+//     .collection("collocutors")
+//     .doc(collocutorId)
+//     .collection("messages")
+//     .orderBy("date", "desc")
+//     .where("unread", "==", true)
+//     .update();
+// };
+
+// export const getMessages = (collocutorId, currentUserId, cb) => {
+//   let messages = [];
+//   db.collection("users")
+//     .doc(currentUserId)
+//     .collection("collocutors")
+//     .doc(collocutorId)
+//     .collection("messages")
+//     .orderBy("date", "desc")
+//     .limit(100)
+//     .get()
+//     .then(x => {
+//       x.docs.forEach(el => {
+//         messages.push({ ...el.data(), id: el.id });
+//       });
+//       cb(messages);
+//     });
+// };
+
+// export const listenUnreadMessages = (collocutorId, currentUserId, cb) => {
+//   let newMessages = [];
+//   db.collection("users")
+//     .doc(currentUserId)
+//     .collection("collocutors")
+//     .doc(collocutorId)
+//     .collection("messages")
+//     .where("read", "==", false)
+//     .onSnapshot(snapshot => {
+//       snapshot.docs.forEach(el => {
+//         // console.log("not read", el.id);
+//         // newMessageIds.push(el.id);
+//         newMessages.push({ ...el.data(), id: el.id });
+//       });
+
+//       newMessages.forEach(el => {
+//         db.collection("users")
+//           .doc(currentUserId)
+//           .collection("collocutors")
+//           .doc(collocutorId)
+//           .collection("messages")
+//           .doc(el.id)
+//           .update({ read: true });
+//       });
+//       console.log();
+//       cb(newMessages);
+//     });
+// };
