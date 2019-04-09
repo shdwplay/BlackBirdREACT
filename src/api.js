@@ -99,7 +99,7 @@ export const listenMessages = (collocutorId, currentUserId, cb) => {
     .onSnapshot(snapshot => {
       var messages = [];
       snapshot.forEach(el => {
-        console.log(el.data());
+        //console.log(el.data());
         messages.push({ ...el.data(), id: el.id });
       });
       cb(messages);

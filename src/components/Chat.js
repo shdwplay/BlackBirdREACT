@@ -11,33 +11,38 @@ import { filterMessages } from "../utils";
 import { setReadMessages } from "../api";
 import PropTypes from "prop-types";
 export default class Chat extends React.Component {
-  state = {
-    newMessage: "",
-    messages: [],
-    chatQuerystr: "",
-    loading: true,
-    chatSearchToggle: false
-  };
+  constructor(props) {
+    super(props);
+    console.log(props);
+    this.state = {
+      newMessage: "",
+      messages: [],
+      chatQuerystr: "",
+      loading: true,
+      chatSearchToggle: false
+    };
+  }
 
   componentDidMount() {
+    console.log(this.props);
     this.props.setActive(this.props.collocutor.id);
     this.unsub = this.getMessagesUpdates();
   }
 
-  componentDidUpdate() {
-    let unreadMessages = this.state.messages
-      .filter(el => !el.read)
-      .map(el => el.id);
-    setReadMessages(
-      this.props.collocutor.id,
-      this.props.currentUser,
-      unreadMessages
-    );
-  }
-
-  componentWillUnmount() {
-    console.log(this.getMessagesUpdates);
-    this.unsub();
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.collocutor.id !== this.props.collocutor.id) {
+      this.unsub();
+      this.props.setActive(this.props.collocutor.id);
+      this.unsub = this.getMessagesUpdates();
+      let unreadMessages = this.state.messages
+        .filter(el => !el.read)
+        .map(el => el.id);
+      setReadMessages(
+        this.props.collocutor.id,
+        this.props.currentUser,
+        unreadMessages
+      );
+    }
   }
 
   getMessagesUpdates() {
