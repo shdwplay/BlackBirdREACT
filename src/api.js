@@ -37,7 +37,7 @@ export const listenCollocutorsList = (userName, callback) => {
     .collection("users")
     .doc(userName)
     .collection("collocutors")
-    .where("listed", "==", true)
+    .orderBy("lastMsg.date", "desc")
     .onSnapshot(snapshot => {
       let collocutors = [];
       snapshot.docs.forEach(el => {
@@ -50,13 +50,22 @@ export const listenCollocutorsList = (userName, callback) => {
           .where("read", "==", false)
           .get()
           .then(x => {
+            console.log("triggered");
+            console.log(el.data());
             collocutors.push({
               ...el.data(),
               numUnread: x.docs.length,
               id: el.id
             });
           })
-          .then(() => callback(collocutors));
+          .then(() => {
+            callback(collocutors);
+            // callback(
+            //   collocutors.sort((a, b) => {
+            //     return a.date - b.date;
+            //   })
+            // );
+          });
       });
     });
 };
@@ -149,7 +158,8 @@ export const listenProfile = (currentUserId, cb) => {
       cb(userStatus);
     });
 };
-export const setReadMessages = (collocutorId, currentUserId, newMessageIds) => {
+
+export const setReadMessages = (currentUserId, collocutorId, newMessageIds) => {
   newMessageIds.forEach(el => {
     db.collection("users")
       .doc(currentUserId)

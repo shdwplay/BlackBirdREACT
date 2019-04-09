@@ -38,8 +38,8 @@ export default class Chat extends React.Component {
         .filter(el => !el.read)
         .map(el => el.id);
       setReadMessages(
-        this.props.collocutor.id,
         this.props.currentUser,
+        this.props.collocutor.id,
         unreadMessages
       );
     }
@@ -47,8 +47,8 @@ export default class Chat extends React.Component {
 
   getMessagesUpdates() {
     return listenMessages(
-      this.props.collocutor.id,
       this.props.currentUser,
+      this.props.collocutor.id,
       newMessages => this.setState({ messages: newMessages, loading: false })
     );
   }
