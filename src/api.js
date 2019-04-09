@@ -2,6 +2,7 @@ import firebase from "./firebase.js";
 
 const db = firebase.firestore();
 
+//mettere catch altra parte
 export function login(email, pw, cb) {
   return firebase
     .auth()
@@ -36,15 +37,27 @@ export const listenCollocutorsList = (userName, callback) => {
     .collection("users")
     .doc(userName)
     .collection("collocutors")
+    .where("listed", "==", true)
     .onSnapshot(snapshot => {
       let collocutors = [];
       snapshot.docs.forEach(el => {
-        collocutors.push({
-          ...el.data(),
-          id: el.id
-        });
+        let collocutorid = el.data().id;
+        db.collection("users")
+          .doc(userName)
+          .collection("collocutors")
+          .doc(collocutorid)
+          .collection("messages")
+          .where("read", "==", false)
+          .get()
+          .then(x => {
+            collocutors.push({
+              ...el.data(),
+              numUnread: x.docs.length,
+              id: el.id
+            });
+          })
+          .then(() => callback(collocutors));
       });
-      callback(collocutors);
     });
 };
 
@@ -53,7 +66,7 @@ export const addMessage = (collocutorId, currentUserId, text) => {
     text: text,
     sender: currentUserId,
     date: new Date(),
-    unread: true
+    read: false
   };
   let userRef = db
     .collection("users")
@@ -75,7 +88,8 @@ export const addMessage = (collocutorId, currentUserId, text) => {
 };
 
 export const listenMessages = (collocutorId, currentUserId, cb) => {
-  db.collection("users")
+  return db
+    .collection("users")
     .doc(currentUserId)
     .collection("collocutors")
     .doc(collocutorId)
@@ -85,7 +99,7 @@ export const listenMessages = (collocutorId, currentUserId, cb) => {
     .onSnapshot(snapshot => {
       var messages = [];
       snapshot.forEach(el => {
-        messages.push(el.data()); //give id
+        messages.push({ ...el.data(), id: el.id });
       });
       cb(messages);
     });
@@ -100,8 +114,6 @@ export const getContacts = (userName, cb) => {
             // doc.data() is never undefined for query doc snapshots
             //console.log(doc.id, " => ", doc.data());
             if (doc.id !== userName) {
-              console.log(doc.id)
-              console.log(userName)
               contacts.push({
                 ...doc.data(),
                 id: doc.id
@@ -110,23 +122,88 @@ export const getContacts = (userName, cb) => {
             
         });
         cb(contacts)
-        console.log(contacts)
     })
     .catch(function(error) {
         console.log("Error getting documents: ", error);
     });
 }
 
-export const addCollocutorToDb = (currentUserId, collocutorId) => {
+export const addCollocutorToDb = (currentUserId, collocutorId, collocutorName, message, sender) => {
   db.collection("users")
     .doc(currentUserId)
     .collection("collocutors")
     .doc(collocutorId)
     .set({
+      name: collocutorName,
       id: collocutorId,
       favourite: false,
       silenced: false,
       listed: true,
-
+      lastMsg: {
+        text: message,
+        date: new Date(),
+        read: false,
+        sender: sender
+      }
     })
+    .then(function() {
+      console.log("Document successfully written!");
+    })
+    .catch(function(error) {
+        console.error("Error writing document: ", error);
+    });
 }
+export const setFavouriteCard = (currentUserId, cardId, value) => {
+  db.collection("users")
+    .doc(currentUserId)
+    .collection("collocutors")
+    .doc(cardId)
+    .update({ favourite: !value });
+};
+export const setSilenceCard = (currentUserId, cardId, value) => {
+  db.collection("users")
+    .doc(currentUserId)
+    .collection("collocutors")
+    .doc(cardId)
+    .update({ silenced: !value });
+};
+export const setUnlistedCard = (currentUserId, cardId, value) => {
+  db.collection("users")
+    .doc(currentUserId)
+    .collection("collocutors")
+    .doc(cardId)
+    .update({ listed: !value });
+};
+
+export const toggleAFK = currentUserId => {
+  db.collection("users")
+    .doc(currentUserId)
+    .get()
+    .then(doc => {
+      db.collection("users")
+        .doc(currentUserId)
+        .update({
+          userStatus: doc.data().userStatus === "away" ? "online" : "away"
+        });
+    });
+};
+
+export const listenProfile = (currentUserId, cb) => {
+  db.collection("users")
+    .doc(currentUserId)
+    .onSnapshot(snapshot => {
+      let userStatus = snapshot.data().userStatus;
+      cb(userStatus);
+    });
+};
+export const setReadMessages = (collocutorId, currentUserId, newMessageIds) => {
+  newMessageIds.forEach(el => {
+    db.collection("users")
+      .doc(currentUserId)
+      .collection("collocutors")
+      .doc(collocutorId)
+      .collection("messages")
+      .doc(el)
+      .update({ read: true });
+  });
+};

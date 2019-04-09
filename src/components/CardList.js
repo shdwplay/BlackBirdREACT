@@ -11,6 +11,7 @@ const CardList = props => {
       {props.cardList.map((el, index) => (
         <Link to={"/messages/" + el.id}>
           <Card
+            currentUserId={props.currentUserId}
             name={el.name}
             key={index}
             cardNumber={index}
@@ -19,8 +20,12 @@ const CardList = props => {
             setHighlightedCard={props.setHighlightedCard}
             highlightedCard={props.highlightedCard}
             highlightedCardOptions={props.highlightedCardOptions}
+            setFavouriteCard={props.setFavouriteCard}
+            setSilenceCard={props.setSilenceCard}
+            setUnlistedCard={props.setUnlistedCard}
             silenced={el.silenced}
             favourite={el.favourite}
+            listed={el.listed}
             onClick={e => {
               console.log(el);
               props.selectChat(el.id);
@@ -37,6 +42,6 @@ export default CardList;
 
 CardList.propTypes = {
   cardList: PropTypes.array,
-  activeChat: PropTypes.shape([PropTypes.string, PropTypes.string]),
+  activeChat: PropTypes.string,
   selectChat: PropTypes.func
 };

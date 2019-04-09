@@ -53,10 +53,16 @@ const Card = props => {
       </div>
       {props.highlightedCard === props.data.id ? (
         <HighlightedCard
+          currentUserId={props.currentUserId}
+          highlightedCardId={props.data.id}
           setOption={(a, b, c) => setOption(a, b, c)}
           highlightedCardOptions={props.highlightedCardOptions}
+          setFavouriteCard={props.setFavouriteCard}
+          setSilenceCard={props.setSilenceCard}
+          setUnlistedCard={props.setUnlistedCard}
           silenced={props.silenced}
           favourite={props.favourite}
+          listed={props.listed}
           name={props.name}
           closeHighlightedCard={evt => {
             evt.preventDefault();
@@ -73,7 +79,7 @@ export default Card;
 
 Card.propTypes = {
   data: PropTypes.shape({
-    collocutor: PropTypes.string.isRequired,
+    collocutor: PropTypes.string,
     image: PropTypes.any,
     lastMsg: PropTypes.shape({
       sender: PropTypes.string,

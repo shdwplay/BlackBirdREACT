@@ -22,17 +22,23 @@ class HighlightedCard extends React.Component {
             alertTitle={`Delete chat with ${this.props.name}`}
             buttons={true}
             hide={() => this.hideModal()}
+            setUnlistedCard={this.props.setUnlistedCard}
+            currentUserId={this.props.currentUserId}
+            highlightedCardId={this.props.highlightedCardId}
+            listed={this.props.listed}
           />
         )}
         <div
           className="HighlightedCard-silence"
-          onClick={evt =>
-            this.props.setOption(
-              evt,
-              "silenced",
-              this.props.highlightedCardOptions
-            )
-          }
+          onClick={evt => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            this.props.setSilenceCard(
+              this.props.currentUserId,
+              this.props.highlightedCardId,
+              this.props.silenced
+            );
+          }}
         >
           <img
             src={this.props.silenced ? unsilenceIcon : silenceIcon}
@@ -42,15 +48,18 @@ class HighlightedCard extends React.Component {
             {this.props.silenced ? "Unsilence" : "Silence"}
           </div>
         </div>
+
         <div
           className="HighlightedCard-remove"
-          onClick={evt =>
-            this.props.setOption(
-              evt,
-              "favourite",
-              this.props.highlightedCardOptions
-            )
-          }
+          onClick={evt => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            this.props.setFavouriteCard(
+              this.props.currentUserId,
+              this.props.highlightedCardId,
+              this.props.favourite
+            );
+          }}
         >
           <img
             src={this.props.favourite ? removeFromFavIcon : addToFavIcon}
@@ -65,13 +74,10 @@ class HighlightedCard extends React.Component {
         <div
           className="HighlightedCard-delete"
           onClick={evt => {
+            evt.preventDefault();
+            evt.stopPropagation();
             console.log("delete chat");
             this.setState({ modal: true });
-            this.props.setOption(
-              evt,
-              "delete",
-              this.props.highlightedCardOptions
-            );
           }}
         >
           <img src={deleteIcon} alt="delete" />

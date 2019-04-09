@@ -39,8 +39,11 @@ const HeaderChat = props => {
         <ChatMenu
           silenced={props.silenced}
           favourite={props.favourite}
-          highlightedCardOptions={props.highlightedCardOptions}
+          setFavouriteCard={props.setFavouriteCard}
+          setSilenceCard={props.setSilenceCard}
           openSearch={props.openSearch}
+          collocutorId={props.collocutorId}
+          currentUserId={props.currentUserId}
         />
       </div>
     </div>

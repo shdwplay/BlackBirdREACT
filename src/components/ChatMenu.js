@@ -55,7 +55,13 @@ class ChatMenu extends Component {
         <div className="menu">
           <div
             className="option"
-            onClick={() => this.props.highlightedCardOptions("favourite")}
+            onClick={() => {
+              this.props.setFavouriteCard(
+                this.props.currentUserId,
+                this.props.collocutorId,
+                this.props.favourite
+              );
+            }}
           >
             {this.props.favourite ? (
               <p>Remove from Favourites</p>
@@ -65,7 +71,13 @@ class ChatMenu extends Component {
           </div>
           <div
             className="option"
-            onClick={() => this.props.highlightedCardOptions("silenced")}
+            onClick={() => {
+              this.props.setSilenceCard(
+                this.props.currentUserId,
+                this.props.collocutorId,
+                this.props.silenced
+              );
+            }}
           >
             {this.props.silenced ? <p>Unsilenced</p> : <p>Silenced</p>}
           </div>

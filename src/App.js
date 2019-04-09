@@ -19,6 +19,11 @@ import { getUserDetails } from "./api";
 import { addCollocutorToDb } from "./api";
 import { listenCollocutorsList } from "./api";
 import { setAuthObserver } from "./api";
+import { setFavouriteCard } from "./api";
+import { setSilenceCard } from "./api";
+import { setUnlistedCard } from "./api";
+import { toggleAFK } from "./api";
+
 class App extends Component {
   state = {
     loading: true,
@@ -88,26 +93,6 @@ class App extends Component {
     this.setState({ querystr: str, highlightedCard: null });
   }
 
-  highlightedCardOptions(options) {}
-  // highlightedCardOptions(option) {
-  //   //invoked with "favourite" | "silenced" | "delete" =
-  //   //when user clicks on corrisponding icon on (highlighted) chat card
-  //   let aux = [];
-  //   if (this.state.favouritesActive)
-  //     aux = this.state.favourites[this.state.highlightedCard];
-  //   else aux = this.state.collocutors[this.state.highlightedCard];
-  //   let optionsRef = firebase
-  //     .firestore()
-  //     .collection("users")
-  //     .doc(this.state.currentUser)
-  //     .collection("collocutors");
-  //   if (option === "delete") {
-  //   } else {
-  //     optionsRef.doc(aux.id).update({ [option]: !aux[option] });
-  //     this.setState({ highlightedCard: null });
-  //   }
-  // }
-
   selectTab(tab) {
     this.setState({
       activeTab: tab
@@ -142,27 +127,80 @@ class App extends Component {
         {/* <div className="workspace">workspace</div> */}
         <Switch>
           <Route
-            exact
             path="/messages"
-            render={props => (
-              <Messages
-                {...props}
-                name={this.state.name}
-                activeTab={this.state.activeTab}
-                selectTab={index => this.selectTab(index)}
-                collocutors={this.state.collocutors}
-                favouritesActive={this.state.favouritesActive}
-                toggleFavourites={() => this.toggleFavourites()}
-                selectChat={x => this.selectChat(x)}
-                activeChat={this.state.activeChat}
-                highlightedCard={this.state.highlightedCard}
-                setHighlightedCard={x => this.setState({ highlightedCard: x })}
-                highlightedCardOptions={x => this.highlightedCardOptions(x)}
-                searchToggle={this.state.searchToggle}
-                openSearch={() => this.setSearchOpen()}
-                querystr={this.state.querystr}
-                setQueryString={x => this.setQueryString(x)}
-              />
+            render={() => (
+              <>
+                <Route
+                  exact={!window.matchMedia("(min-width: 768px)").matches}
+                  path="/messages"
+                  render={props => (
+                    <Messages
+                      {...props}
+                      currentUserId={this.state.currentUser}
+                      name={this.state.name}
+                      activeTab={this.state.activeTab}
+                      selectTab={index => this.selectTab(index)}
+                      collocutors={this.state.collocutors}
+                      favouritesActive={this.state.favouritesActive}
+                      toggleFavourites={() => this.toggleFavourites()}
+                      selectChat={x => this.selectChat(x)}
+                      activeChat={this.state.activeChat}
+                      highlightedCard={this.state.highlightedCard}
+                      setHighlightedCard={x =>
+                        this.setState({ highlightedCard: x })
+                      }
+                      searchToggle={this.state.searchToggle}
+                      openSearch={() => this.setSearchOpen()}
+                      querystr={this.state.querystr}
+                      setQueryString={x => this.setQueryString(x)}
+                      setSilenceCard={(x, y, z) => setSilenceCard(x, y, z)}
+                      setUnlistedCard={(x, y, z) => setUnlistedCard(x, y, z)}
+                      setFavouriteCard={(x, y, z) => setFavouriteCard(x, y, z)}
+                    />
+                  )}
+                />
+                <Route
+                  path="/messages/:id"
+                  render={props => {
+                    console.log(props)
+                    console.log(this.state.collocutors)
+                    function collocutorMatches(element) {
+                      console.log(props.match.params.id)
+                      return element.id === props.match.params.id
+                    }
+                    var collocutor = this.state.collocutors.find(collocutorMatches)
+                    console.log(this.state.collocutors.find(collocutorMatches))
+                    console.log(collocutor)
+                    if(!collocutor) {
+                      return (
+                        <Redirect to="/messages" />
+                      )
+                    }
+                    return (
+                      <Chat
+                        {...props}
+                        collocutor={collocutor}
+                        userName={this.state.name}
+                        selectChat={x => this.selectChat(x)}
+                        setActive={x => this.setState({ activeChat: x })}
+                        activeChat={this.state.activeChat}
+                        currentUser={this.state.currentUser}
+                        /* collocutor={this.state.activeChat.collocutor}
+                    messageList={this.state.activeChat.messages} */
+                        value={this.state.newMessage}
+                        newMessage={e => this.newMessage(e)}
+                        saveMessage={() => this.saveMessage()}
+                        searchToggle={this.state.searchToggle}
+                        openSearch={() => this.setSearchOpen()}
+                        addMessage={(x, y) => this.addMessage(x, y)}
+                        highlightedCardOptions={x =>
+                          this.highlightedCardOptions(x)
+                        }
+                      />
+                    );
+                  }}
+                />
+              </>
             )}
           />
           <Route
@@ -188,6 +226,7 @@ class App extends Component {
                 currentUser={this.state.currentUser}
                 name={this.state.name}
                 userStatus={this.state.userStatus}
+                toggleAFK={x => toggleAFK(x)}
               />
             )}
           />
@@ -211,15 +250,14 @@ class App extends Component {
                   setActive={x => this.setState({ activeChat: x })}
                   activeChat={this.state.activeChat}
                   currentUser={this.state.currentUser}
-                  /* collocutor={this.state.activeChat.collocutor}
-              messageList={this.state.activeChat.messages} */
                   value={this.state.newMessage}
                   newMessage={e => this.newMessage(e)}
                   saveMessage={() => this.saveMessage()}
                   searchToggle={this.state.searchToggle}
                   openSearch={() => this.setSearchOpen()}
                   addMessage={(x, y) => this.addMessage(x, y)}
-                  highlightedCardOptions={x => this.highlightedCardOptions(x)}
+                  setSilenceCard={(x, y, z) => setSilenceCard(x, y, z)}
+                  setFavouriteCard={(x, y, z) => setFavouriteCard(x, y, z)}
                 />
               );
             }}

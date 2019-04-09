@@ -9,6 +9,7 @@ import { addMessage } from "../api";
 import { listenMessages } from "../api";
 import { addCollocutorToDb } from "../api";
 import { filterMessages } from "../utils";
+import { setReadMessages } from "../api";
 import PropTypes from "prop-types";
 export default class Chat extends React.Component {
   state = {
@@ -22,11 +23,33 @@ export default class Chat extends React.Component {
   componentDidMount() {
     //addCollocutor(this.props.currentUser, this.props.match.params.id)
     console.log(this.props.data)
+    console.log(this.props.collocutor.id)
 
     this.props.setActive(this.props.collocutor.id);
+    this.unsub = this.getMessagesUpdates();
+  }
 
-    listenMessages(this.props.collocutor.id, this.props.currentUser, x =>
-      this.setState({ messages: x, loading: false })
+  componentDidUpdate() {
+    let unreadMessages = this.state.messages
+      .filter(el => !el.read)
+      .map(el => el.id);
+    setReadMessages(
+      this.props.collocutor.id,
+      this.props.currentUser,
+      unreadMessages
+    );
+  }
+
+  componentWillUnmount() {
+    console.log(this.getMessagesUpdates);
+    this.unsub();
+  }
+
+  getMessagesUpdates() {
+    return listenMessages(
+      this.props.collocutor.id,
+      this.props.currentUser,
+      newMessages => this.setState({ messages: newMessages, loading: false })
     );
   }
 
@@ -35,8 +58,6 @@ export default class Chat extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state);
     if (this.state.loading) return <div>loading...</div>;
     else {
       return (
@@ -47,12 +68,14 @@ export default class Chat extends React.Component {
               this.setState({ chatSearchToggle: !this.state.chatSearchToggle })
             }
             setChatQuerystr={str => this.setState({ chatQuerystr: str })}
+            currentUserId={this.props.currentUser}
             name={this.props.collocutor.name}
+            collocutorId={this.props.collocutor.id}
             status={this.props.collocutor.status}
             silenced={this.props.collocutor.silenced}
             favourite={this.props.collocutor.favourite}
-            highlightedCardOptions={this.props.highlightedCardOptions}
-            //status={this.props.collocutor.status}
+            setFavouriteCard={this.props.setFavouriteCard}
+            setSilenceCard={this.props.setSilenceCard}
           />
           <div className="Chat" id="chat">
             {filterMessages(this.state.messages, this.state.chatQuerystr).map(
@@ -93,7 +116,10 @@ export default class Chat extends React.Component {
                   this.props.currentUser,
                   this.state.newMessage
                 );
-                this.state.messages.length <1 || addCollocutorToDb(this.currentUser, this.props.collocutor.id)
+                if (this.state.messages.length < 1) {
+                  addCollocutorToDb(this.props.currentUser, this.props.collocutor.id, this.props.collocutor.name, this.state.newMessage, this.props.currentUser);
+                  addCollocutorToDb(this.props.collocutor.id, this.props.currentUser, this.props.userName, this.state.newMessage, this.props.currentUser)
+                }
               }}
               src={send}
               alt="send message"
