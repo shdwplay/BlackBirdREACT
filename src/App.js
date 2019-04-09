@@ -22,7 +22,8 @@ import { setFavouriteCard } from "./api";
 import { setSilenceCard } from "./api";
 import { setUnlistedCard } from "./api";
 import { toggleAFK } from "./api";
-import { findCollocutor } from "./utils";
+import { collocutorMatches } from "./utils";
+
 
 class App extends Component {
   state = {
@@ -180,15 +181,7 @@ class App extends Component {
                 <Route
                   path="/messages/:id"
                   render={props => {
-                    //mettiamo in
-                    function collocutorMatches(element) {
-                      console.log(props.match.params.id);
-                      return element.id === props.match.params.id;
-                    }
-                    var collocutor = this.state.collocutors.find(
-                      collocutorMatches
-                    );
-                    console.log(this.state.collocutors.find(collocutorMatches));
+                    var collocutor = collocutorMatches(this.state.collocutors, props.match.params.id)
                     if (!collocutor) {
                       return <Redirect to="/messages" />;
                     }
@@ -201,19 +194,9 @@ class App extends Component {
                         setActive={x => this.setState({ activeChat: x })}
                         activeChat={this.state.activeChat}
                         currentUser={this.state.currentUser}
-                        /* collocutor={this.state.activeChat.collocutor}
-                    messageList={this.state.activeChat.messages} */
-                        value={this.state.newMessage}
-                        newMessage={e => this.newMessage(e)}
-                        saveMessage={() => this.saveMessage()}
-                        searchToggle={this.state.searchToggle}
-                        openSearch={() => this.setSearchOpen()}
-                        addMessage={(x, y) => this.addMessage(x, y)}
                         setSilenceCard={(x, y, z) => setSilenceCard(x, y, z)}
                         setUnlistedCard={(x, y, z) => setUnlistedCard(x, y, z)}
-                        setFavouriteCard={(x, y, z) =>
-                          setFavouriteCard(x, y, z)
-                        }
+                        setFavouriteCard={(x, y, z) => setFavouriteCard(x, y, z)}
                       />
                     );
                   }}
@@ -228,7 +211,7 @@ class App extends Component {
                 addCollocutor={x => this.addCollocutor(x)}
                 currentUser={this.state.currentUser}
                 name={this.state.name}
-                activeTab={this.state.activeTab}
+                activeTab={this.state.activeTab}//?
                 selectTab={x => this.selectTab(x)}
                 activeChat={this.state.activeChat}
                 selectChat={x => this.selectChat(x)}

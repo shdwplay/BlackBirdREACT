@@ -42,7 +42,7 @@ export default class Chat extends React.Component {
         this.props.collocutor.id,
         unreadMessages
       );
-    }
+    }  
   }
 
   getMessagesUpdates() {

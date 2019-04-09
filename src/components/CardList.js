@@ -9,6 +9,7 @@ const CardList = props => {
   return (
     <div className={`CardList ${props.searchToggle ? "CardList-on-top" : ""}`}>
       {props.cardList.map((el, index) => (
+        el.lastMsg &&
         <Link to={"/messages/" + el.id}>
           <Card
             currentUserId={props.currentUserId}

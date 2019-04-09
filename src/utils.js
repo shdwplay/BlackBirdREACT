@@ -122,7 +122,8 @@ export const randomColor = str => {
 };
 console.log(randomColor("edoardo"));
 
-export const findCollocutor = (collocutors, id) => {
-  let colloc = collocutors.find(el => el.id === id);
-  return colloc;
-};
+
+export const collocutorMatches = (collucotors, id) => {
+  return collucotors.find(el => el.id === id)
+}
+
