@@ -75,12 +75,12 @@ class App extends Component {
     this.setState({ collocutors: [...this.state.collocutors, collocutor] });
   }
 
-  toggleFavourites() {
-    this.setState({
-      favouritesActive: !this.state.favouritesActive,
-      highlightedCard: null
-    });
-  }
+  // toggleFavourites() {
+  //   this.setState({
+  //     favouritesActive: !this.state.favouritesActive,
+  //     highlightedCard: null
+  //   });
+  // }
 
   setSearchOpen() {
     this.setState({
@@ -95,9 +95,19 @@ class App extends Component {
   }
 
   selectTab(tab) {
-    this.setState({
-      activeTab: tab
-    });
+    console.log(tab);
+    //use switch
+    if (tab === "favourites") {
+      this.setState({ activeTab: "favourites", favouritesActive: true });
+    }
+    if (tab === "messages") {
+      this.setState({ activeTab: "messages", favouritesActive: false });
+    }
+    if (tab === "sendNew") {
+      this.setState({
+        activeTab: "sendNew"
+      });
+    }
   }
 
   selectChat(clickedCard) {
@@ -140,10 +150,10 @@ class App extends Component {
                       currentUserId={this.state.currentUser}
                       name={this.state.name}
                       activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
+                      selectTab={x => this.selectTab(x)}
                       collocutors={this.state.collocutors}
                       favouritesActive={this.state.favouritesActive}
-                      toggleFavourites={() => this.toggleFavourites()}
+                      //toggleFavourites={() => this.toggleFavourites()}
                       selectChat={x => this.selectChat(x)}
                       activeChat={this.state.activeChat}
                       highlightedCard={this.state.highlightedCard}
@@ -204,13 +214,16 @@ class App extends Component {
           />
           <Route
             path="/sendnew"
-            render={() => (
+            render={props => (
               <SendNew
+                //{...props}
+                toggleFavourites={() => this.toggleFavourites()}
                 addCollocutor={x => this.addCollocutor(x)}
                 currentUser={this.state.currentUser}
                 name={this.state.name}
                 activeTab={this.state.activeTab}
-                selectTab={index => this.selectTab(index)}
+                setSendNewTab={x => this.setState({ activeTab: x })}
+                selectTab={x => this.selectTab(x)}
                 activeChat={this.state.activeChat}
                 selectChat={x => this.selectChat(x)}
                 searchString={this.state.searchSting}

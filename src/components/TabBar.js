@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import favouritesIcon from "../assets/favourites.svg";
 import messagesIcon from "../assets/messages.svg";
 import sendNewIcon from "../assets/new_chat.svg";
-import {getContacts} from "../api"
+import { getContacts } from "../api";
 
 import PropTypes from "prop-types";
 //props active tab, selectTab
@@ -15,7 +15,7 @@ const TabBar = props => {
         className="Tab-element"
         onClick={() => {
           props.selectTab("favourites");
-          props.toggleFavourites();
+          //props.toggleFavourites();
         }}
       >
         {props.activeTab === "favourites" ? (
@@ -25,14 +25,14 @@ const TabBar = props => {
             src={favouritesIcon}
           />
         ) : (
-          <span>Favourites</span>
+          <Link to="/messages/">Favourites</Link>
         )}
       </div>
       <div
         className="Tab-element"
         onClick={() => {
           props.selectTab("messages");
-          props.toggleFavourites();
+          //props.toggleFavourites();
         }}
       >
         {props.activeTab === "messages" ? (
@@ -42,7 +42,7 @@ const TabBar = props => {
             src={messagesIcon}
           />
         ) : (
-          <span>Messages</span>
+          <Link to="/messages/">Messages</Link>
         )}
       </div>
       <div className="Tab-element" onClick={() => props.selectTab("sendNew")}>
@@ -53,7 +53,7 @@ const TabBar = props => {
             src={sendNewIcon}
           />
         ) : (
-          <Link to='/sendnew'>Send New</Link>
+          <Link to="/sendnew">Send New</Link>
         )}
       </div>
     </div>
