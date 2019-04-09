@@ -181,8 +181,10 @@ class App extends Component {
                         searchToggle={this.state.searchToggle}
                         openSearch={() => this.setSearchOpen()}
                         addMessage={(x, y) => this.addMessage(x, y)}
-                        highlightedCardOptions={x =>
-                          this.highlightedCardOptions(x)
+                        setSilenceCard={(x, y, z) => setSilenceCard(x, y, z)}
+                        setUnlistedCard={(x, y, z) => setUnlistedCard(x, y, z)}
+                        setFavouriteCard={(x, y, z) =>
+                          setFavouriteCard(x, y, z)
                         }
                       />
                     );
