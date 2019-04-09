@@ -91,7 +91,7 @@ export const filterMessages = (messages, str) => {
   return filtered;
 };
 
-export function newCollocutor(id, name, status){
+export function newCollocutor(id, name, status) {
   return {
     id: id,
     name: name,
@@ -99,7 +99,7 @@ export function newCollocutor(id, name, status){
     favourite: false,
     silenced: false,
     listed: true
-  }
+  };
 }
 export const randomColor = str => {
   var colours = [
@@ -124,3 +124,8 @@ export const randomColor = str => {
   return colours[hash];
 };
 console.log(randomColor("edoardo"));
+
+export const findCollocutor = (collocutors, id) => {
+  let colloc = collocutors.find(el => el.id === id);
+  return colloc;
+};

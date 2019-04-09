@@ -37,7 +37,7 @@ export const listenCollocutorsList = (userName, callback) => {
     .collection("users")
     .doc(userName)
     .collection("collocutors")
-    .where("listed", "==", true)
+    .orderBy("lastMsg.date", "desc")
     .onSnapshot(snapshot => {
       let collocutors = [];
       snapshot.docs.forEach(el => {
@@ -50,13 +50,22 @@ export const listenCollocutorsList = (userName, callback) => {
           .where("read", "==", false)
           .get()
           .then(x => {
+            console.log("triggered");
+            console.log(el.data());
             collocutors.push({
               ...el.data(),
               numUnread: x.docs.length,
               id: el.id
             });
           })
-          .then(() => callback(collocutors));
+          .then(() => {
+            callback(collocutors);
+            // callback(
+            //   collocutors.sort((a, b) => {
+            //     return a.date - b.date;
+            //   })
+            // );
+          });
       });
     });
 };
@@ -99,6 +108,7 @@ export const listenMessages = (collocutorId, currentUserId, cb) => {
     .onSnapshot(snapshot => {
       var messages = [];
       snapshot.forEach(el => {
+        //console.log(el.data());
         messages.push({ ...el.data(), id: el.id });
       });
       cb(messages);
@@ -109,26 +119,31 @@ export const getContacts = (userName, cb) => {
   db.collection("users")
     .get()
     .then(function(querySnapshot) {
-      var contacts = []
-        querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            //console.log(doc.id, " => ", doc.data());
-            if (doc.id !== userName) {
-              contacts.push({
-                ...doc.data(),
-                id: doc.id
-              })
-            }
-            
-        });
-        cb(contacts)
+      var contacts = [];
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        //console.log(doc.id, " => ", doc.data());
+        if (doc.id !== userName) {
+          contacts.push({
+            ...doc.data(),
+            id: doc.id
+          });
+        }
+      });
+      cb(contacts);
     })
     .catch(function(error) {
-        console.log("Error getting documents: ", error);
+      console.log("Error getting documents: ", error);
     });
-}
+};
 
-export const addCollocutorToDb = (currentUserId, collocutorId, collocutorName, message, sender) => {
+export const addCollocutorToDb = (
+  currentUserId,
+  collocutorId,
+  collocutorName,
+  message,
+  sender
+) => {
   db.collection("users")
     .doc(currentUserId)
     .collection("collocutors")
@@ -150,9 +165,9 @@ export const addCollocutorToDb = (currentUserId, collocutorId, collocutorName, m
       console.log("Document successfully written!");
     })
     .catch(function(error) {
-        console.error("Error writing document: ", error);
+      console.error("Error writing document: ", error);
     });
-}
+};
 export const setFavouriteCard = (currentUserId, cardId, value) => {
   db.collection("users")
     .doc(currentUserId)
@@ -196,7 +211,8 @@ export const listenProfile = (currentUserId, cb) => {
       cb(userStatus);
     });
 };
-export const setReadMessages = (collocutorId, currentUserId, newMessageIds) => {
+
+export const setReadMessages = (currentUserId, collocutorId, newMessageIds) => {
   newMessageIds.forEach(el => {
     db.collection("users")
       .doc(currentUserId)

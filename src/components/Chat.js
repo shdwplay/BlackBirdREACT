@@ -12,43 +12,43 @@ import { filterMessages } from "../utils";
 import { setReadMessages } from "../api";
 import PropTypes from "prop-types";
 export default class Chat extends React.Component {
-  state = {
-    newMessage: "",
-    messages: [],
-    chatQuerystr: "",
-    loading: true,
-    chatSearchToggle: false
-  };
+  constructor(props) {
+    super(props);
+    console.log(props);
+    this.state = {
+      newMessage: "",
+      messages: [],
+      chatQuerystr: "",
+      loading: true,
+      chatSearchToggle: false
+    };
+  }
 
   componentDidMount() {
-    //addCollocutor(this.props.currentUser, this.props.match.params.id)
-    console.log(this.props.data)
-    console.log(this.props.collocutor.id)
-
     this.props.setActive(this.props.collocutor.id);
     this.unsub = this.getMessagesUpdates();
   }
 
-  componentDidUpdate() {
-    let unreadMessages = this.state.messages
-      .filter(el => !el.read)
-      .map(el => el.id);
-    setReadMessages(
-      this.props.collocutor.id,
-      this.props.currentUser,
-      unreadMessages
-    );
-  }
-
-  componentWillUnmount() {
-    console.log(this.getMessagesUpdates);
-    this.unsub();
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.collocutor.id !== this.props.collocutor.id) {
+      this.unsub();
+      this.props.setActive(this.props.collocutor.id);
+      this.unsub = this.getMessagesUpdates();
+      let unreadMessages = this.state.messages
+        .filter(el => !el.read)
+        .map(el => el.id);
+      setReadMessages(
+        this.props.currentUser,
+        this.props.collocutor.id,
+        unreadMessages
+      );
+    }
   }
 
   getMessagesUpdates() {
     return listenMessages(
-      this.props.collocutor.id,
       this.props.currentUser,
+      this.props.collocutor.id,
       newMessages => this.setState({ messages: newMessages, loading: false })
     );
   }
@@ -117,8 +117,20 @@ export default class Chat extends React.Component {
                   this.state.newMessage
                 );
                 if (this.state.messages.length < 1) {
-                  addCollocutorToDb(this.props.currentUser, this.props.collocutor.id, this.props.collocutor.name, this.state.newMessage, this.props.currentUser);
-                  addCollocutorToDb(this.props.collocutor.id, this.props.currentUser, this.props.userName, this.state.newMessage, this.props.currentUser)
+                  addCollocutorToDb(
+                    this.props.currentUser,
+                    this.props.collocutor.id,
+                    this.props.collocutor.name,
+                    this.state.newMessage,
+                    this.props.currentUser
+                  );
+                  addCollocutorToDb(
+                    this.props.collocutor.id,
+                    this.props.currentUser,
+                    this.props.userName,
+                    this.state.newMessage,
+                    this.props.currentUser
+                  );
                 }
               }}
               src={send}
@@ -142,5 +154,3 @@ Chat.propTypes = {
   newMessage: PropTypes.func,
   value: PropTypes.string
 };
-
-

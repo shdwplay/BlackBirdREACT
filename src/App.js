@@ -1,16 +1,14 @@
 //react and firebase
 import React, { Component } from "react";
-import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
-import firebase from "./firebase";
+import { Route, Switch, Redirect } from "react-router-dom";
 //components
 import Login from "./components/Login";
-import LoginForm from "./components/LoginForm";
 import LoginForgotPsw from "./components/LoginForgotPsw";
 import LoginPswInstructions from "./components/LoginPswInstructions";
 import Messages from "./components/Messages";
 import Profile from "./components/Profile";
 import SendNew from "./components/SendNew";
-import Chat, {newCollocutor} from "./components/Chat";
+import Chat, { newCollocutor } from "./components/Chat";
 import "./App.css";
 //utility functions
 import { showSpinner } from "./utils";
@@ -23,6 +21,7 @@ import { setFavouriteCard } from "./api";
 import { setSilenceCard } from "./api";
 import { setUnlistedCard } from "./api";
 import { toggleAFK } from "./api";
+import { findCollocutor } from "./utils";
 
 class App extends Component {
   state = {
@@ -58,9 +57,11 @@ class App extends Component {
           this.setState({
             collocutors: collocutors,
             favourites: favourites,
-            isAuthenticated: true,
-            loading: false
+            isAuthenticated: true
           });
+          setTimeout(() => {
+            this.setState({ loading: false });
+          }, 0);
         });
       },
       () => {
@@ -162,19 +163,17 @@ class App extends Component {
                 <Route
                   path="/messages/:id"
                   render={props => {
-                    console.log(props)
-                    console.log(this.state.collocutors)
+                    //mettiamo in
                     function collocutorMatches(element) {
-                      console.log(props.match.params.id)
-                      return element.id === props.match.params.id
+                      console.log(props.match.params.id);
+                      return element.id === props.match.params.id;
                     }
-                    var collocutor = this.state.collocutors.find(collocutorMatches)
-                    console.log(this.state.collocutors.find(collocutorMatches))
-                    console.log(collocutor)
-                    if(!collocutor) {
-                      return (
-                        <Redirect to="/messages" />
-                      )
+                    var collocutor = this.state.collocutors.find(
+                      collocutorMatches
+                    );
+                    console.log(this.state.collocutors.find(collocutorMatches));
+                    if (!collocutor) {
+                      return <Redirect to="/messages" />;
                     }
                     return (
                       <Chat
@@ -207,7 +206,7 @@ class App extends Component {
             path="/sendnew"
             render={() => (
               <SendNew
-                addCollocutor={(x) => this.addCollocutor(x)}
+                addCollocutor={x => this.addCollocutor(x)}
                 currentUser={this.state.currentUser}
                 name={this.state.name}
                 activeTab={this.state.activeTab}
@@ -229,38 +228,6 @@ class App extends Component {
                 toggleAFK={x => toggleAFK(x)}
               />
             )}
-          />
-          <Route
-            path="/messages/:id"
-            render={props => {
-              const collocutor = this.state.collocutors.find(element => 
-                element.id === props.match.params.id
-              );
-              if(!collocutor) {
-                return (
-                  <Redirect to="/messages" />
-                )
-              }
-              return (
-                <Chat
-                  {...props}
-                  collocutor={collocutor/*  || newCollocutor(props.match.params.id, props.location.state.name, props.location.state.status) */}
-                  selectChat={x => this.selectChat(x)}
-                  
-                  setActive={x => this.setState({ activeChat: x })}
-                  activeChat={this.state.activeChat}
-                  currentUser={this.state.currentUser}
-                  value={this.state.newMessage}
-                  newMessage={e => this.newMessage(e)}
-                  saveMessage={() => this.saveMessage()}
-                  searchToggle={this.state.searchToggle}
-                  openSearch={() => this.setSearchOpen()}
-                  addMessage={(x, y) => this.addMessage(x, y)}
-                  setSilenceCard={(x, y, z) => setSilenceCard(x, y, z)}
-                  setFavouriteCard={(x, y, z) => setFavouriteCard(x, y, z)}
-                />
-              );
-            }}
           />
           <Redirect to="/messages" />
         </Switch>
