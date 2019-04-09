@@ -11,6 +11,7 @@ import Messages from "./components/Messages";
 import Profile from "./components/Profile";
 import SendNew from "./components/SendNew";
 import Chat from "./components/Chat";
+import Workspace from "./components/Workspace";
 import "./App.css";
 //utility functions
 import { showSpinner } from "./utils";
@@ -119,7 +120,7 @@ class App extends Component {
 
     return (
       <div className="optimusPrime">
-        {/* <div className="workspace">workspace</div> */}
+        <Workspace context="onlytablet" name={this.state.name} />
         <Switch>
           <Route
             path="/messages"

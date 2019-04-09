@@ -25,3 +25,9 @@
   height: 37px;
   font-size: 22px;
 }
+
+@media (min-width: 768px) and (orientation: landscape) {
+  .Avatar-xsmall {
+    display: none;
+  }
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import TabBar from "./TabBar";
+import Workspace from "./Workspace";
 import CardList from "./CardList";
 import { calcCardList } from "../utils";
 import PropTypes from "prop-types";
@@ -12,7 +13,11 @@ const Messages = props => {
     props.collocutors
   );
   return (
-    <div className="Messages-container">
+    <div
+      className={`Messages-container ${
+        props.activeChat ? "tabletMessage" : ""
+      }`}
+    >
       <Header
         url={props.match.url}
         name={props.name}
@@ -22,6 +27,7 @@ const Messages = props => {
         querystr={props.querystr}
       >
         <TabBar
+          context="onlymobile"
           activeTab={props.activeTab}
           selectTab={props.selectTab}
           searchToggle={props.searchToggle}

@@ -47,3 +47,22 @@
     width: 300px;
   }
 }
+@media (min-width: 768px) and (orientation: landscape) {
+  .Header {
+    padding: 0px;
+    position: fixed;
+    width: calc(100% - 110px);
+    z-index: 5;
+    left: 0;
+    margin-left: 110px;
+    display: flex;
+    justify-content: center;
+    height: 60px;
+  }
+  .tabletMessage .Header {
+    width: calc(50% - 110px);
+  }
+  .Header-logo img {
+    left: 0;
+  }
+}

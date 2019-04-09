@@ -1,5 +1,5 @@
 .Chat-container {
-  width: auto;
+  width: 100%;
   height: auto;
   min-height: 600px;
   background-image: url("../assets/bg-orange.svg");
@@ -12,13 +12,12 @@
 }
 
 .Chat {
-  position: relative;
-  height: 100%;
   margin-top: 60px;
+  position: relative;
   padding: 15px 12.5px 60px;
   display: flex;
   justify-content: flex-start;
-  flex-direction: column;
+  flex-direction: column-reverse;
 }
 
 .Chat-message {
@@ -73,7 +72,7 @@
   padding: 8px;
   position: fixed;
   bottom: 0;
-  z-index: 10;
+  z-index: 5;
 }
 #input-keyboard {
   width: 93%;
@@ -103,17 +102,15 @@
   bottom: 5px;
 }
 
-/* @media (min-width: 768px) and (orientation:landscape) {   
-    .supercontainer {
-        margin-left: 0;
-        margin-right: 0;
-        flex: 1;
-        /* overflow: hidden; */
-/* }
-
-    .Chat-container {
-        display: block;
-        flex: 1;
-        position: relative;
-    }
-} */
+@media (min-width: 768px) and (orientation: landscape) {
+  .Chat-container {
+    width: 50%;
+    height: 100vh;
+    padding: 0px;
+    margin: 0px;
+    flex: 2;
+  }
+  .input-keyboard {
+    width: 50%;
+  }
+}

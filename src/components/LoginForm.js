@@ -40,12 +40,12 @@ class LoginForm extends Component {
           <div className="Login-header">
             <img
               alt="BlackBird Logo"
-              class="Logo-ipad Login-mobile-logo"
+              className="Logo-ipad Login-mobile-logo"
               src={logoW}
             />
             <img
               alt="BlackBird Logo"
-              class="Logo-mobile Login-mobile-logo"
+              className="Logo-mobile Login-mobile-logo"
               src={logo}
             />
           </div>
