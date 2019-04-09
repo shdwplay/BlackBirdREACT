@@ -11,6 +11,8 @@ const Messages = props => {
       </Header>
       )}
       <ContactList
+        addCollocutor={props.addCollocutor}
+        currentUser={props.currentUser}
         contactList={props.contactList}
         //activeChat={props.activeChat}
         selectChat={props.selectChat}

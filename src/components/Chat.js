@@ -7,6 +7,7 @@ import MessageDate from "./MessageDate";
 
 import { addMessage } from "../api";
 import { listenMessages } from "../api";
+import { addCollocutorToDb } from "../api";
 import { filterMessages } from "../utils";
 import PropTypes from "prop-types";
 export default class Chat extends React.Component {
@@ -19,7 +20,11 @@ export default class Chat extends React.Component {
   };
 
   componentDidMount() {
+    //addCollocutor(this.props.currentUser, this.props.match.params.id)
+    console.log(this.props.data)
+
     this.props.setActive(this.props.collocutor.id);
+
     listenMessages(this.props.collocutor.id, this.props.currentUser, x =>
       this.setState({ messages: x, loading: false })
     );
@@ -82,16 +87,13 @@ export default class Chat extends React.Component {
             <img
               id="send-icon"
               onClick={() => {
-                console.log(this.props.match.params.id);
-                console.log(this.props.currentUser);
-                console.log(this.props.collocutor.id);
-                //this.props.setActive(this.props.match.params.id)
                 this.setState({ newMessage: "" });
                 addMessage(
                   this.props.collocutor.id,
                   this.props.currentUser,
                   this.state.newMessage
                 );
+                this.state.messages.length <1 || addCollocutorToDb(this.currentUser, this.props.collocutor.id)
               }}
               src={send}
               alt="send message"
@@ -114,3 +116,5 @@ Chat.propTypes = {
   newMessage: PropTypes.func,
   value: PropTypes.string
 };
+
+

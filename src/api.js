@@ -90,3 +90,43 @@ export const listenMessages = (collocutorId, currentUserId, cb) => {
       cb(messages);
     });
 };
+
+export const getContacts = (userName, cb) => {
+  db.collection("users")
+    .get()
+    .then(function(querySnapshot) {
+      var contacts = []
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            //console.log(doc.id, " => ", doc.data());
+            if (doc.id !== userName) {
+              console.log(doc.id)
+              console.log(userName)
+              contacts.push({
+                ...doc.data(),
+                id: doc.id
+              })
+            }
+            
+        });
+        cb(contacts)
+        console.log(contacts)
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+}
+
+export const addCollocutorToDb = (currentUserId, collocutorId) => {
+  db.collection("users")
+    .doc(currentUserId)
+    .collection("collocutors")
+    .doc(collocutorId)
+    .set({
+      id: collocutorId,
+      favourite: false,
+      silenced: false,
+      listed: true,
+
+    })
+}

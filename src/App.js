@@ -10,12 +10,13 @@ import LoginPswInstructions from "./components/LoginPswInstructions";
 import Messages from "./components/Messages";
 import Profile from "./components/Profile";
 import SendNew from "./components/SendNew";
-import Chat from "./components/Chat";
+import Chat, {newCollocutor} from "./components/Chat";
 import "./App.css";
 //utility functions
 import { showSpinner } from "./utils";
 
 import { getUserDetails } from "./api";
+import { addCollocutorToDb } from "./api";
 import { listenCollocutorsList } from "./api";
 import { setAuthObserver } from "./api";
 class App extends Component {
@@ -62,6 +63,10 @@ class App extends Component {
         this.setState({ isAuthenticated: false, loading: false });
       }
     );
+  }
+
+  addCollocutor(collocutor) {
+    this.setState({ collocutors: [...this.state.collocutors, collocutor] });
   }
 
   toggleFavourites() {
@@ -164,10 +169,11 @@ class App extends Component {
             path="/sendnew"
             render={() => (
               <SendNew
+                addCollocutor={(x) => this.addCollocutor(x)}
+                currentUser={this.state.currentUser}
                 name={this.state.name}
                 activeTab={this.state.activeTab}
                 selectTab={index => this.selectTab(index)}
-                contactList={this.state.contacts}
                 activeChat={this.state.activeChat}
                 selectChat={x => this.selectChat(x)}
                 searchString={this.state.searchSting}
@@ -188,17 +194,20 @@ class App extends Component {
           <Route
             path="/messages/:id"
             render={props => {
-              const collocutor = this.state.collocutors.find(element => {
-                if (element.id === props.match.params.id) {
-                  return element.id;
-                }
-                return null;
-              });
+              const collocutor = this.state.collocutors.find(element => 
+                element.id === props.match.params.id
+              );
+              if(!collocutor) {
+                return (
+                  <Redirect to="/messages" />
+                )
+              }
               return (
                 <Chat
                   {...props}
-                  collocutor={collocutor}
+                  collocutor={collocutor/*  || newCollocutor(props.match.params.id, props.location.state.name, props.location.state.status) */}
                   selectChat={x => this.selectChat(x)}
+                  
                   setActive={x => this.setState({ activeChat: x })}
                   activeChat={this.state.activeChat}
                   currentUser={this.state.currentUser}

@@ -1,9 +1,10 @@
 import React from "react";
 import "./TabBar.css";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import favouritesIcon from "../assets/favourites.svg";
 import messagesIcon from "../assets/messages.svg";
 import sendNewIcon from "../assets/new_chat.svg";
+import {getContacts} from "../api"
 
 import PropTypes from "prop-types";
 //props active tab, selectTab
@@ -52,7 +53,7 @@ const TabBar = props => {
             src={sendNewIcon}
           />
         ) : (
-          <span>Send New</span>
+          <Link to='/sendnew'>Send New</Link>
         )}
       </div>
     </div>

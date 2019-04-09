@@ -90,3 +90,14 @@ export const filterMessages = (messages, str) => {
   let filtered = messages.filter(el => el.text.includes(str));
   return filtered;
 };
+
+export function newCollocutor(id, name, status){
+  return {
+    id: id,
+    name: name,
+    status: status,
+    favourite: false,
+    silenced: false,
+    listed: true
+  }
+}
