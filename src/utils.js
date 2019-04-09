@@ -111,3 +111,11 @@ export const randomColor = str => {
   return colours[hash];
 };
 console.log(randomColor("edoardo"));
+
+export const findCollocutor = (collocutors, id) => {
+  console.log("finding");
+  console.log(collocutors);
+  let colloc = collocutors.find(el => el.id === id);
+  console.log(colloc);
+  return colloc;
+};

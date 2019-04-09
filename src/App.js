@@ -1,10 +1,8 @@
 //react and firebase
 import React, { Component } from "react";
-import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
-import firebase from "./firebase";
+import { Route, Switch, Redirect } from "react-router-dom";
 //components
 import Login from "./components/Login";
-import LoginForm from "./components/LoginForm";
 import LoginForgotPsw from "./components/LoginForgotPsw";
 import LoginPswInstructions from "./components/LoginPswInstructions";
 import Messages from "./components/Messages";
@@ -23,6 +21,7 @@ import { setFavouriteCard } from "./api";
 import { setSilenceCard } from "./api";
 import { setUnlistedCard } from "./api";
 import { toggleAFK } from "./api";
+import { findCollocutor } from "./utils";
 
 class App extends Component {
   state = {
@@ -58,9 +57,11 @@ class App extends Component {
           this.setState({
             collocutors: collocutors,
             favourites: favourites,
-            isAuthenticated: true,
-            loading: false
+            isAuthenticated: true
           });
+          setTimeout(() => {
+            this.setState({ loading: false });
+          }, 0);
         });
       },
       () => {
@@ -99,6 +100,9 @@ class App extends Component {
     this.setState({
       activeChat: clickedCard
     });
+  }
+  findCollocutor(something) {
+    console.log(something);
   }
 
   render() {
@@ -158,16 +162,13 @@ class App extends Component {
                 <Route
                   path="/messages/:id"
                   render={props => {
-                    const collocutor = this.state.collocutors.find(element => {
-                      if (element.id === props.match.params.id) {
-                        return element.id;
-                      }
-                      return null;
-                    });
                     return (
                       <Chat
                         {...props}
-                        collocutor={collocutor}
+                        collocutor={findCollocutor(
+                          this.state.collocutors,
+                          props.match.params.id
+                        )}
                         selectChat={x => this.selectChat(x)}
                         setActive={x => this.setState({ activeChat: x })}
                         activeChat={this.state.activeChat}
@@ -219,16 +220,10 @@ class App extends Component {
           <Route
             path="/messages/:id"
             render={props => {
-              const collocutor = this.state.collocutors.find(element => {
-                if (element.id === props.match.params.id) {
-                  return element.id;
-                }
-                return null;
-              });
               return (
                 <Chat
                   {...props}
-                  collocutor={collocutor}
+                  //collocutor={collocutor}
                   selectChat={x => this.selectChat(x)}
                   setActive={x => this.setState({ activeChat: x })}
                   activeChat={this.state.activeChat}
