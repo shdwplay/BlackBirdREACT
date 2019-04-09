@@ -8,13 +8,14 @@ import LoginPswInstructions from "./components/LoginPswInstructions";
 import Messages from "./components/Messages";
 import Profile from "./components/Profile";
 import SendNew from "./components/SendNew";
-import Chat from "./components/Chat";
 import Workspace from "./components/Workspace";
+import Chat, { newCollocutor } from "./components/Chat";
 import "./App.css";
 //utility functions
 import { showSpinner } from "./utils";
 
 import { getUserDetails } from "./api";
+import { addCollocutorToDb } from "./api";
 import { listenCollocutorsList } from "./api";
 import { setAuthObserver } from "./api";
 import { setFavouriteCard } from "./api";
@@ -71,6 +72,10 @@ class App extends Component {
     );
   }
 
+  addCollocutor(collocutor) {
+    this.setState({ collocutors: [...this.state.collocutors, collocutor] });
+  }
+
   toggleFavourites() {
     this.setState({
       favouritesActive: !this.state.favouritesActive,
@@ -92,17 +97,25 @@ class App extends Component {
 
   selectTab(tab) {
     this.setState({
-      activeTab: tab
+      activeTab: tab //use switch
     });
+    if (tab === "favourites") {
+      this.setState({ activeTab: "favourites", favouritesActive: true });
+    }
+    if (tab === "messages") {
+      this.setState({ activeTab: "messages", favouritesActive: false });
+    }
+    if (tab === "sendNew") {
+      this.setState({
+        activeTab: "sendNew"
+      });
+    }
   }
 
   selectChat(clickedCard) {
     this.setState({
       activeChat: clickedCard
     });
-  }
-  findCollocutor(something) {
-    console.log(something);
   }
 
   render() {
@@ -124,7 +137,12 @@ class App extends Component {
 
     return (
       <div className="optimusPrime">
-        <Workspace context="onlytablet" name={this.state.name} />
+        <Workspace
+          context="onlytablet"
+          name={this.state.name}
+          activeTab={this.state.activeTab}
+          selectTab={x => this.selectTab(x)}
+        />
         <Switch>
           <Route
             path="/messages"
@@ -139,13 +157,13 @@ class App extends Component {
                       currentUserId={this.state.currentUser}
                       name={this.state.name}
                       activeTab={this.state.activeTab}
-                      selectTab={index => this.selectTab(index)}
                       collocutors={this.state.collocutors}
                       favouritesActive={this.state.favouritesActive}
                       toggleFavourites={() => this.toggleFavourites()}
                       selectChat={x => this.selectChat(x)}
                       activeChat={this.state.activeChat}
                       highlightedCard={this.state.highlightedCard}
+                      selectTab={x => this.selectTab(x)}
                       setHighlightedCard={x =>
                         this.setState({ highlightedCard: x })
                       }
@@ -162,13 +180,23 @@ class App extends Component {
                 <Route
                   path="/messages/:id"
                   render={props => {
+                    //mettiamo in
+                    function collocutorMatches(element) {
+                      console.log(props.match.params.id);
+                      return element.id === props.match.params.id;
+                    }
+                    var collocutor = this.state.collocutors.find(
+                      collocutorMatches
+                    );
+                    console.log(this.state.collocutors.find(collocutorMatches));
+                    if (!collocutor) {
+                      return <Redirect to="/messages" />;
+                    }
                     return (
                       <Chat
                         {...props}
-                        collocutor={findCollocutor(
-                          this.state.collocutors,
-                          props.match.params.id
-                        )}
+                        collocutor={collocutor}
+                        userName={this.state.name}
                         selectChat={x => this.selectChat(x)}
                         setActive={x => this.setState({ activeChat: x })}
                         activeChat={this.state.activeChat}
@@ -197,13 +225,15 @@ class App extends Component {
             path="/sendnew"
             render={() => (
               <SendNew
+                addCollocutor={x => this.addCollocutor(x)}
+                currentUser={this.state.currentUser}
                 name={this.state.name}
                 activeTab={this.state.activeTab}
-                selectTab={index => this.selectTab(index)}
-                contactList={this.state.contacts}
+                selectTab={x => this.selectTab(x)}
                 activeChat={this.state.activeChat}
                 selectChat={x => this.selectChat(x)}
                 searchString={this.state.searchSting}
+                setSendNewTab={x => this.setState({ activeTab: x })}
               />
             )}
           />
@@ -218,29 +248,6 @@ class App extends Component {
                 toggleAFK={x => toggleAFK(x)}
               />
             )}
-          />
-          <Route
-            path="/messages/:id"
-            render={props => {
-              return (
-                <Chat
-                  {...props}
-                  //collocutor={collocutor}
-                  selectChat={x => this.selectChat(x)}
-                  setActive={x => this.setState({ activeChat: x })}
-                  activeChat={this.state.activeChat}
-                  currentUser={this.state.currentUser}
-                  value={this.state.newMessage}
-                  newMessage={e => this.newMessage(e)}
-                  saveMessage={() => this.saveMessage()}
-                  searchToggle={this.state.searchToggle}
-                  openSearch={() => this.setSearchOpen()}
-                  addMessage={(x, y) => this.addMessage(x, y)}
-                  setSilenceCard={(x, y, z) => setSilenceCard(x, y, z)}
-                  setFavouriteCard={(x, y, z) => setFavouriteCard(x, y, z)}
-                />
-              );
-            }}
           />
           <Redirect to="/messages" />
         </Switch>

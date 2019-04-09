@@ -17,3 +17,9 @@
   color: white;
   margin: 20px 25px 10px;
 }
+.iconattiva span {
+  display: none;
+}
+.iconattiva img {
+  margin-left: -5px;
+}

@@ -10,7 +10,6 @@ import sendNewIconW from "../assets/sendnew_w.svg";
 import favouritesIconO from "../assets/favourites_o.svg";
 import messagesIconO from "../assets/messages_o.svg";
 import sendNewIconO from "../assets/newchat_o.svg";
-import { getContacts } from "../api";
 
 import PropTypes from "prop-types";
 //props active tab, selectTab
@@ -21,72 +20,81 @@ const TabBar = props => {
         props.searchToggle ? "TabBar-hidden" : ""
       }`}
     >
-      <div
-        className={`Tab-element ${
-          props.activeTab === "favourites" ? "iconattiva" : ""
-        }`}
-        onClick={() => {
-          props.selectTab("favourites");
-          props.toggleFavourites();
-        }}
-      >
-        {/* {props.activeTab === "favourites" ? ( */}
-        <img
-          className="TabBar-Icon"
-          alt="go to favourites"
-          src={
-            props.context === "onlytablet"
-              ? favouritesIconW
-              : props.activeTab === "favourites"
-              ? favouritesIcon
-              : favouritesIconO
-          }
-        />
-        <span>Favourites</span>
-      </div>
-      <div
-        className={`Tab-element ${
-          props.activeTab === "messages" ? "iconattiva" : ""
-        }`}
-        onClick={() => {
-          props.selectTab("messages");
-          props.toggleFavourites();
-        }}
-      >
-        <img
-          className="TabBar-Icon"
-          alt="go to favourites"
-          src={
-            props.context === "onlytablet"
-              ? messagesIconW
-              : props.activeTab === "messages"
-              ? messagesIconO
-              : messagesIcon
-          }
-        />
+      <Link to="/messages/">
+        <div
+          className={`Tab-element ${
+            props.activeTab === "favourites" ? "iconattiva" : ""
+          }`}
+          onClick={() => {
+            props.selectTab("favourites");
+          }}
+        >
+          {/* {props.activeTab === "favourites" ? ( */}
+          <img
+            className="TabBar-Icon"
+            alt="go to favourites"
+            src={
+              props.context === "onlytablet"
+                ? props.activeTab === "favourites"
+                  ? favouritesIconO
+                  : favouritesIconW
+                : props.activeTab === "favourites"
+                ? favouritesIcon
+                : favouritesIconO
+            }
+          />
+          <span>Favourites</span>
+        </div>
+      </Link>
+      <Link to="/messages/">
+        <div
+          className={`Tab-element ${
+            props.activeTab === "messages" ? "iconattiva" : ""
+          }`}
+          onClick={() => {
+            props.selectTab("messages");
+          }}
+        >
+          <img
+            className="TabBar-Icon"
+            alt="go to favourites"
+            src={
+              props.context === "onlytablet"
+                ? props.activeTab === "messages"
+                  ? messagesIconO
+                  : messagesIconW
+                : props.activeTab === "messages"
+                ? messagesIcon
+                : messagesIconO
+            }
+          />
 
-        <span>Messages</span>
-      </div>
-      <div
-        className={`Tab-element ${
-          props.activeTab === "send-new" ? "iconattiva" : ""
-        }`}
-        onClick={() => props.selectTab("sendNew")}
-      >
-        <img
-          className="TabBar-Icon"
-          alt="go to favourites"
-          src={
-            props.context === "onlytablet"
-              ? sendNewIconW
-              : props.activeTab === "send-new"
-              ? sendNewIcon
-              : sendNewIconO
-          }
-        />
-
-        <Link to="/sendnew">Send New</Link>
-      </div>
+          <span>Messages</span>
+        </div>
+      </Link>
+      <Link to="/sendnew">
+        <div
+          className={`Tab-element ${
+            props.activeTab === "sendNew" ? "iconattiva" : ""
+          }`}
+          onClick={() => props.selectTab("sendNew")}
+        >
+          <img
+            className="TabBar-Icon"
+            alt="go to favourites"
+            src={
+              props.context === "onlytablet"
+                ? props.activeTab === "sendNew"
+                  ? sendNewIconO
+                  : sendNewIconW
+                : props.activeTab === "sendNew"
+                ? sendNewIcon
+                : sendNewIconO
+            }
+          />
+          <span>Send New</span>
+        </div>
+      </Link>
     </div>
   );
 };

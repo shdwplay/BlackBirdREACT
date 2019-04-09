@@ -88,6 +88,16 @@ export const filterMessages = (messages, str) => {
   return filtered;
 };
 
+export function newCollocutor(id, name, status) {
+  return {
+    id: id,
+    name: name,
+    status: status,
+    favourite: false,
+    silenced: false,
+    listed: true
+  };
+}
 export const randomColor = str => {
   var colours = [
     "#01ABCE",
@@ -113,9 +123,6 @@ export const randomColor = str => {
 console.log(randomColor("edoardo"));
 
 export const findCollocutor = (collocutors, id) => {
-  console.log("finding");
-  console.log(collocutors);
   let colloc = collocutors.find(el => el.id === id);
-  console.log(colloc);
   return colloc;
 };

@@ -79,7 +79,7 @@ export default Card;
 
 Card.propTypes = {
   data: PropTypes.shape({
-    collocutor: PropTypes.string.isRequired,
+    collocutor: PropTypes.string,
     image: PropTypes.any,
     lastMsg: PropTypes.shape({
       sender: PropTypes.string,

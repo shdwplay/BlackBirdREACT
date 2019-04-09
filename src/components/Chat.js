@@ -7,6 +7,7 @@ import MessageDate from "./MessageDate";
 
 import { addMessage } from "../api";
 import { listenMessages } from "../api";
+import { addCollocutorToDb } from "../api";
 import { filterMessages } from "../utils";
 import { setReadMessages } from "../api";
 import PropTypes from "prop-types";
@@ -24,7 +25,6 @@ export default class Chat extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.props.setActive(this.props.collocutor.id);
     this.unsub = this.getMessagesUpdates();
   }
@@ -38,8 +38,8 @@ export default class Chat extends React.Component {
         .filter(el => !el.read)
         .map(el => el.id);
       setReadMessages(
-        this.props.collocutor.id,
         this.props.currentUser,
+        this.props.collocutor.id,
         unreadMessages
       );
     }
@@ -47,8 +47,8 @@ export default class Chat extends React.Component {
 
   getMessagesUpdates() {
     return listenMessages(
-      this.props.collocutor.id,
       this.props.currentUser,
+      this.props.collocutor.id,
       newMessages => this.setState({ messages: newMessages, loading: false })
     );
   }
@@ -69,8 +69,8 @@ export default class Chat extends React.Component {
             }
             setChatQuerystr={str => this.setState({ chatQuerystr: str })}
             currentUserId={this.props.currentUser}
-            collocutorId={this.props.collocutor.id}
             name={this.props.collocutor.name}
+            collocutorId={this.props.collocutor.id}
             status={this.props.collocutor.status}
             silenced={this.props.collocutor.silenced}
             favourite={this.props.collocutor.favourite}
@@ -110,16 +110,28 @@ export default class Chat extends React.Component {
             <img
               id="send-icon"
               onClick={() => {
-                // console.log(this.props.match.params.id);
-                // console.log(this.props.currentUser);
-                // console.log(this.props.collocutor.id);
-                //this.props.setActive(this.props.match.params.id)
                 this.setState({ newMessage: "" });
                 addMessage(
                   this.props.collocutor.id,
                   this.props.currentUser,
                   this.state.newMessage
                 );
+                if (this.state.messages.length < 1) {
+                  addCollocutorToDb(
+                    this.props.currentUser,
+                    this.props.collocutor.id,
+                    this.props.collocutor.name,
+                    this.state.newMessage,
+                    this.props.currentUser
+                  );
+                  addCollocutorToDb(
+                    this.props.collocutor.id,
+                    this.props.currentUser,
+                    this.props.userName,
+                    this.state.newMessage,
+                    this.props.currentUser
+                  );
+                }
               }}
               src={send}
               alt="send message"

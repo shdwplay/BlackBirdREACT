@@ -60,7 +60,7 @@ Messages.propTypes = {
   searchToggle: PropTypes.bool,
   setQueryString: PropTypes.func,
   querystr: PropTypes.string,
-  highlightedCard: PropTypes.number,
+  highlightedCard: PropTypes.string,
   setHighlightedCard: PropTypes.func,
   highlightedCardOptions: PropTypes.func,
   cardList: PropTypes.array

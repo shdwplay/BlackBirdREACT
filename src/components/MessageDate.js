@@ -48,5 +48,5 @@ export default MessageDate;
 
 MessageDate.propTypes = {
   context: PropTypes.oneOf(["MessageDate", "SingleChat"]),
-  date: PropTypes.string.isRequired
+  date: PropTypes.number.isRequired
 };

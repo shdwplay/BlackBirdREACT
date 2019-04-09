@@ -13,7 +13,7 @@
   color: var(--dark-grey);
 }
 
-.Tab-element {
+.TabBar.onlymobile > a {
   width: Calc(100% / 3);
   display: flex;
   justify-content: center;

@@ -42,6 +42,6 @@ export default CardList;
 
 CardList.propTypes = {
   cardList: PropTypes.array,
-  activeChat: PropTypes.shape([PropTypes.string, PropTypes.string]),
+  activeChat: PropTypes.string,
   selectChat: PropTypes.func
 };
