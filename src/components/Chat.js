@@ -14,7 +14,6 @@ import PropTypes from "prop-types";
 export default class Chat extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       newMessage: "",
       messages: [],
@@ -25,24 +24,45 @@ export default class Chat extends React.Component {
   }
 
   componentDidMount() {
-    this.props.setActive(this.props.collocutor.id);
-    this.unsub = this.getMessagesUpdates();
+    this.getMessagesUpdates();
+
+    // this.props.setActive(this.props.collocutor.id);
+    // this.unsub = this.getMessagesUpdates();
+    // let unreadMessages = this.state.messages
+    //   .filter(el => !el.read)
+    //   .map(el => el.id);
+    // console.log(unreadMessages);
+    // setReadMessages(
+    //   this.props.currentUser,
+    //   this.props.collocutor.id,
+    //   unreadMessages
+    // );
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.collocutor.id !== this.props.collocutor.id) {
-      this.unsub();
-      this.props.setActive(this.props.collocutor.id);
-      this.unsub = this.getMessagesUpdates();
-      let unreadMessages = this.state.messages
-        .filter(el => !el.read)
-        .map(el => el.id);
-      setReadMessages(
-        this.props.currentUser,
-        this.props.collocutor.id,
-        unreadMessages
-      );
-    }
+    let unreadMessages = this.state.messages
+      .filter(el => !el.read)
+      .map(el => el.id);
+    console.log(unreadMessages);
+    setReadMessages(
+      this.props.currentUser,
+      this.props.collocutor.id,
+      unreadMessages
+    );
+    // if (prevProps.collocutor.id !== this.props.collocutor.id) {
+    //   console.log("updating");
+    //   this.unsub();
+    //   this.props.setActive(this.props.collocutor.id);
+    //   this.unsub = this.getMessagesUpdates();
+    //   let unreadMessages = this.state.messages
+    //     .filter(el => !el.read)
+    //     .map(el => el.id);
+    //   setReadMessages(
+    //     this.props.currentUser,
+    //     this.props.collocutor.id,
+    //     unreadMessages
+    //   );
+    // }
   }
 
   getMessagesUpdates() {

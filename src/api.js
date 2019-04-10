@@ -8,7 +8,7 @@ export function login(email, pw, cb) {
     .auth()
     .signInWithEmailAndPassword(email, pw)
     .catch(err => {
-      console.log(err);
+      //console.log(err);
       cb();
     });
 }
@@ -16,10 +16,10 @@ export function login(email, pw, cb) {
 export function setAuthObserver(cb1, cb2) {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      console.log("loggged", user);
+      //console.log("loggged", user);
       cb1(user);
     } else {
-      console.log("not logged:", user);
+      //console.log("not logged:", user);
       cb2();
     }
   });
@@ -50,8 +50,8 @@ export const listenCollocutorsList = (userName, callback) => {
           .where("read", "==", false)
           .get()
           .then(x => {
-            console.log("triggered");
-            console.log(el.data());
+            // console.log("triggered");
+            // console.log(el.data());
             collocutors.push({
               ...el.data(),
               numUnread: x.docs.length,
@@ -96,7 +96,7 @@ export const addMessage = (collocutorId, currentUserId, text) => {
   collocutorsRef.update({ lastMsg: message });
 };
 
-export const listenMessages = (collocutorId, currentUserId, cb) => {
+export const listenMessages = (currentUserId, collocutorId, cb) => {
   return db
     .collection("users")
     .doc(currentUserId)
@@ -108,7 +108,7 @@ export const listenMessages = (collocutorId, currentUserId, cb) => {
     .onSnapshot(snapshot => {
       var messages = [];
       snapshot.forEach(el => {
-        //console.log(el.data());
+        console.log(el.data());
         messages.push({ ...el.data(), id: el.id });
       });
       cb(messages);
@@ -133,7 +133,7 @@ export const getContacts = (userName, cb) => {
       cb(contacts);
     })
     .catch(function(error) {
-      console.log("Error getting documents: ", error);
+      //console.log("Error getting documents: ", error);
     });
 };
 
@@ -162,10 +162,10 @@ export const addCollocutorToDb = (
       }
     })
     .then(function() {
-      console.log("Document successfully written!");
+      //console.log("Document successfully written!");
     })
     .catch(function(error) {
-      console.error("Error writing document: ", error);
+      //console.error("Error writing document: ", error);
     });
 };
 export const setFavouriteCard = (currentUserId, cardId, value) => {
@@ -222,4 +222,10 @@ export const setReadMessages = (currentUserId, collocutorId, newMessageIds) => {
       .doc(el)
       .update({ read: true });
   });
+
+  db.collection("users")
+    .doc(currentUserId)
+    .collection("collocutors")
+    .doc(collocutorId)
+    .update({ "lastMsg.read": true });
 };

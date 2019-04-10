@@ -95,7 +95,6 @@ class App extends Component {
   }
 
   selectTab(tab) {
-    console.log(tab);
     //use switch
     if (tab === "favourites") {
       this.setState({ activeTab: "favourites", favouritesActive: true });
@@ -175,13 +174,13 @@ class App extends Component {
                   render={props => {
                     //mettiamo in
                     function collocutorMatches(element) {
-                      console.log(props.match.params.id);
+                      //console.log(props.match.params.id);
                       return element.id === props.match.params.id;
                     }
                     var collocutor = this.state.collocutors.find(
                       collocutorMatches
                     );
-                    console.log(this.state.collocutors.find(collocutorMatches));
+                    //console.log(this.state.collocutors.find(collocutorMatches));
                     if (!collocutor) {
                       return <Redirect to="/messages" />;
                     }
