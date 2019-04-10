@@ -42,7 +42,7 @@ export default class Chat extends React.Component {
         this.props.collocutor.id,
         unreadMessages
       );
-    }  
+    }
   }
 
   getMessagesUpdates() {
@@ -110,12 +110,13 @@ export default class Chat extends React.Component {
             <img
               id="send-icon"
               onClick={() => {
+                this.state.newMessage !== "" &&
+                  addMessage(
+                    this.props.collocutor.id,
+                    this.props.currentUser,
+                    this.state.newMessage
+                  );
                 this.setState({ newMessage: "" });
-                addMessage(
-                  this.props.collocutor.id,
-                  this.props.currentUser,
-                  this.state.newMessage
-                );
                 if (this.state.messages.length < 1) {
                   addCollocutorToDb(
                     this.props.currentUser,
