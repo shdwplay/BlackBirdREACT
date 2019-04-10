@@ -9,13 +9,13 @@ import Messages from "./components/Messages";
 import Profile from "./components/Profile";
 import SendNew from "./components/SendNew";
 import Workspace from "./components/Workspace";
-import Chat, { newCollocutor } from "./components/Chat";
+import Chat, { newCollocutor } from "./components/Chat"; //?
 import "./App.css";
 //utility functions
 import { showSpinner } from "./utils";
 
 import { getUserDetails } from "./api";
-import { addCollocutorToDb } from "./api";
+import { addCollocutorToDb } from "./api"; //?
 import { listenCollocutorsList } from "./api";
 import { setAuthObserver } from "./api";
 import { setFavouriteCard } from "./api";
@@ -23,7 +23,6 @@ import { setSilenceCard } from "./api";
 import { setUnlistedCard } from "./api";
 import { toggleAFK } from "./api";
 import { collocutorMatches } from "./utils";
-
 
 class App extends Component {
   state = {
@@ -181,7 +180,10 @@ class App extends Component {
                 <Route
                   path="/messages/:id"
                   render={props => {
-                    var collocutor = collocutorMatches(this.state.collocutors, props.match.params.id)
+                    var collocutor = collocutorMatches(
+                      this.state.collocutors,
+                      props.match.params.id
+                    );
                     if (!collocutor) {
                       return <Redirect to="/messages" />;
                     }
@@ -196,7 +198,9 @@ class App extends Component {
                         currentUser={this.state.currentUser}
                         setSilenceCard={(x, y, z) => setSilenceCard(x, y, z)}
                         setUnlistedCard={(x, y, z) => setUnlistedCard(x, y, z)}
-                        setFavouriteCard={(x, y, z) => setFavouriteCard(x, y, z)}
+                        setFavouriteCard={(x, y, z) =>
+                          setFavouriteCard(x, y, z)
+                        }
                       />
                     );
                   }}
@@ -211,16 +215,14 @@ class App extends Component {
                 addCollocutor={x => this.addCollocutor(x)}
                 currentUser={this.state.currentUser}
                 name={this.state.name}
-                activeTab={this.state.activeTab}//?
+                activeTab={this.state.activeTab} //?
                 selectTab={x => this.selectTab(x)}
                 activeChat={this.state.activeChat}
                 selectChat={x => this.selectChat(x)}
                 searchString={this.state.searchSting}
-                setSendNewTab={x => this.setState({ activeTab: x })}
               />
             )}
           />
-          {/* <Route path="/send-new" render={()=><SendNew} /> */}
           <Route
             path="/profile/"
             render={() => (

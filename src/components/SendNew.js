@@ -6,7 +6,7 @@ import ContactList from "./ContactList";
 class sendNew extends React.Component {
   constructor(props) {
     super(props);
-    this.props.setSendNewTab("sendNew");
+    this.props.selectTab("sendNew");
   }
   render() {
     return (
@@ -27,7 +27,6 @@ class sendNew extends React.Component {
           addCollocutor={this.props.addCollocutor}
           currentUser={this.props.currentUser}
           contactList={this.props.contactList}
-          //activeChat={this.props.activeChat}
           selectChat={this.props.selectChat}
         />
       </div>
