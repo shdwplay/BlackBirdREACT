@@ -5,57 +5,97 @@ import favouritesIcon from "../assets/favourites.svg";
 import messagesIcon from "../assets/messages.svg";
 import sendNewIcon from "../assets/new_chat.svg";
 import { getContacts } from "../api";
+import favouritesIconW from "../assets/favourites_w.svg";
+import messagesIconW from "../assets/messages_w.svg";
+import sendNewIconW from "../assets/sendnew_w.svg";
+import favouritesIconO from "../assets/favourites_o.svg";
+import messagesIconO from "../assets/messages_o.svg";
+import sendNewIconO from "../assets/newchat_o.svg";
 
 import PropTypes from "prop-types";
 //props active tab, selectTab
 const TabBar = props => {
   return (
-    <div className={`TabBar ${props.searchToggle ? "TabBar-hidden" : ""}`}>
-      <div
-        className="Tab-element"
-        onClick={() => {
-          props.selectTab("favourites");
-          //props.toggleFavourites();
-        }}
-      >
-        {props.activeTab === "favourites" ? (
+    <div
+      className={`TabBar ${props.context} ${
+        props.searchToggle ? "TabBar-hidden" : ""
+      }`}
+    >
+      <Link to="/messages/">
+        <div
+          className={`Tab-element ${
+            props.activeTab === "favourites" ? "iconattiva" : ""
+          }`}
+          onClick={() => {
+            props.selectTab("favourites");
+          }}
+        >
+          {/* {props.activeTab === "favourites" ? ( */}
           <img
             className="TabBar-Icon"
             alt="go to favourites"
-            src={favouritesIcon}
+            src={
+              props.context === "onlytablet"
+                ? props.activeTab === "favourites"
+                  ? favouritesIconO
+                  : favouritesIconW
+                : props.activeTab === "favourites"
+                ? favouritesIcon
+                : favouritesIconO
+            }
           />
-        ) : (
-          <Link to="/messages/">Favourites</Link>
-        )}
-      </div>
-      <div
-        className="Tab-element"
-        onClick={() => {
-          props.selectTab("messages");
-          //props.toggleFavourites();
-        }}
-      >
-        {props.activeTab === "messages" ? (
+          <span>Favourites</span>
+        </div>
+      </Link>
+      <Link to="/messages/">
+        <div
+          className={`Tab-element ${
+            props.activeTab === "messages" ? "iconattiva" : ""
+          }`}
+          onClick={() => {
+            props.selectTab("messages");
+          }}
+        >
           <img
             className="TabBar-Icon"
             alt="go to favourites"
-            src={messagesIcon}
+            src={
+              props.context === "onlytablet"
+                ? props.activeTab === "messages"
+                  ? messagesIconO
+                  : messagesIconW
+                : props.activeTab === "messages"
+                ? messagesIcon
+                : messagesIconO
+            }
           />
-        ) : (
-          <Link to="/messages/">Messages</Link>
-        )}
-      </div>
-      <div className="Tab-element" onClick={() => props.selectTab("sendNew")}>
-        {props.activeTab === "sendNew" ? (
+
+          <span>Messages</span>
+        </div>
+      </Link>
+      <Link to="/sendnew">
+        <div
+          className={`Tab-element ${
+            props.activeTab === "sendNew" ? "iconattiva" : ""
+          }`}
+          onClick={() => props.selectTab("sendNew")}
+        >
           <img
             className="TabBar-Icon"
             alt="go to favourites"
-            src={sendNewIcon}
+            src={
+              props.context === "onlytablet"
+                ? props.activeTab === "sendNew"
+                  ? sendNewIconO
+                  : sendNewIconW
+                : props.activeTab === "sendNew"
+                ? sendNewIcon
+                : sendNewIconO
+            }
           />
-        ) : (
-          <Link to="/sendnew">Send New</Link>
-        )}
-      </div>
+          <span>Send New</span>
+        </div>
+      </Link>
     </div>
   );
 };

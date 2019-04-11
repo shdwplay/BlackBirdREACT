@@ -24,52 +24,36 @@ export default class Chat extends React.Component {
   }
 
   componentDidMount() {
-    this.getMessagesUpdates();
-
-    // this.props.setActive(this.props.collocutor.id);
-    // this.unsub = this.getMessagesUpdates();
-    // let unreadMessages = this.state.messages
-    //   .filter(el => !el.read)
-    //   .map(el => el.id);
-    // console.log(unreadMessages);
-    // setReadMessages(
-    //   this.props.currentUser,
-    //   this.props.collocutor.id,
-    //   unreadMessages
-    // );
+    this.unsub = this.getMessagesUpdates();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let unreadMessages = this.state.messages
-      .filter(el => !el.read)
-      .map(el => el.id);
-    console.log(unreadMessages);
-    setReadMessages(
-      this.props.currentUser,
-      this.props.collocutor.id,
-      unreadMessages
-    );
-    // if (prevProps.collocutor.id !== this.props.collocutor.id) {
-    //   console.log("updating");
-    //   this.unsub();
-    //   this.props.setActive(this.props.collocutor.id);
-    //   this.unsub = this.getMessagesUpdates();
-    //   let unreadMessages = this.state.messages
-    //     .filter(el => !el.read)
-    //     .map(el => el.id);
-    //   setReadMessages(
-    //     this.props.currentUser,
-    //     this.props.collocutor.id,
-    //     unreadMessages
-    //   );
-    // }
+    if (prevProps.collocutor.id !== this.props.collocutor.id) {
+      this.unsub();
+      this.unsub = this.getMessagesUpdates();
+      this.props.setActive(this.props.collocutor.id);
+    }
   }
 
   getMessagesUpdates() {
     return listenMessages(
       this.props.currentUser,
       this.props.collocutor.id,
-      newMessages => this.setState({ messages: newMessages, loading: false })
+      newMessages => {
+        console.log(newMessages);
+        this.setState({
+          messages: newMessages,
+          loading: false
+        });
+        let unreadMessages = newMessages
+          .filter(el => !el.read)
+          .map(el => el.id);
+        setReadMessages(
+          this.props.currentUser,
+          this.props.collocutor.id,
+          unreadMessages
+        );
+      }
     );
   }
 
@@ -130,12 +114,13 @@ export default class Chat extends React.Component {
             <img
               id="send-icon"
               onClick={() => {
+                this.state.newMessage !== "" &&
+                  addMessage(
+                    this.props.collocutor.id,
+                    this.props.currentUser,
+                    this.state.newMessage
+                  );
                 this.setState({ newMessage: "" });
-                addMessage(
-                  this.props.collocutor.id,
-                  this.props.currentUser,
-                  this.state.newMessage
-                );
                 if (this.state.messages.length < 1) {
                   addCollocutorToDb(
                     this.props.currentUser,

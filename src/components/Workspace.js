@@ -1,27 +1,24 @@
 import React, { Component } from "react";
 import Avatar from "./Avatar";
+import TabBar from "./TabBar";
 //import TabBar from './Tabar';
 import "./Workspace.css";
+import { Link } from "react-router-dom";
 
 class Workspace extends Component {
-  state = {
-    elements: [
-      {
-        image: {},
-        name: "Antonio Pellegrini"
-      }
-    ]
-  };
   render() {
     return (
-      <div className="workspace">
-        <Avatar
-          name={this.state.elements.data.name}
-          imgurl={this.state.elements.data.image} //this.props.data.image
-          size="medium"
-          onClick={() => console.log("for use in profile")}
+      <div className={`workspace ${this.props.context}`}>
+        <Link to="/profile">
+          <Avatar name={this.props.name} size="medium" />
+        </Link>
+        <TabBar
+          context="onlytablet"
+          activeTab={this.props.activeTab}
+          selectTab={this.props.selectTab}
+          searchToggle={this.props.searchToggle}
+          toggleFavourites={this.props.toggleFavourites}
         />
-        {/* <TabBar /> */}
       </div>
     );
   }

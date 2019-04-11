@@ -108,7 +108,6 @@ export const listenMessages = (currentUserId, collocutorId, cb) => {
     .onSnapshot(snapshot => {
       var messages = [];
       snapshot.forEach(el => {
-        console.log(el.data());
         messages.push({ ...el.data(), id: el.id });
       });
       cb(messages);
@@ -213,6 +212,7 @@ export const listenProfile = (currentUserId, cb) => {
 };
 
 export const setReadMessages = (currentUserId, collocutorId, newMessageIds) => {
+  console.log("setting unread to read");
   newMessageIds.forEach(el => {
     db.collection("users")
       .doc(currentUserId)

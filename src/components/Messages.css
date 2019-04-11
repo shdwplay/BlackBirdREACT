@@ -1,7 +1,15 @@
-@media only screen and (min-width: 768px) {
-  .Header {
-    width: calc(50% - 50px);
-    padding: 0px;
-    margin: 0px;
+.Messages-container {
+  width: 100%;
+  padding: 0 12.5px;
+}
+@media (min-width: 768px) and (orientation: landscape) {
+  .Messages-container {
+    padding-right: 0;
+    padding-left: 0;
+    width: calc(100% - 110px);
+    margin-left: 110px;
+  }
+  .Messages-container.tabletMessage {
+    width: calc(50% - 110px);
   }
 }

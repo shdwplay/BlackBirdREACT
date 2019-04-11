@@ -70,10 +70,7 @@ export const showSpinner = () => {
 export const showDisplayName = (name, str) => {
   if (str !== "") {
     var reg = new RegExp(str, "gi");
-    return name.replace(
-      reg,
-      str => "<strong style='background:#fc0fc0'>" + str + "</strong>"
-    );
+    return name.replace(reg, str => "<strong>" + str + "</strong>");
   } else return name;
 };
 
@@ -125,7 +122,8 @@ export const randomColor = str => {
 };
 console.log(randomColor("edoardo"));
 
-export const findCollocutor = (collocutors, id) => {
-  let colloc = collocutors.find(el => el.id === id);
-  return colloc;
-};
+
+export const collocutorMatches = (collucotors, id) => {
+  return collucotors.find(el => el.id === id)
+}
+

@@ -1,8 +1,15 @@
 .CardList {
   padding-top: 100px;
   width: 100%;
-  transition: all .3s ease-out;
+  transition: all 0.3s ease-out;
 }
 .CardList-on-top {
   padding-top: 40px;
+}
+@media (min-width: 768px) and (orientation: landscape) {
+  .CardList {
+    margin-top: 75px;
+    padding: 0 12.5px;
+    overflow-y: scroll !important;
+  }
 }

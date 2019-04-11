@@ -1,11 +1,25 @@
 .workspace {
-    width: 50px;
-    height: auto;
-    background-color: var(--dark-grey);
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    left: 0;
-    transition: all 1s;
-    margin-right: 12.5px;
+  height: 100%;
+  background-color: var(--dark-grey);
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  left: 0;
+  transition: all 1s;
+  margin-right: 12.5px;
+  z-index: 5;
+  position: fixed;
+}
+.workspace .Avatar {
+  text-align: center;
+  visibility: visible;
+  flex: 0;
+  color: white;
+  margin: 20px 25px 10px;
+}
+.iconattiva span {
+  display: none;
+}
+.iconattiva img {
+  margin-left: -5px;
 }
