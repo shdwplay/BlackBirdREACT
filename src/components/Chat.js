@@ -34,7 +34,7 @@ export default class Chat extends React.Component {
       this.unsub = this.getMessagesUpdates();
       this.props.setActive(this.props.collocutor.id);
     }
-    this.chatDiv.current.scrollTop += 10000;
+    setTimeout(() => (this.chatDiv.current.scrollTop += 10000), 2000);
   }
 
   getMessagesUpdates() {
