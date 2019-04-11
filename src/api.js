@@ -1,4 +1,6 @@
 import firebase from "./firebase.js";
+//import async from "async";
+import each from "async/each";
 
 const db = firebase.firestore();
 
@@ -40,33 +42,30 @@ export const listenCollocutorsList = (userName, callback) => {
     .orderBy("lastMsg.date", "desc")
     .onSnapshot(snapshot => {
       let collocutors = [];
-      snapshot.docs.forEach(el => {
-        let collocutorid = el.id;
-        db.collection("users")
-          .doc(userName)
-          .collection("collocutors")
-          .doc(collocutorid)
-          .collection("messages")
-          .where("read", "==", false)
-          .get()
-          .then(x => {
-            // console.log("triggered");
-            // console.log(el.data());
-            collocutors.push({
-              ...el.data(),
-              numUnread: x.docs.length,
-              id: el.id
+      if (snapshot.docs.length === 0) callback(collocutors);
+
+      each(
+        snapshot.docs,
+        (el, next) => {
+          let collocutorid = el.id;
+          db.collection("users")
+            .doc(userName)
+            .collection("collocutors")
+            .doc(collocutorid)
+            .collection("messages")
+            .where("read", "==", false)
+            .get()
+            .then(x => {
+              collocutors.push({
+                ...el.data(),
+                numUnread: x.docs.length,
+                id: el.id
+              });
+              next();
             });
-          })
-          .then(() => {
-            callback(collocutors);
-            // callback(
-            //   collocutors.sort((a, b) => {
-            //     return a.date - b.date;
-            //   })
-            // );
-          });
-      });
+        },
+        () => callback(collocutors)
+      );
     });
 };
 
@@ -212,7 +211,6 @@ export const listenProfile = (currentUserId, cb) => {
 };
 
 export const setReadMessages = (currentUserId, collocutorId, newMessageIds) => {
-  console.log("setting unread to read");
   newMessageIds.forEach(el => {
     db.collection("users")
       .doc(currentUserId)
