@@ -40,10 +40,10 @@ const HeaderChat = props => {
           favourite={props.favourite}
           setFavouriteCard={props.setFavouriteCard}
           setSilenceCard={props.setSilenceCard}
+          setUnlistedCard={props.setUnlistedCard}
           openSearch={props.openSearch}
           collocutorId={props.collocutorId}
-          currentUserId={props.currentUserId}
-        />
+          currentUserId={props.currentUserId}        />
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
 .Search input {
   text-align: left;
-  width: 83%;
+  width: 75%;
   border: none;
   background: rgb(255, 255, 255);
   line-height: 30px;
   font-size: 15px;
-  left: 31px;
+  left: 64px;
+  top: -15px;
 }
 .Search {
   position: absolute;
@@ -19,9 +20,15 @@
 .Search-img {
   width: 20px;
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: -3px;
+  top: -10px;
+  display: none;
+  background-color: white;
 }
+.Search-input-open .Search-img {
+  display: block;
+}
+
 .Search-input-shown {
   top: 100%;
   opacity: 1;
@@ -45,10 +52,39 @@
   top: -10px;
 }
 
+@media (min-width: 768px) and (orientation: portrait) {
+
+}
+
 @media (min-width: 768px) and (orientation: landscape) {
   .Search-img {
+    width: 20px;
+    position: absolute;
+    right: -3px;
+    top: -10px;
+    background-color: red;
+  }
+}
+
+
+/* @media (min-width: 768px) and (orientation: landscape) {
+  .Search-img {
+    width: 20px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    display: none;
+  }
+  .Search input {
+    text-align: left;
+    width: 83%;
+    border: none;
+    background: rgb(255, 255, 255);
+    line-height: 30px;
+    font-size: 15px;
+    left: 31px;
   }
   .Search-input-open .Search-img {
     display: block;
   }
-}
+} */
