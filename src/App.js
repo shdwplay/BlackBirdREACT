@@ -55,7 +55,6 @@ class App extends Component {
 
         listenCollocutorsList(userName, collocutors => {
           let favourites = collocutors.filter(el => el.favourite);
-          console.log("inside cb");
           this.setState({
             collocutors: collocutors,
             favourites: favourites,

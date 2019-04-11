@@ -1,4 +1,6 @@
 import firebase from "./firebase.js";
+//import async from "async";
+import each from "async/each";
 
 const db = firebase.firestore();
 
@@ -33,7 +35,6 @@ export async function getUserDetails(userName) {
 }
 
 export const listenCollocutorsList = (userName, callback) => {
-  console.log("entering collocutor list");
   return db
     .collection("users")
     .doc(userName)
@@ -42,25 +43,29 @@ export const listenCollocutorsList = (userName, callback) => {
     .onSnapshot(snapshot => {
       let collocutors = [];
       if (snapshot.docs.length === 0) callback(collocutors);
-      snapshot.docs.forEach(el => {
-        let collocutorid = el.id;
-        console.log(collocutorid);
-        db.collection("users")
-          .doc(userName)
-          .collection("collocutors")
-          .doc(collocutorid)
-          .collection("messages")
-          .where("read", "==", false)
-          .get()
-          .then(x => {
-            collocutors.push({
-              ...el.data(),
-              numUnread: x.docs.length,
-              id: el.id
+
+      each(
+        snapshot.docs,
+        (el, next) => {
+          let collocutorid = el.id;
+          db.collection("users")
+            .doc(userName)
+            .collection("collocutors")
+            .doc(collocutorid)
+            .collection("messages")
+            .where("read", "==", false)
+            .get()
+            .then(x => {
+              collocutors.push({
+                ...el.data(),
+                numUnread: x.docs.length,
+                id: el.id
+              });
+              next();
             });
-          })
-          .then(() => callback(collocutors));
-      });
+        },
+        () => callback(collocutors)
+      );
     });
 };
 
@@ -206,7 +211,6 @@ export const listenProfile = (currentUserId, cb) => {
 };
 
 export const setReadMessages = (currentUserId, collocutorId, newMessageIds) => {
-  console.log("setting unread to read");
   newMessageIds.forEach(el => {
     db.collection("users")
       .doc(currentUserId)

@@ -40,7 +40,6 @@ export default class Chat extends React.Component {
       this.props.currentUser,
       this.props.collocutor.id,
       newMessages => {
-        console.log(newMessages);
         this.setState({
           messages: newMessages,
           loading: false

@@ -120,10 +120,7 @@ export const randomColor = str => {
   hash = ((hash % colours.length) + colours.length) % colours.length;
   return colours[hash];
 };
-console.log(randomColor("edoardo"));
 
-
-export const collocutorMatches = (collucotors, id) => {
-  return collucotors.find(el => el.id === id)
-}
-
+export const collocutorMatches = (collocutors, id) => {
+  return collocutors.find(el => el.id === id);
+};

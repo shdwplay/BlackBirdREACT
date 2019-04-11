@@ -10,7 +10,6 @@ import classNames from "classnames";
 // import Back from "./Back";
 
 const HeaderChat = props => {
-  console.log(props.searchToggle);
   var searchClass = classNames({
     "HeaderChat-search": true,
     open: props.searchToggle
