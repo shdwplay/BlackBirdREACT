@@ -36,9 +36,7 @@ export default class Chat extends React.Component {
     }
     this.chatDiv.current.scrollTop += 10000;
   }
-  componentWillUnmount() {
-    this.unsub();
-  }
+
   getMessagesUpdates() {
     return listenMessages(
       this.props.currentUser,
