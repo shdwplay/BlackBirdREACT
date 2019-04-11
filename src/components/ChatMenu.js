@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import threeDotsIcon from "../assets/threedots.svg";
 import closeIcon from "../assets/ics.svg";
-import "./ChatMenu.css";
 import PropTypes from "prop-types";
-import { setOption } from "../utils";
+import Modal from "./Modal";
+import "./ChatMenu.css";
 
 class ChatMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
+      show: false,
+      modal: false
     };
+  }
+
+  hideModal() {
+    this.setState({ modal: false });
   }
 
   toggleShow() {
@@ -18,23 +23,21 @@ class ChatMenu extends Component {
       show: !this.state.show
     });
   }
-  // toggleFavourite() {
-  //   this.setState({
-  //     favourite: !this.state.favourite
-  //   });
-  //   // console.log('favourite: ' +this.state.favourite)
-  // }
-  // toggleMute() {
-  //   this.setState({
-  //     muted: !this.state.muted
-  //   });
-  //   // console.log('muted: ' +this.state.muted)
-  // }
 
   render() {
     if (!this.state.show) {
       return (
         <div className="chat-menu">
+          {this.state.modal && (
+            <Modal
+              alertTitle={`Delete chat with ${this.props.collocutorId}`}
+              buttons={true}
+              hide={() => this.hideModal()}
+              setUnlistedCard={this.props.setUnlistedCard}
+              currentUserId={this.props.currentUserId}
+              listed={this.props.listed}
+            />
+          )}
           <img
             className="open-icon"
             src={threeDotsIcon}
@@ -92,7 +95,13 @@ class ChatMenu extends Component {
           </div>
           <div
             className="option"
-            onClick={() => console.log("Delete Conversation")}
+            onClick={evt => {
+              this.toggleShow();
+              evt.preventDefault();
+              evt.stopPropagation();
+              console.log("delete chat");
+              this.setState({ modal: true });
+            }}
           >
             Delete Conversation
           </div>

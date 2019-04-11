@@ -76,13 +76,6 @@ class App extends Component {
     this.setState({ collocutors: [...this.state.collocutors, collocutor] });
   }
 
-  // toggleFavourites() {
-  //   this.setState({
-  //     favouritesActive: !this.state.favouritesActive,
-  //     highlightedCard: null
-  //   });
-  // }
-
   setSearchOpen() {
     this.setState({
       searchToggle: !this.state.searchToggle,
@@ -114,7 +107,9 @@ class App extends Component {
 
   selectChat(clickedCard) {
     this.setState({
-      activeChat: clickedCard
+      activeChat: clickedCard,
+      searchToggle: false,
+      querystr: ""
     });
   }
 
