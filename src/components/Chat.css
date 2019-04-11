@@ -55,6 +55,8 @@
 }
 .Chat-message-text {
   padding: 10px 45px 12px 15px;
+  white-space: normal;
+  word-break: break-word;
 }
 .Chat-message-img {
   padding: 7px 8px 20px 8px;
