@@ -33,6 +33,7 @@ export async function getUserDetails(userName) {
 }
 
 export const listenCollocutorsList = (userName, callback) => {
+  console.log("entering collocutor list");
   return db
     .collection("users")
     .doc(userName)
@@ -40,8 +41,10 @@ export const listenCollocutorsList = (userName, callback) => {
     .orderBy("lastMsg.date", "desc")
     .onSnapshot(snapshot => {
       let collocutors = [];
+      if (snapshot.docs.length === 0) callback(collocutors);
       snapshot.docs.forEach(el => {
-        let collocutorid = el.data().id;
+        let collocutorid = el.id;
+        console.log(collocutorid);
         db.collection("users")
           .doc(userName)
           .collection("collocutors")
@@ -50,22 +53,13 @@ export const listenCollocutorsList = (userName, callback) => {
           .where("read", "==", false)
           .get()
           .then(x => {
-            // console.log("triggered");
-            // console.log(el.data());
             collocutors.push({
               ...el.data(),
               numUnread: x.docs.length,
               id: el.id
             });
           })
-          .then(() => {
-            callback(collocutors);
-            // callback(
-            //   collocutors.sort((a, b) => {
-            //     return a.date - b.date;
-            //   })
-            // );
-          });
+          .then(() => callback(collocutors));
       });
     });
 };
