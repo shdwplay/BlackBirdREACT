@@ -22,7 +22,6 @@
   position: absolute;
   right: -3px;
   top: -10px;
-  display: none;
   background-color: white;
 }
 .Search-input-open .Search-img {
@@ -51,9 +50,21 @@
 .topsomething {
   top: -10px;
 }
+.Messages-container .Search input {
+  left: 31px;
+  top: 0px;
+}
+.Messages-container .Search-img[alt="close"] {
+  top: 7px;
+}
 
-@media (min-width: 768px) and (orientation: portrait) {
-
+@media (max-width: 767px) {
+  .Chat-container .Search-img {
+    display: none;
+  }
+  .Chat-container .Search-input-open .Search-img {
+    display: block;
+  }
 }
 
 @media (min-width: 768px) and (orientation: landscape) {
@@ -62,10 +73,8 @@
     position: absolute;
     right: -3px;
     top: -10px;
-    background-color: red;
   }
 }
-
 
 /* @media (min-width: 768px) and (orientation: landscape) {
   .Search-img {
