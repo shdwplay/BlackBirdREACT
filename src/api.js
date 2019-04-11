@@ -41,7 +41,7 @@ export const listenCollocutorsList = (userName, callback) => {
     .onSnapshot(snapshot => {
       let collocutors = [];
       snapshot.docs.forEach(el => {
-        let collocutorid = el.data().id;
+        let collocutorid = el.id;
         db.collection("users")
           .doc(userName)
           .collection("collocutors")
