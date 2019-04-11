@@ -34,7 +34,9 @@ export default class Chat extends React.Component {
       this.props.setActive(this.props.collocutor.id);
     }
   }
-
+  componentWillUnmount() {
+    this.unsub();
+  }
   getMessagesUpdates() {
     return listenMessages(
       this.props.currentUser,
