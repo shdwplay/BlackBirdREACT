@@ -81,7 +81,6 @@ export default class Chat extends React.Component {
             setFavouriteCard={this.props.setFavouriteCard}
             setSilenceCard={this.props.setSilenceCard}
             setUnlistedCard={this.props.setUnlistedCard}
-
           />
           <div className="Chat" id="chat">
             {filterMessages(this.state.messages, this.state.chatQuerystr).map(

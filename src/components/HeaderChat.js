@@ -44,8 +44,7 @@ const HeaderChat = props => {
           setUnlistedCard={props.setUnlistedCard}
           openSearch={props.openSearch}
           collocutorId={props.collocutorId}
-          currentUserId={props.currentUserId}
-        />
+          currentUserId={props.currentUserId}        />
       </div>
     </div>
   );

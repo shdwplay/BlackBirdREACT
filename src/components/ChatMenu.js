@@ -30,7 +30,7 @@ class ChatMenu extends Component {
         <div className="chat-menu">
           {this.state.modal && (
             <Modal
-              alertTitle={`Delete chat with ${this.props.name}`}
+              alertTitle={`Delete chat with ${this.props.collocutorId}`}
               buttons={true}
               hide={() => this.hideModal()}
               setUnlistedCard={this.props.setUnlistedCard}
