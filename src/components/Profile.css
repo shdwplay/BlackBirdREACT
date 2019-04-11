@@ -8,6 +8,7 @@
   z-index: 5;
   width: 100%;
   top: 0;
+  left: 0;
   position: relative;
   height: 52px;
 }
@@ -101,7 +102,12 @@
   font-size: 16px;
   font-family: Sarabun;
 }
-
+.ProfileBackButton {
+  position: absolute;
+  z-index: 6;
+  top: 0;
+  left: 0;
+}
 /*PASSWORD VISIBILITY TOGGLE*/
 .visibility,
 .no-visibility {

@@ -98,7 +98,7 @@
   right: 0;
   height: 44px;
   object-fit: contain;
-  padding: 10px;
+  padding: 10px 3px 10px 10px;
 }
 
 .Card-Avatar {
