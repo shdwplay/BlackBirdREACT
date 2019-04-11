@@ -23,6 +23,7 @@
   right: -3px;
   top: -10px;
   display: none;
+  background-color: white;
 }
 .Search-input-open .Search-img {
   display: block;
