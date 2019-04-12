@@ -58,11 +58,9 @@ class App extends Component {
           this.setState({
             collocutors: collocutors,
             favourites: favourites,
-            isAuthenticated: true
+            isAuthenticated: true,
+            loading: false
           });
-          setTimeout(() => {
-            this.setState({ loading: false });
-          }, 0);
         });
       },
       () => {
