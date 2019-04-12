@@ -8,6 +8,7 @@ class sendNew extends React.Component {
     super(props);
     this.props.selectTab("sendNew");
   }
+
   render() {
     return (
       <div
@@ -15,7 +16,13 @@ class sendNew extends React.Component {
           this.props.activeChat ? "tabletMessage" : ""
         }`}
       >
-        <Header name={this.props.name}>
+        <Header
+          name={this.props.name}
+          openSearch={this.props.openSearch}
+          searchToggle={this.props.searchToggle}
+          setQueryString={this.props.setQueryString}
+          querystr={this.props.querystr}
+        >
           <TabBar
             context="onlymobile"
             activeTab={this.props.activeTab}
@@ -26,8 +33,8 @@ class sendNew extends React.Component {
         <ContactList
           addCollocutor={this.props.addCollocutor}
           currentUser={this.props.currentUser}
-          contactList={this.props.contactList}
           selectChat={this.props.selectChat}
+          querystr={this.props.querystr}
         />
       </div>
     );

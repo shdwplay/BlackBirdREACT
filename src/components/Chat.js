@@ -14,7 +14,6 @@ import PropTypes from "prop-types";
 export default class Chat extends React.Component {
   constructor(props) {
     super(props);
-    this.chatDiv = React.createRef();
     this.state = {
       newMessage: "",
       messages: [],
@@ -34,7 +33,10 @@ export default class Chat extends React.Component {
       this.unsub = this.getMessagesUpdates();
       this.props.setActive(this.props.collocutor.id);
     }
+<<<<<<< HEAD
     setTimeout(() => (this.chatDiv.current.scrollTop += 10000), 2000);
+=======
+>>>>>>> e1a5bea89de2b0f5d4a88bb2048990f0c07df866
   }
 
   getMessagesUpdates() {
@@ -73,7 +75,7 @@ export default class Chat extends React.Component {
       );
     else {
       return (
-        <div ref={this.chatDiv} className="Chat-container">
+        <div className="Chat-container">
           <HeaderChat
             searchToggle={this.state.chatSearchToggle}
             openSearch={() =>

@@ -104,7 +104,26 @@
   bottom: 6px;
 }
 
+@media (min-width: 768px) and (orientation: portrait) {
+  #send-icon {
+    right: 5px;
+    bottom: 5px;
+  }
+  #attachment-icon {
+    right: 40px;
+    bottom: 6px;
+  }
+}
+
 @media (min-width: 768px) and (orientation: landscape) {
+  #send-icon {
+    right: 7px;
+    bottom: 5px;
+  }
+  #attachment-icon {
+    right: 60px;
+    bottom: 5px;
+  }
   .Chat-container {
     width: 50%;
     height: 100vh;
@@ -117,6 +136,7 @@
   }
 }
 
+<<<<<<< HEAD
 .spinner {
   margin: 100px auto 0;
   width: 70px;
@@ -165,5 +185,15 @@
   40% {
     -webkit-transform: scale(1);
     transform: scale(1);
+=======
+@media (max-width: 667px) and (orientation: landscape) {
+  #send-icon {
+    right: 15px;
+    bottom: 5px;
+  }
+  #attachment-icon {
+    right: 75px;
+    bottom: 5px;
+>>>>>>> e1a5bea89de2b0f5d4a88bb2048990f0c07df866
   }
 }
