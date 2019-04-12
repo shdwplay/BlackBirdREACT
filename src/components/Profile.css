@@ -188,3 +188,12 @@ input:checked + .slider:before {
     margin-left: 110px;
   }
 }
+
+@media (min-width: 768px) and (orientation: portrait) {
+  .ProfileContainer {
+    position: relative;
+    padding: 0px 16px 20px 16px;
+    width: 100%;
+    margin-left: 110px;
+}
+}
