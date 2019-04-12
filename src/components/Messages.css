@@ -2,6 +2,13 @@
   width: 100%;
   padding: 0 12.5px;
 }
+
+@media (min-width: 768px) and (orientation: portrait) {
+  .Messages-container {
+    margin-left: 110px;
+  }
+}
+
 @media (min-width: 768px) and (orientation: landscape) {
   .Messages-container {
     padding-right: 0;
