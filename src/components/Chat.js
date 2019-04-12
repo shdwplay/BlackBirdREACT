@@ -34,7 +34,7 @@ export default class Chat extends React.Component {
       this.unsub = this.getMessagesUpdates();
       this.props.setActive(this.props.collocutor.id);
     }
-    setTimeout(() => (this.chatDiv.current.scrollTop += 10000), 1000);
+    setTimeout(() => (this.chatDiv.current.scrollTop += 10000), 2000);
   }
 
   getMessagesUpdates() {
@@ -63,7 +63,14 @@ export default class Chat extends React.Component {
   }
 
   render() {
-    if (this.state.loading) return <div>loading...</div>;
+    if (this.state.loading)
+      return (
+        <div class="spinner">
+          <div class="bounce1" />
+          <div class="bounce2" />
+          <div class="bounce3" />
+        </div>
+      );
     else {
       return (
         <div ref={this.chatDiv} className="Chat-container">
