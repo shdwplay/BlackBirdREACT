@@ -76,6 +76,19 @@
   }
 }
 
+@media (min-width: 768px) and (orientation: portrait) {
+  .Messages-container .Search input {
+    left: 50px;
+    top: -17px;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  .Messages-container .Search-img[alt="close"] {
+    top: -10px;
+    right: -5px;
+  }
+}
+
+
 /* @media (min-width: 768px) and (orientation: landscape) {
   .Search-img {
     width: 20px;
