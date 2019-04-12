@@ -89,4 +89,7 @@
     height: 60px;
     width: 50px;
   }
+  .HeaderChat {
+    width: 50%;
+  }
 }

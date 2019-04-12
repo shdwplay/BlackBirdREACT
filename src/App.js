@@ -159,7 +159,6 @@ class App extends Component {
                       selectChat={x => this.selectChat(x)}
                       activeChat={this.state.activeChat}
                       highlightedCard={this.state.highlightedCard}
-                      selectTab={x => this.selectTab(x)}
                       setHighlightedCard={x =>
                         this.setState({ highlightedCard: x })
                       }
@@ -218,6 +217,10 @@ class App extends Component {
                 activeChat={this.state.activeChat}
                 selectChat={x => this.selectChat(x)}
                 searchString={this.state.searchSting}
+                searchToggle={this.state.searchToggle}
+                openSearch={() => this.setSearchOpen()}
+                querystr={this.state.querystr}
+                setQueryString={x => this.setQueryString(x)}
               />
             )}
           />
