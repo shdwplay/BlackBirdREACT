@@ -61,7 +61,14 @@ export default class Chat extends React.Component {
   }
 
   render() {
-    if (this.state.loading) return <div>loading...</div>;
+    if (this.state.loading)
+      return (
+        <div class="spinner">
+          <div class="bounce1" />
+          <div class="bounce2" />
+          <div class="bounce3" />
+        </div>
+      );
     else {
       return (
         <div className="Chat-container">

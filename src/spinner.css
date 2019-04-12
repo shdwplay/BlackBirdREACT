@@ -19,7 +19,7 @@
   position: absolute;
   /* margin: 100px auto; */
 }
-.spinner {
+.main-spinner {
   display: flex;
   justify-content: center;
   align-items: center;

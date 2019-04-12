@@ -4,9 +4,16 @@ import closeIcon from "../assets/ics.svg";
 import "./Search.css";
 
 const Search = props => {
+  if (props.searchToggle) {
+    let searchbar = document.getElementById("searchinput");
+    setTimeout(() => {
+      searchbar.focus();
+    }, 200);
+  }
   return (
     <div className={props.searchToggle ? "Search Search-input-open" : "Search"}>
       <input
+        id="searchinput"
         className={
           props.searchToggle ? "Search-input-shown" : "Search-input-hidden"
         }

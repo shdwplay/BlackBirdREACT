@@ -58,7 +58,7 @@ export const showSpinner = () => {
     <div className="loadingContainer">
       <div className="loadingSpinner">
         <img className="logo" src={logo} alt="blackbird logo" />
-        <div className="spinner">
+        <div className="main-spinner">
           <div className="cube1" />
           <div className="cube2" />
         </div>
