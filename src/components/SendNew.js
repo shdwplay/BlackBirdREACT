@@ -35,6 +35,7 @@ class sendNew extends React.Component {
           currentUser={this.props.currentUser}
           selectChat={this.props.selectChat}
           querystr={this.props.querystr}
+          searchToggle={this.props.searchToggle}
         />
       </div>
     );

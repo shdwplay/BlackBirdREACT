@@ -27,7 +27,11 @@ export default class ContactList extends React.Component {
   }
   render() {
     return (
-      <div className="ContactList">
+      <div
+        className={`ContactList ${
+          this.props.searchToggle ? "ContactList-on-top" : ""
+        }`}
+      >
         {this.filterContactList().map((el, index) => (
           <Link
             to={{
