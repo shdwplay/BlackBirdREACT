@@ -184,6 +184,9 @@
   40% {
     -webkit-transform: scale(1);
     transform: scale(1);
+  }
+}
+
 @media (max-width: 667px) and (orientation: landscape) {
   #send-icon {
     right: 15px;
