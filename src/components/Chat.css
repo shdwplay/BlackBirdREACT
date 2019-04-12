@@ -104,7 +104,26 @@
   bottom: 6px;
 }
 
+@media (min-width: 768px) and (orientation: portrait) {
+  #send-icon {
+    right: 5px;
+    bottom: 5px;
+  }
+  #attachment-icon {
+    right: 40px;
+    bottom: 6px;
+  }
+}
+
 @media (min-width: 768px) and (orientation: landscape) {
+  #send-icon {
+    right: 7px;
+    bottom: 5px;
+  }
+  #attachment-icon {
+    right: 60px;
+    bottom: 5px;
+  }
   .Chat-container {
     width: 50%;
     height: 100vh;
@@ -114,5 +133,16 @@
   }
   .input-keyboard {
     width: 50%;
+  }
+}
+
+@media (max-width: 667px) and (orientation: landscape) {
+  #send-icon {
+    right: 15px;
+    bottom: 5px;
+  }
+  #attachment-icon {
+    right: 75px;
+    bottom: 5px;
   }
 }
